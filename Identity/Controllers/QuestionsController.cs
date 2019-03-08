@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Identity.Data;
 using Identity.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Controllers
 {
@@ -12,10 +12,13 @@ namespace Identity.Controllers
     public class QuestionsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public QuestionsController(ApplicationDbContext context)
+        public QuestionsController(ApplicationDbContext context, 
+            SignInManager<IdentityUser> signInManager)
         {
             _context = context;
+            _signInManager = signInManager;
         }
 
         // GET: Questions
@@ -33,13 +36,12 @@ namespace Identity.Controllers
         public async Task<IActionResult> Question(int id)
         {
             var question = await _context.Questions.FindAsync(id);
-            var model = new QuestionViewModel(question);
-            
             if (question == null)
             {
                 return NotFound();
             }
 
+            var model = new QuestionViewModel(question);
             return View(model);
         }
 
