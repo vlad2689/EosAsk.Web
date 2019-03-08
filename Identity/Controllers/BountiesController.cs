@@ -9,7 +9,7 @@ using Identity.Models;
 namespace Identity.Controllers
 {
     [Route("bounties")]
-    public class BountiesController : ControllerBase
+    public class BountiesController : Controller
     {
         private readonly ApplicationDbContext _context;
 

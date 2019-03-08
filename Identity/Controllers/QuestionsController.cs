@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Identity.Data;
+using Identity.Models;
 
 namespace Identity.Controllers
 {
     [Route("questions")]
-    public class QuestionsController : ControllerBase
+    public class QuestionsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -19,23 +20,27 @@ namespace Identity.Controllers
 
         // GET: Questions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
+        public async Task<IActionResult> Index()
         {
-            return await _context.Questions.ToListAsync();
+            var questions = await _context.Questions.ToListAsync();
+            var model = new QuestionsIndexViewModel(questions);
+            
+            return View(model);
         }
 
         // GET: Questions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Question>> GetQuestion(int id)
+        public async Task<IActionResult> Question(int id)
         {
             var question = await _context.Questions.FindAsync(id);
-
+            var model = new QuestionViewModel(question);
+            
             if (question == null)
             {
                 return NotFound();
             }
 
-            return question;
+            return View(model);
         }
 
         // PUT: Questions/5
@@ -75,7 +80,7 @@ namespace Identity.Controllers
             _context.Questions.Add(question);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetQuestion", new { id = question.QuestionId }, question);
+            return CreatedAtAction("Question", new { id = question.QuestionId }, question);
         }
 
         // DELETE: Questions/5

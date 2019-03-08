@@ -8,7 +8,7 @@ using Identity.Data;
 namespace Identity.Controllers
 {
     [Route("answers")]
-    public class AnswersController : ControllerBase
+    public class AnswersController : Controller
     {
         private readonly ApplicationDbContext _context;
 

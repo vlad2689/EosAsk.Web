@@ -1,0 +1,21 @@
+@model QuestionsIndexViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+@if (!Model.Questions.Any())
+{
+    <h1>
+        No questionsQ
+    </h1>
+}
+
+@foreach(var question in Model.Questions)
+{
+    <div>
+        @question.Text
+    </div>
+}
+

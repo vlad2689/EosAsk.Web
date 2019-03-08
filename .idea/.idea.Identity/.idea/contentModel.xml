@@ -42,6 +42,8 @@
         <e p="Models" t="Include">
           <e p="ErrorViewModel.cs" t="Include" />
           <e p="PostBountyModel.cs" t="Include" />
+          <e p="QuestionsIndexViewModel.cs" t="Include" />
+          <e p="QuestionViewModel.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -66,7 +68,10 @@
             <e p="Index.cshtml" t="Include" />
             <e p="Privacy.cshtml" t="Include" />
           </e>
-          <e p="Questions" t="Include" />
+          <e p="Questions" t="Include">
+            <e p="Index.cshtml" t="Include" />
+            <e p="Question.cshtml" t="Include" />
+          </e>
           <e p="Shared" t="Include">
             <e p="_CookieConsentPartial.cshtml" t="Include" />
             <e p="_Layout.cshtml" t="Include" />

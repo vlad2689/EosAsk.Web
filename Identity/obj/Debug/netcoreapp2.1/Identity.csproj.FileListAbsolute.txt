@@ -33,3 +33,5 @@ C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Identity.V
 C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Identity.dll
 C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Identity.pdb
 C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Identity.csproj.CopyComplete
+C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Razor\Views\Questions\Index.g.cshtml.cs
+C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Razor\Views\Questions\Question.g.cshtml.cs
