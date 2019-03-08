@@ -3,14 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EosAsk.Data.Blockchain;
 using Identity.Data;
 using Identity.Models;
 
 namespace Identity.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("bounties")]
     public class BountiesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -20,14 +18,14 @@ namespace Identity.Controllers
             _context = context;
         }
 
-        // GET: api/Bounties
+        // GET: Bounties
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bounty>>> GetBounties()
         {
             return await _context.Bounties.ToListAsync();
         }
 
-        // GET: api/Bounties/5
+        // GET: Bounties/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Bounty>> GetBounty(int id)
         {
@@ -41,7 +39,7 @@ namespace Identity.Controllers
             return bounty;
         }
 
-        // PUT: api/Bounties/5
+        // PUT: Bounties/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBounty(int id, Bounty bounty)
         {
@@ -71,7 +69,7 @@ namespace Identity.Controllers
             return NoContent();
         }
 
-        // POST: api/Bounties
+        // POST: Bounties
         // The BlockChain bounty will be created from eosjs, on the client side.
         [HttpPost]
         public async Task<ActionResult<Bounty>> PostBounty(PostBountyModel postBountyModel)
@@ -93,7 +91,7 @@ namespace Identity.Controllers
             return CreatedAtAction("GetBounty", new { id = bounty.BountyId }, postBountyModel);
         }
 
-        // DELETE: api/Bounties/5
+        // DELETE: Bounties/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Bounty>> DeleteBounty(int id)
         {

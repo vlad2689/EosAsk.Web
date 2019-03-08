@@ -3,13 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EosAsk.Data;
 using Identity.Data;
 
 namespace Identity.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("answers")]
     public class AnswersController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -19,14 +17,14 @@ namespace Identity.Controllers
             _context = context;
         }
 
-        // GET: api/Answers
+        // GET: Answers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Answer>>> GetAnswers()
         {
             return await _context.Answers.ToListAsync();
         }
 
-        // GET: api/Answers/5
+        // GET: Answers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Answer>> GetAnswer(int id)
         {
@@ -40,7 +38,7 @@ namespace Identity.Controllers
             return answer;
         }
 
-        // PUT: api/Answers/5
+        // PUT: Answers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAnswer(int id, Answer answer)
         {
@@ -70,7 +68,7 @@ namespace Identity.Controllers
             return NoContent();
         }
 
-        // POST: api/Answers
+        // POST: Answers
         [HttpPost]
         public async Task<ActionResult<Answer>> PostAnswer(Answer answer)
         {
@@ -80,7 +78,7 @@ namespace Identity.Controllers
             return CreatedAtAction("GetAnswer", new { id = answer.AnswerId }, answer);
         }
 
-        // DELETE: api/Answers/5
+        // DELETE: Answers/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Answer>> DeleteAnswer(int id)
         {
