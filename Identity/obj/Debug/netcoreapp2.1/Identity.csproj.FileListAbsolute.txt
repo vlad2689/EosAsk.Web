@@ -36,3 +36,4 @@ C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Identity.c
 C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Razor\Views\Questions\Index.g.cshtml.cs
 C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Razor\Views\Questions\Question.g.cshtml.cs
 C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Razor\Views\Questions\NewQuestion.g.cshtml.cs
+C:\Users\User\RiderProjects\Identity\Identity\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ScatterScripts.g.cshtml.cs
