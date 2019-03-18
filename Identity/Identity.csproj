@@ -22,18 +22,22 @@
 
   <ItemGroup>
     <Compile Remove="Scripts\node_modules\**" />
+    <Compile Remove="Scripts\webpack-react-boilerplate\node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="Scripts\node_modules\**" />
+    <EmbeddedResource Remove="Scripts\webpack-react-boilerplate\node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Scripts\node_modules\**" />
+    <None Remove="Scripts\webpack-react-boilerplate\node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Scripts\node_modules\**" />
+    <Content Remove="Scripts\webpack-react-boilerplate\node_modules\**" />
   </ItemGroup>
 
 </Project>
