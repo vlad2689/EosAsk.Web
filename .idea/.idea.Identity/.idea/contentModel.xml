@@ -41,6 +41,7 @@
         <e p="Identity.csproj" t="IncludeRecursive" />
         <e p="Models" t="Include">
           <e p="ErrorViewModel.cs" t="Include" />
+          <e p="NewQuestionModel.cs" t="Include" />
           <e p="PostBountyModel.cs" t="Include" />
           <e p="QuestionsIndexViewModel.cs" t="Include" />
           <e p="QuestionViewModel.cs" t="Include" />
@@ -56,6 +57,7 @@
         <e p="Properties" t="Include">
           <e p="launchSettings.json" t="Include" />
         </e>
+        <e p="Scripts" t="Include" />
         <e p="Startup.cs" t="Include" />
         <e p="Views" t="Include">
           <e p="_ViewImports.cshtml" t="Include" />
@@ -70,12 +72,14 @@
           </e>
           <e p="Questions" t="Include">
             <e p="Index.cshtml" t="Include" />
+            <e p="NewQuestion.cshtml" t="Include" />
             <e p="Question.cshtml" t="Include" />
           </e>
           <e p="Shared" t="Include">
             <e p="_CookieConsentPartial.cshtml" t="Include" />
             <e p="_Layout.cshtml" t="Include" />
             <e p="_LoginPartial.cshtml" t="Include" />
+            <e p="_ScatterScripts.cshtml" t="Include" />
             <e p="_ValidationScriptsPartial.cshtml" t="Include" />
             <e p="Error.cshtml" t="Include" />
           </e>
@@ -92,6 +96,33 @@
             <e p="banner3.svg" t="Include" />
           </e>
           <e p="js" t="Include">
+            <e p="scatter" t="Include">
+              <e p="Assets" t="Include">
+                <e p="beta2-" t="Include">
+                  <e p="eosjs-debug.js" t="Include" />
+                  <e p="eosjs-jsonrpc-debug.js" t="Include" />
+                </e>
+                <e p="beta3" t="Include">
+                  <e p="Debug" t="Include">
+                    <e p="eosjs-api-debug.js" t="Include" />
+                    <e p="eosjs-jsonrpc-debug.js" t="Include" />
+                    <e p="eosjs-jssig-debug.js" t="Include" />
+                  </e>
+                  <e p="eosjs-api.js" t="Include" />
+                  <e p="eosjs-jsonrpc.js" t="Include" />
+                  <e p="eosjs-jssig.js" t="Include" />
+                </e>
+              </e>
+              <e p="bundles" t="Include">
+                <e p="scatterjs-core.min.js" t="Include" />
+                <e p="scatterjs-plugin-eosjs.min.js" t="Include" />
+                <e p="scatterjs-plugin-eosjs2.min.js" t="Include" />
+                <e p="scatterjs-plugin-lynx.min.js" t="Include" />
+                <e p="scatterjs-plugin-tron.min.js" t="Include" />
+                <e p="scatterjs-plugin-web3.min.js" t="Include" />
+              </e>
+              <e p="index.js" t="Include" />
+            </e>
             <e p="site.js" t="Include" />
             <e p="site.min.js" t="Include" />
           </e>

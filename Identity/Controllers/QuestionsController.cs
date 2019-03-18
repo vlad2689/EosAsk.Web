@@ -13,12 +13,18 @@ namespace Identity.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public QuestionsController(ApplicationDbContext context, 
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            ApplicationDbContext applicationDbContext, 
+            UserManager<IdentityUser> userManager)
         {
             _context = context;
             _signInManager = signInManager;
+            _applicationDbContext = applicationDbContext;
+            _userManager = userManager;
         }
 
         // GET: Questions
@@ -43,6 +49,27 @@ namespace Identity.Controllers
 
             var model = new QuestionViewModel(question);
             return View(model);
+        }
+
+        [HttpGet("new")]
+        public IActionResult NewQuestion()
+        {
+            return View(new NewQuestionModel());
+        }
+        
+        [HttpPost("new")]
+        public async Task<IActionResult> NewQuestion(NewQuestionModel newQuestionModel)
+        {
+            var question = new Question()
+            {
+                Text = newQuestionModel.Text,
+                Owner = await _userManager.GetUserAsync(User),
+            };
+
+            _context.Questions.Add(question);
+            await _context.SaveChangesAsync();
+            
+            return CreatedAtAction("Question", new {id = question.QuestionId});
         }
 
         // PUT: Questions/5
@@ -105,5 +132,7 @@ namespace Identity.Controllers
         {
             return _context.Questions.Any(e => e.QuestionId == questionId);
         }
+        
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }
