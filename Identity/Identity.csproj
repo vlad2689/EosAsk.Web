@@ -20,4 +20,20 @@
     <Folder Include="Views\Bounties" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Scripts\node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Scripts\node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Scripts\node_modules\**" />
+  </ItemGroup>
+
 </Project>

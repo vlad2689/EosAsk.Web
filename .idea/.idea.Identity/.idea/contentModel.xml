@@ -57,7 +57,15 @@
         <e p="Properties" t="Include">
           <e p="launchSettings.json" t="Include" />
         </e>
-        <e p="Scripts" t="Include" />
+        <e p="Scripts" t="Include">
+          <e p="node_modules" t="ExcludeRecursive">
+            <e p="eosjs" t="IncludeRecursive" />
+            <e p="scatterjs-core" t="IncludeRecursive" />
+            <e p="scatterjs-plugin-eosjs2" t="IncludeRecursive" />
+          </e>
+          <e p="package-lock.json" t="Include" />
+          <e p="package.json" t="Include" />
+        </e>
         <e p="Startup.cs" t="Include" />
         <e p="Views" t="Include">
           <e p="_ViewImports.cshtml" t="Include" />

@@ -2,42 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="765d60eb-646a-4f87-9e57-ae5517c3bd43" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Identity/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/Models/NewQuestionModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/Views/Questions/NewQuestion.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/Views/Shared/_ScatterScripts.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/wwwroot/js/scatter/assets/beta2-/eosjs-debug.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/wwwroot/js/scatter/assets/beta2-/eosjs-jsonrpc-debug.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/wwwroot/js/scatter/assets/beta3/debug/eosjs-api-debug.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/wwwroot/js/scatter/assets/beta3/debug/eosjs-jsonrpc-debug.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/wwwroot/js/scatter/assets/beta3/debug/eosjs-jssig-debug.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/wwwroot/js/scatter/assets/beta3/eosjs-api.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/wwwroot/js/scatter/assets/beta3/eosjs-jsonrpc.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/wwwroot/js/scatter/assets/beta3/eosjs-jssig.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Identity/wwwroot/js/scatter/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Identity/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Identity/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Identity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Identity/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/Controllers/QuestionsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Controllers/QuestionsController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Identity/Identity.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Identity.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/Views/Questions/Question.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Views/Questions/Question.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/bin/Debug/netcoreapp2.1/Identity.Views.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/bin/Debug/netcoreapp2.1/Identity.Views.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/bin/Debug/netcoreapp2.1/Identity.Views.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/bin/Debug/netcoreapp2.1/Identity.Views.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/bin/Debug/netcoreapp2.1/Identity.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/bin/Debug/netcoreapp2.1/Identity.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/bin/Debug/netcoreapp2.1/Identity.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/bin/Debug/netcoreapp2.1/Identity.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.RazorCoreGenerate.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.RazorCoreGenerate.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.Views.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.Views.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.Views.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.Views.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Identity.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Questions/Question.g.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Questions/Question.g.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_LoginPartial.g.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_LoginPartial.g.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Identity/Scripts/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Identity/Scripts/package.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -141,8 +108,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Identity/wwwroot/js/scatter/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+            <state relative-caret-position="272">
+              <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -295,6 +262,14 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/Identity/Scripts/node_modules" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/Identity/Scripts/package.json" />
+    </packageJsonPaths>
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="10" />
     <option name="y" value="20" />
@@ -318,6 +293,12 @@
               <item name="Project" type="784c90a0:SolutionExplorerRootNode" />
               <item name="Identity" type="24d0babc:SolutionExplorerModelNode" />
               <item name="Identity" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="Project" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="Identity" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Identity" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Scripts" type="24d0babc:SolutionExplorerModelNode" />
             </path>
           </expand>
           <select />
@@ -389,12 +370,12 @@
       <updated>1552048509827</updated>
       <workItem from="1552048515273" duration="11820000" />
       <workItem from="1552069761766" duration="9424000" />
-      <workItem from="1552910632481" duration="6857000" />
+      <workItem from="1552910632481" duration="7104000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28101000" />
+    <option name="totallyTimeSpent" value="28348000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -928,8 +909,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Identity/wwwroot/js/scatter/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+        <state relative-caret-position="272">
+          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
         </state>
       </provider>
     </entry>
