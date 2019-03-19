@@ -5,7 +5,7 @@ module.exports = {
   outputPath: path.resolve(__dirname, '../', 'build'),
   entryPath: {
     // default: [path.resolve(__dirname, '../', 'src/index.jsx'), 'webpack/hot/only-dev-server'],
-    createBounty: [path.resolve(__dirname, '../', 'src/CreateBounty/index.jsx'), 'webpack/hot/only-dev-server'],
+    app: [path.resolve(__dirname, '../', 'src/components/index.tsx'), 'webpack/hot/only-dev-server'],
   },
   templatePath: path.resolve(__dirname, '../', 'src/template.html'),
   imagesFolder: 'images',

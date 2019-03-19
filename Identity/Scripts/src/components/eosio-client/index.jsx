@@ -25,7 +25,7 @@ class EosioClient extends React.Component {
       scatter: null,
       api: null,
       status: 'No Scatter'
-    }
+    };
 
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
@@ -49,7 +49,7 @@ class EosioClient extends React.Component {
 
       this.setState({
         scatter: ScatterJS.scatter
-      })
+      });
 
       console.log(this.state);
     });
@@ -113,7 +113,7 @@ class EosioClient extends React.Component {
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
   render() {
     return (

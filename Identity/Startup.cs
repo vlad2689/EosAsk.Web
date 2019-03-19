@@ -12,6 +12,8 @@ namespace Identity
 {
     public class Startup
     {
+        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,8 +37,14 @@ namespace Identity
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder => { builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin(); });
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerDocument();
         }
 
@@ -47,6 +55,7 @@ namespace Identity
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseCors(MyAllowSpecificOrigins);
             }
             else
             {
@@ -56,7 +65,7 @@ namespace Identity
 
             app.UseSwagger();
             app.UseSwaggerUi3();
-            
+
             app.UseDefaultFiles();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

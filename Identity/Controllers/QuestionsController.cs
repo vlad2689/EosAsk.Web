@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Controllers
 {
-    [Route("questions")]
+    [Route("api/questions")]
     public class QuestionsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -104,8 +104,9 @@ namespace Identity.Controllers
 
         // POST: Questions
         [HttpPost]
-        public async Task<ActionResult<Question>> PostQuestion(Question question)
+        public async Task<ActionResult<Question>> PostQuestion([FromBody] PostQuestionModel postQuestionModel)
         {
+            var question = postQuestionModel.ToQuestion(_context);
             _context.Questions.Add(question);
             await _context.SaveChangesAsync();
 

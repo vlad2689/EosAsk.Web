@@ -8,7 +8,7 @@ using Identity.Models;
 
 namespace Identity.Controllers
 {
-    [Route("bounties")]
+    [Route("api/bounties")]
     public class BountiesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -72,7 +72,7 @@ namespace Identity.Controllers
         // POST: Bounties
         // The BlockChain bounty will be created from eosjs, on the client side.
         [HttpPost]
-        public async Task<ActionResult<Bounty>> PostBounty(PostBountyModel postBountyModel)
+        public async Task<ActionResult<Bounty>> PostBounty([FromBody] PostBountyModel postBountyModel)
         {
             var bounty = postBountyModel.ToBounty(_context);
             _context.Bounties.Add(bounty);

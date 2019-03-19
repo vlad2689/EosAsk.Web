@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Identity.Data;
+using Identity.Models;
 
 namespace Identity.Controllers
 {
-    [Route("answers")]
+    [Route("api/answers")]
     public class AnswersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -71,8 +72,9 @@ namespace Identity.Controllers
 
         // POST: Answers
         [HttpPost]
-        public async Task<ActionResult<Answer>> PostAnswer(Answer answer)
+        public async Task<ActionResult<Answer>> PostAnswer([FromBody] PostAnswerModel postAnswerModel)
         {
+            var answer = postAnswerModel.ToAnswer(_context);
             _context.Answers.Add(answer);
             await _context.SaveChangesAsync();
 

@@ -10,6 +10,8 @@ namespace Identity.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AnswerId { get; set; }
 
+        [Required]
+        [MinLength(1, ErrorMessage = "Cannot post empty question")]
         public string Text { get; set; }
 
         [Required]
@@ -17,5 +19,7 @@ namespace Identity.Data
         
         [Required]
         public IdentityUser Owner { get; set; }
+
+        public int UpvoteCount { get; set; } = 0;
     }
 }
