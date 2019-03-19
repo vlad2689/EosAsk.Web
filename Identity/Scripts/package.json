@@ -49,6 +49,7 @@
   "dependencies": {
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.2",
+    "axios": "^0.18.0",
     "eosjs": "^20.0.0-beta3",
     "lodash": "4.17.11",
     "prop-types": "15.6.2",
