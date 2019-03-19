@@ -18,6 +18,10 @@ module.exports = {
       //     emitWarning: process.env.NODE_ENV !== 'production',
       //   },
       // },
+      { 
+        test: /\.(tsx|ts)?$/, 
+        loader: 'awesome-typescript-loader'
+      },
       {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
@@ -59,7 +63,7 @@ module.exports = {
   },
   resolve: {
     modules: ['src', 'node_modules'],
-    extensions: ['*', '.js', '.jsx', '.css', '.scss'],
+    extensions: ['*', '.js', '.jsx', '.css', '.scss', '.ts', '.tsx'],
   },
   plugins: [
     new webpack.ProgressPlugin(),
