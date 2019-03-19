@@ -1,36 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Identity.Data;
 using Identity.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Controllers
 {
     [Route("api/answers")]
-    public class AnswersController : Controller
+    public class AnswersController : EosAskBaseController
     {
-        private readonly ApplicationDbContext _context;
-
-        public AnswersController(ApplicationDbContext context)
+        public AnswersController(ApplicationDbContext context, 
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager) : base(context, userManager, signInManager)
         {
-            _context = context;
         }
 
         // GET: Answers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Answer>>> GetAnswers()
         {
-            return await _context.Answers.ToListAsync();
+            return await DbContext.Answers.ToListAsync();
         }
 
         // GET: Answers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Answer>> GetAnswer(int id)
         {
-            var answer = await _context.Answers.FindAsync(id);
+            var answer = await DbContext.Answers.FindAsync(id);
 
             if (answer == null)
             {
@@ -49,11 +48,11 @@ namespace Identity.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(answer).State = EntityState.Modified;
+            DbContext.Entry(answer).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -74,9 +73,9 @@ namespace Identity.Controllers
         [HttpPost]
         public async Task<ActionResult<Answer>> PostAnswer([FromBody] PostAnswerModel postAnswerModel)
         {
-            var answer = postAnswerModel.ToAnswer(_context);
-            _context.Answers.Add(answer);
-            await _context.SaveChangesAsync();
+            var answer = postAnswerModel.ToAnswer(DbContext, await GetCurrentUserAsync());
+            DbContext.Answers.Add(answer);
+            await DbContext.SaveChangesAsync();
 
             return CreatedAtAction("GetAnswer", new { id = answer.AnswerId }, answer);
         }
@@ -85,21 +84,21 @@ namespace Identity.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Answer>> DeleteAnswer(int id)
         {
-            var answer = await _context.Answers.FindAsync(id);
+            var answer = await DbContext.Answers.FindAsync(id);
             if (answer == null)
             {
                 return NotFound();
             }
 
-            _context.Answers.Remove(answer);
-            await _context.SaveChangesAsync();
+            DbContext.Answers.Remove(answer);
+            await DbContext.SaveChangesAsync();
 
             return answer;
         }
 
         private bool AnswerExists(int answerId)
         {
-            return _context.Answers.Any(e => e.AnswerId == answerId);
+            return DbContext.Answers.Any(e => e.AnswerId == answerId);
         }
     }
 }

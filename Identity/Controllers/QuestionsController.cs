@@ -9,29 +9,19 @@ using Microsoft.AspNetCore.Identity;
 namespace Identity.Controllers
 {
     [Route("api/questions")]
-    public class QuestionsController : Controller
+    public class QuestionsController : EosAskBaseController
     {
-        private readonly ApplicationDbContext _context;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ApplicationDbContext _applicationDbContext;
-        private readonly UserManager<IdentityUser> _userManager;
-
         public QuestionsController(ApplicationDbContext context, 
             SignInManager<IdentityUser> signInManager,
-            ApplicationDbContext applicationDbContext, 
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager) : base(context, userManager, signInManager)
         {
-            _context = context;
-            _signInManager = signInManager;
-            _applicationDbContext = applicationDbContext;
-            _userManager = userManager;
         }
 
         // GET: Questions
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var questions = await _context.Questions.ToListAsync();
+            var questions = await DbContext.Questions.ToListAsync();
             var model = new QuestionsIndexViewModel(questions);
             
             return View(model);
@@ -41,7 +31,7 @@ namespace Identity.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Question(int id)
         {
-            var question = await _context.Questions.FindAsync(id);
+            var question = await DbContext.Questions.FindAsync(id);
             if (question == null)
             {
                 return NotFound();
@@ -63,11 +53,11 @@ namespace Identity.Controllers
             var question = new Question()
             {
                 Text = newQuestionModel.Text,
-                Owner = await _userManager.GetUserAsync(User),
+                Owner = await UserManager.GetUserAsync(User),
             };
 
-            _context.Questions.Add(question);
-            await _context.SaveChangesAsync();
+            DbContext.Questions.Add(question);
+            await DbContext.SaveChangesAsync();
             
             return CreatedAtAction("Question", new {id = question.QuestionId});
         }
@@ -81,11 +71,11 @@ namespace Identity.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(question).State = EntityState.Modified;
+            DbContext.Entry(question).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -106,9 +96,9 @@ namespace Identity.Controllers
         [HttpPost]
         public async Task<ActionResult<Question>> PostQuestion([FromBody] PostQuestionModel postQuestionModel)
         {
-            var question = postQuestionModel.ToQuestion(_context);
-            _context.Questions.Add(question);
-            await _context.SaveChangesAsync();
+            var question = postQuestionModel.ToQuestion(DbContext);
+            DbContext.Questions.Add(question);
+            await DbContext.SaveChangesAsync();
 
             return CreatedAtAction("Question", new { id = question.QuestionId }, question);
         }
@@ -117,23 +107,21 @@ namespace Identity.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Question>> DeleteQuestion(int id)
         {
-            var question = await _context.Questions.FindAsync(id);
+            var question = await DbContext.Questions.FindAsync(id);
             if (question == null)
             {
                 return NotFound();
             }
 
-            _context.Questions.Remove(question);
-            await _context.SaveChangesAsync();
+            DbContext.Questions.Remove(question);
+            await DbContext.SaveChangesAsync();
 
             return question;
         }
 
         private bool QuestionExists(int questionId)
         {
-            return _context.Questions.Any(e => e.QuestionId == questionId);
+            return DbContext.Questions.Any(e => e.QuestionId == questionId);
         }
-        
-        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }

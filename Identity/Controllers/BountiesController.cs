@@ -5,31 +5,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Identity.Data;
 using Identity.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Controllers
 {
     [Route("api/bounties")]
-    public class BountiesController : Controller
+    public class BountiesController : EosAskBaseController
     {
-        private readonly ApplicationDbContext _context;
-
-        public BountiesController(ApplicationDbContext context)
+        public BountiesController(ApplicationDbContext context, 
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager) : base(context, userManager, signInManager)
         {
-            _context = context;
         }
 
         // GET: Bounties
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bounty>>> GetBounties()
         {
-            return await _context.Bounties.ToListAsync();
+            return await DbContext.Bounties.ToListAsync();
         }
 
         // GET: Bounties/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Bounty>> GetBounty(int id)
         {
-            var bounty = await _context.Bounties.FindAsync(id);
+            var bounty = await DbContext.Bounties.FindAsync(id);
 
             if (bounty == null)
             {
@@ -48,11 +48,11 @@ namespace Identity.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(bounty).State = EntityState.Modified;
+            DbContext.Entry(bounty).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await DbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -74,8 +74,8 @@ namespace Identity.Controllers
         [HttpPost]
         public async Task<ActionResult<Bounty>> PostBounty([FromBody] PostBountyModel postBountyModel)
         {
-            var bounty = postBountyModel.ToBounty(_context);
-            _context.Bounties.Add(bounty);
+            var bounty = postBountyModel.ToBounty(DbContext);
+            DbContext.Bounties.Add(bounty);
             
 //            await _bountySmartContract.InsertBounty(bounty.Question.QuestionId,
 //                new Asset
@@ -86,7 +86,7 @@ namespace Identity.Controllers
 //                bounty.Owner.EosUsername,
 //                "5J5hukk7TgbMZ8AwidoSX9EsiCsZCYJkn3dhe22E8DoUWqBMSdN");
             
-            await _context.SaveChangesAsync();
+            await DbContext.SaveChangesAsync();
 
             return CreatedAtAction("GetBounty", new { id = bounty.BountyId }, postBountyModel);
         }
@@ -95,21 +95,21 @@ namespace Identity.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Bounty>> DeleteBounty(int id)
         {
-            var bounty = await _context.Bounties.FindAsync(id);
+            var bounty = await DbContext.Bounties.FindAsync(id);
             if (bounty == null)
             {
                 return NotFound();
             }
 
-            _context.Bounties.Remove(bounty);
-            await _context.SaveChangesAsync();
+            DbContext.Bounties.Remove(bounty);
+            await DbContext.SaveChangesAsync();
 
             return bounty;
         }
 
         private bool BountyExists(int bountyId)
         {
-            return _context.Bounties.Any(e => e.BountyId == bountyId);
+            return DbContext.Bounties.Any(e => e.BountyId == bountyId);
         }
     }
 }
