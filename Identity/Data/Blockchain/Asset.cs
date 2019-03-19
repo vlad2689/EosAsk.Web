@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace EosAsk.Data.Blockchain
+namespace Identity.Data.Blockchain
 {
     public class Asset
     {

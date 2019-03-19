@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Identity.Data;
 using Microsoft.AspNetCore.Identity;
 
-namespace Identity.Models
+namespace Identity.Api.Models
 {
     public class PostAnswerModel
     {

@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Identity.Api.Controllers.Base;
+using Identity.Api.Models;
 using Identity.Data;
 using Identity.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace Identity.Controllers
+namespace Identity.Api.Controllers
 {
     [Route("api/bounties")]
     public class BountiesController : EosAskBaseController

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Identity.Data;
 
-namespace Identity.Models
+namespace Identity.Api.Models
 {
     public class PostQuestionModel
     {

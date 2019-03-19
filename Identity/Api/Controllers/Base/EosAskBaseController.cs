@@ -3,7 +3,7 @@ using Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Identity.Controllers
+namespace Identity.Api.Controllers.Base
 {
     public class EosAskBaseController : Controller
     {
