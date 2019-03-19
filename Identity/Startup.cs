@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Identity.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NSwag.AspNetCore;
 
 namespace Identity
 {
@@ -37,6 +36,8 @@ namespace Identity
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,8 +54,8 @@ namespace Identity
                 app.UseHsts();
             }
 
-//            app.UseSwagger();
-//            app.UseSwaggerUi3();
+            app.UseSwagger();
+            app.UseSwaggerUi3();
             
             app.UseDefaultFiles();
             app.UseHttpsRedirection();

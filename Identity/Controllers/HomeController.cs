@@ -14,8 +14,7 @@ namespace Identity.Controllers
             return View();
         }
 
-        [HttpGet]
-        [Route("about")]
+        [HttpGet("about")]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -23,8 +22,7 @@ namespace Identity.Controllers
             return View();
         }
 
-        [HttpGet]
-        [Route("contact")]
+        [HttpGet("contact")]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
@@ -32,16 +30,14 @@ namespace Identity.Controllers
             return View();
         }
 
-        [HttpGet]
-        [Route("privacy")]
+        [HttpGet("privacy")]
         public IActionResult Privacy()
         {
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        [HttpGet]
-        [Route("error")]
+        [HttpGet("error")]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
