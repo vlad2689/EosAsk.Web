@@ -24,7 +24,6 @@ namespace Identity.Api.Controllers
 
         // GET: Questions
         [HttpGet]
-        [ServiceFilter(typeof(RequireLoginFilter))]
         public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
         {
             return await DbContext.Questions.ToListAsync();
@@ -43,26 +42,18 @@ namespace Identity.Api.Controllers
             var model = new QuestionViewModel(question);
             return View(model);
         }
-
-        [HttpGet("new")]
-        public IActionResult NewQuestion()
-        {
-            return View(new NewQuestionModel());
-        }
         
-        [HttpPost("new")]
-        public async Task<IActionResult> NewQuestion(NewQuestionModel newQuestionModel)
+        // POST: Questions
+        [HttpPost]
+        [Authorize]
+        [ServiceFilter(typeof(RequireLoginFilter))]
+        public async Task<ActionResult<Question>> PostQuestion([FromBody] PostQuestionModel postQuestionModel)
         {
-            var question = new Question()
-            {
-                Text = newQuestionModel.Text,
-                Owner = await UserManager.GetUserAsync(User),
-            };
-
+            var question = postQuestionModel.ToQuestion(DbContext);
             DbContext.Questions.Add(question);
             await DbContext.SaveChangesAsync();
-            
-            return CreatedAtAction("Question", new {id = question.QuestionId});
+
+            return CreatedAtAction("Question", new { id = question.QuestionId }, question);
         }
 
         // PUT: Questions/5
@@ -93,19 +84,6 @@ namespace Identity.Api.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: Questions
-        [HttpPost]
-        [Authorize]
-        [ServiceFilter(typeof(RequireLoginFilter))]
-        public async Task<ActionResult<Question>> PostQuestion([FromBody] PostQuestionModel postQuestionModel)
-        {
-            var question = postQuestionModel.ToQuestion(DbContext);
-            DbContext.Questions.Add(question);
-            await DbContext.SaveChangesAsync();
-
-            return CreatedAtAction("Question", new { id = question.QuestionId }, question);
         }
 
         // DELETE: Questions/5
