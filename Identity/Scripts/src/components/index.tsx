@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import EosioClient from './eosio-client'
-import {AnswersClient} from '../api/EosAskApiFetch';
+import {AnswersClient, QuestionsClient} from '../api/EosAskApiFetch';
 
-let answersClient = new AnswersClient();
-answersClient.getAnswers().then(answers => {
-    console.log(answers);
+let questionsClient = new QuestionsClient();
+questionsClient.getQuestions().then(response => {
+    console.log(response);
 });
-
 
 // ReactDOM.render(<EosioClient />, document.getElementById('app'));

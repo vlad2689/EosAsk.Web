@@ -1,5 +1,6 @@
-using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Identity.Api.Attributes
@@ -17,12 +18,31 @@ namespace Identity.Api.Attributes
         {
             if (!_signInManager.IsSignedIn(context.HttpContext.User))
             {
-                context.HttpContext.Response.Redirect("/Identity/Account/Login");
+                context.Result = new CustomUnauthorizedResult("Login is required before this action can be performed.");
             }
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
+        }
+
+        // The code below is taken from https://ignas.me/tech/custom-unauthorized-response-body/
+        private class CustomUnauthorizedResult : JsonResult
+        {
+            public CustomUnauthorizedResult(string message) : base(new CustomError(message))
+            {
+                StatusCode = StatusCodes.Status401Unauthorized;
+            }
+        }
+
+        private class CustomError
+        {
+            public string Error { get; }
+
+            public CustomError(string message)
+            {
+                Error = message;
+            }
         }
     }
 }

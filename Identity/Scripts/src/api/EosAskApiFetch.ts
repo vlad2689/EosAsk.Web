@@ -6,752 +6,6 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-export interface IAnswersClient {
-    getAnswers(): Promise<Answer[] | null>;
-    postAnswer(answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<Answer | null>;
-    getAnswer(id: number): Promise<Answer | null>;
-    putAnswer(id: number, answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<FileResponse | null>;
-    deleteAnswer(id: number): Promise<Answer | null>;
-}
-
-export class AnswersClient implements IAnswersClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
-    }
-
-    getAnswers(): Promise<Answer[] | null> {
-        let url_ = this.baseUrl + "/answers";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetAnswers(_response);
-        });
-    }
-
-    protected processGetAnswers(response: Response): Promise<Answer[] | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(Answer.fromJS(item));
-            }
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Answer[] | null>(<any>null);
-    }
-
-    postAnswer(answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<Answer | null> {
-        let url_ = this.baseUrl + "/answers?";
-        if (answerId === null)
-            throw new Error("The parameter 'answerId' cannot be null.");
-        else if (answerId !== undefined)
-            url_ += "AnswerId=" + encodeURIComponent("" + answerId) + "&"; 
-        if (text !== undefined)
-            url_ += "Text=" + encodeURIComponent("" + text) + "&"; 
-        if (question_QuestionId === null)
-            throw new Error("The parameter 'question_QuestionId' cannot be null.");
-        else if (question_QuestionId !== undefined)
-            url_ += "Question.QuestionId=" + encodeURIComponent("" + question_QuestionId) + "&"; 
-        if (question_Text !== undefined)
-            url_ += "Question.Text=" + encodeURIComponent("" + question_Text) + "&"; 
-        if (question_UpVotes === null)
-            throw new Error("The parameter 'question_UpVotes' cannot be null.");
-        else if (question_UpVotes !== undefined)
-            url_ += "Question.UpVotes=" + encodeURIComponent("" + question_UpVotes) + "&"; 
-        if (question_Owner_Id !== undefined)
-            url_ += "Question.Owner.Id=" + encodeURIComponent("" + question_Owner_Id) + "&"; 
-        if (question_Owner_UserName !== undefined)
-            url_ += "Question.Owner.UserName=" + encodeURIComponent("" + question_Owner_UserName) + "&"; 
-        if (question_Owner_NormalizedUserName !== undefined)
-            url_ += "Question.Owner.NormalizedUserName=" + encodeURIComponent("" + question_Owner_NormalizedUserName) + "&"; 
-        if (question_Owner_Email !== undefined)
-            url_ += "Question.Owner.Email=" + encodeURIComponent("" + question_Owner_Email) + "&"; 
-        if (question_Owner_NormalizedEmail !== undefined)
-            url_ += "Question.Owner.NormalizedEmail=" + encodeURIComponent("" + question_Owner_NormalizedEmail) + "&"; 
-        if (question_Owner_EmailConfirmed === null)
-            throw new Error("The parameter 'question_Owner_EmailConfirmed' cannot be null.");
-        else if (question_Owner_EmailConfirmed !== undefined)
-            url_ += "Question.Owner.EmailConfirmed=" + encodeURIComponent("" + question_Owner_EmailConfirmed) + "&"; 
-        if (question_Owner_PasswordHash !== undefined)
-            url_ += "Question.Owner.PasswordHash=" + encodeURIComponent("" + question_Owner_PasswordHash) + "&"; 
-        if (question_Owner_SecurityStamp !== undefined)
-            url_ += "Question.Owner.SecurityStamp=" + encodeURIComponent("" + question_Owner_SecurityStamp) + "&"; 
-        if (question_Owner_ConcurrencyStamp !== undefined)
-            url_ += "Question.Owner.ConcurrencyStamp=" + encodeURIComponent("" + question_Owner_ConcurrencyStamp) + "&"; 
-        if (question_Owner_PhoneNumber !== undefined)
-            url_ += "Question.Owner.PhoneNumber=" + encodeURIComponent("" + question_Owner_PhoneNumber) + "&"; 
-        if (question_Owner_PhoneNumberConfirmed === null)
-            throw new Error("The parameter 'question_Owner_PhoneNumberConfirmed' cannot be null.");
-        else if (question_Owner_PhoneNumberConfirmed !== undefined)
-            url_ += "Question.Owner.PhoneNumberConfirmed=" + encodeURIComponent("" + question_Owner_PhoneNumberConfirmed) + "&"; 
-        if (question_Owner_TwoFactorEnabled === null)
-            throw new Error("The parameter 'question_Owner_TwoFactorEnabled' cannot be null.");
-        else if (question_Owner_TwoFactorEnabled !== undefined)
-            url_ += "Question.Owner.TwoFactorEnabled=" + encodeURIComponent("" + question_Owner_TwoFactorEnabled) + "&"; 
-        if (question_Owner_LockoutEnd !== undefined)
-            url_ += "Question.Owner.LockoutEnd=" + encodeURIComponent(question_Owner_LockoutEnd ? "" + question_Owner_LockoutEnd.toJSON() : "") + "&"; 
-        if (question_Owner_LockoutEnabled === null)
-            throw new Error("The parameter 'question_Owner_LockoutEnabled' cannot be null.");
-        else if (question_Owner_LockoutEnabled !== undefined)
-            url_ += "Question.Owner.LockoutEnabled=" + encodeURIComponent("" + question_Owner_LockoutEnabled) + "&"; 
-        if (question_Owner_AccessFailedCount === null)
-            throw new Error("The parameter 'question_Owner_AccessFailedCount' cannot be null.");
-        else if (question_Owner_AccessFailedCount !== undefined)
-            url_ += "Question.Owner.AccessFailedCount=" + encodeURIComponent("" + question_Owner_AccessFailedCount) + "&"; 
-        if (owner_Id !== undefined)
-            url_ += "Owner.Id=" + encodeURIComponent("" + owner_Id) + "&"; 
-        if (owner_UserName !== undefined)
-            url_ += "Owner.UserName=" + encodeURIComponent("" + owner_UserName) + "&"; 
-        if (owner_NormalizedUserName !== undefined)
-            url_ += "Owner.NormalizedUserName=" + encodeURIComponent("" + owner_NormalizedUserName) + "&"; 
-        if (owner_Email !== undefined)
-            url_ += "Owner.Email=" + encodeURIComponent("" + owner_Email) + "&"; 
-        if (owner_NormalizedEmail !== undefined)
-            url_ += "Owner.NormalizedEmail=" + encodeURIComponent("" + owner_NormalizedEmail) + "&"; 
-        if (owner_EmailConfirmed === null)
-            throw new Error("The parameter 'owner_EmailConfirmed' cannot be null.");
-        else if (owner_EmailConfirmed !== undefined)
-            url_ += "Owner.EmailConfirmed=" + encodeURIComponent("" + owner_EmailConfirmed) + "&"; 
-        if (owner_PasswordHash !== undefined)
-            url_ += "Owner.PasswordHash=" + encodeURIComponent("" + owner_PasswordHash) + "&"; 
-        if (owner_SecurityStamp !== undefined)
-            url_ += "Owner.SecurityStamp=" + encodeURIComponent("" + owner_SecurityStamp) + "&"; 
-        if (owner_ConcurrencyStamp !== undefined)
-            url_ += "Owner.ConcurrencyStamp=" + encodeURIComponent("" + owner_ConcurrencyStamp) + "&"; 
-        if (owner_PhoneNumber !== undefined)
-            url_ += "Owner.PhoneNumber=" + encodeURIComponent("" + owner_PhoneNumber) + "&"; 
-        if (owner_PhoneNumberConfirmed === null)
-            throw new Error("The parameter 'owner_PhoneNumberConfirmed' cannot be null.");
-        else if (owner_PhoneNumberConfirmed !== undefined)
-            url_ += "Owner.PhoneNumberConfirmed=" + encodeURIComponent("" + owner_PhoneNumberConfirmed) + "&"; 
-        if (owner_TwoFactorEnabled === null)
-            throw new Error("The parameter 'owner_TwoFactorEnabled' cannot be null.");
-        else if (owner_TwoFactorEnabled !== undefined)
-            url_ += "Owner.TwoFactorEnabled=" + encodeURIComponent("" + owner_TwoFactorEnabled) + "&"; 
-        if (owner_LockoutEnd !== undefined)
-            url_ += "Owner.LockoutEnd=" + encodeURIComponent(owner_LockoutEnd ? "" + owner_LockoutEnd.toJSON() : "") + "&"; 
-        if (owner_LockoutEnabled === null)
-            throw new Error("The parameter 'owner_LockoutEnabled' cannot be null.");
-        else if (owner_LockoutEnabled !== undefined)
-            url_ += "Owner.LockoutEnabled=" + encodeURIComponent("" + owner_LockoutEnabled) + "&"; 
-        if (owner_AccessFailedCount === null)
-            throw new Error("The parameter 'owner_AccessFailedCount' cannot be null.");
-        else if (owner_AccessFailedCount !== undefined)
-            url_ += "Owner.AccessFailedCount=" + encodeURIComponent("" + owner_AccessFailedCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "POST",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPostAnswer(_response);
-        });
-    }
-
-    protected processPostAnswer(response: Response): Promise<Answer | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Answer.fromJS(resultData200) : <any>null;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Answer | null>(<any>null);
-    }
-
-    getAnswer(id: number): Promise<Answer | null> {
-        let url_ = this.baseUrl + "/answers/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetAnswer(_response);
-        });
-    }
-
-    protected processGetAnswer(response: Response): Promise<Answer | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Answer.fromJS(resultData200) : <any>null;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Answer | null>(<any>null);
-    }
-
-    putAnswer(id: number, answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/answers/{id}?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
-        if (answerId === null)
-            throw new Error("The parameter 'answerId' cannot be null.");
-        else if (answerId !== undefined)
-            url_ += "AnswerId=" + encodeURIComponent("" + answerId) + "&"; 
-        if (text !== undefined)
-            url_ += "Text=" + encodeURIComponent("" + text) + "&"; 
-        if (question_QuestionId === null)
-            throw new Error("The parameter 'question_QuestionId' cannot be null.");
-        else if (question_QuestionId !== undefined)
-            url_ += "Question.QuestionId=" + encodeURIComponent("" + question_QuestionId) + "&"; 
-        if (question_Text !== undefined)
-            url_ += "Question.Text=" + encodeURIComponent("" + question_Text) + "&"; 
-        if (question_UpVotes === null)
-            throw new Error("The parameter 'question_UpVotes' cannot be null.");
-        else if (question_UpVotes !== undefined)
-            url_ += "Question.UpVotes=" + encodeURIComponent("" + question_UpVotes) + "&"; 
-        if (question_Owner_Id !== undefined)
-            url_ += "Question.Owner.Id=" + encodeURIComponent("" + question_Owner_Id) + "&"; 
-        if (question_Owner_UserName !== undefined)
-            url_ += "Question.Owner.UserName=" + encodeURIComponent("" + question_Owner_UserName) + "&"; 
-        if (question_Owner_NormalizedUserName !== undefined)
-            url_ += "Question.Owner.NormalizedUserName=" + encodeURIComponent("" + question_Owner_NormalizedUserName) + "&"; 
-        if (question_Owner_Email !== undefined)
-            url_ += "Question.Owner.Email=" + encodeURIComponent("" + question_Owner_Email) + "&"; 
-        if (question_Owner_NormalizedEmail !== undefined)
-            url_ += "Question.Owner.NormalizedEmail=" + encodeURIComponent("" + question_Owner_NormalizedEmail) + "&"; 
-        if (question_Owner_EmailConfirmed === null)
-            throw new Error("The parameter 'question_Owner_EmailConfirmed' cannot be null.");
-        else if (question_Owner_EmailConfirmed !== undefined)
-            url_ += "Question.Owner.EmailConfirmed=" + encodeURIComponent("" + question_Owner_EmailConfirmed) + "&"; 
-        if (question_Owner_PasswordHash !== undefined)
-            url_ += "Question.Owner.PasswordHash=" + encodeURIComponent("" + question_Owner_PasswordHash) + "&"; 
-        if (question_Owner_SecurityStamp !== undefined)
-            url_ += "Question.Owner.SecurityStamp=" + encodeURIComponent("" + question_Owner_SecurityStamp) + "&"; 
-        if (question_Owner_ConcurrencyStamp !== undefined)
-            url_ += "Question.Owner.ConcurrencyStamp=" + encodeURIComponent("" + question_Owner_ConcurrencyStamp) + "&"; 
-        if (question_Owner_PhoneNumber !== undefined)
-            url_ += "Question.Owner.PhoneNumber=" + encodeURIComponent("" + question_Owner_PhoneNumber) + "&"; 
-        if (question_Owner_PhoneNumberConfirmed === null)
-            throw new Error("The parameter 'question_Owner_PhoneNumberConfirmed' cannot be null.");
-        else if (question_Owner_PhoneNumberConfirmed !== undefined)
-            url_ += "Question.Owner.PhoneNumberConfirmed=" + encodeURIComponent("" + question_Owner_PhoneNumberConfirmed) + "&"; 
-        if (question_Owner_TwoFactorEnabled === null)
-            throw new Error("The parameter 'question_Owner_TwoFactorEnabled' cannot be null.");
-        else if (question_Owner_TwoFactorEnabled !== undefined)
-            url_ += "Question.Owner.TwoFactorEnabled=" + encodeURIComponent("" + question_Owner_TwoFactorEnabled) + "&"; 
-        if (question_Owner_LockoutEnd !== undefined)
-            url_ += "Question.Owner.LockoutEnd=" + encodeURIComponent(question_Owner_LockoutEnd ? "" + question_Owner_LockoutEnd.toJSON() : "") + "&"; 
-        if (question_Owner_LockoutEnabled === null)
-            throw new Error("The parameter 'question_Owner_LockoutEnabled' cannot be null.");
-        else if (question_Owner_LockoutEnabled !== undefined)
-            url_ += "Question.Owner.LockoutEnabled=" + encodeURIComponent("" + question_Owner_LockoutEnabled) + "&"; 
-        if (question_Owner_AccessFailedCount === null)
-            throw new Error("The parameter 'question_Owner_AccessFailedCount' cannot be null.");
-        else if (question_Owner_AccessFailedCount !== undefined)
-            url_ += "Question.Owner.AccessFailedCount=" + encodeURIComponent("" + question_Owner_AccessFailedCount) + "&"; 
-        if (owner_Id !== undefined)
-            url_ += "Owner.Id=" + encodeURIComponent("" + owner_Id) + "&"; 
-        if (owner_UserName !== undefined)
-            url_ += "Owner.UserName=" + encodeURIComponent("" + owner_UserName) + "&"; 
-        if (owner_NormalizedUserName !== undefined)
-            url_ += "Owner.NormalizedUserName=" + encodeURIComponent("" + owner_NormalizedUserName) + "&"; 
-        if (owner_Email !== undefined)
-            url_ += "Owner.Email=" + encodeURIComponent("" + owner_Email) + "&"; 
-        if (owner_NormalizedEmail !== undefined)
-            url_ += "Owner.NormalizedEmail=" + encodeURIComponent("" + owner_NormalizedEmail) + "&"; 
-        if (owner_EmailConfirmed === null)
-            throw new Error("The parameter 'owner_EmailConfirmed' cannot be null.");
-        else if (owner_EmailConfirmed !== undefined)
-            url_ += "Owner.EmailConfirmed=" + encodeURIComponent("" + owner_EmailConfirmed) + "&"; 
-        if (owner_PasswordHash !== undefined)
-            url_ += "Owner.PasswordHash=" + encodeURIComponent("" + owner_PasswordHash) + "&"; 
-        if (owner_SecurityStamp !== undefined)
-            url_ += "Owner.SecurityStamp=" + encodeURIComponent("" + owner_SecurityStamp) + "&"; 
-        if (owner_ConcurrencyStamp !== undefined)
-            url_ += "Owner.ConcurrencyStamp=" + encodeURIComponent("" + owner_ConcurrencyStamp) + "&"; 
-        if (owner_PhoneNumber !== undefined)
-            url_ += "Owner.PhoneNumber=" + encodeURIComponent("" + owner_PhoneNumber) + "&"; 
-        if (owner_PhoneNumberConfirmed === null)
-            throw new Error("The parameter 'owner_PhoneNumberConfirmed' cannot be null.");
-        else if (owner_PhoneNumberConfirmed !== undefined)
-            url_ += "Owner.PhoneNumberConfirmed=" + encodeURIComponent("" + owner_PhoneNumberConfirmed) + "&"; 
-        if (owner_TwoFactorEnabled === null)
-            throw new Error("The parameter 'owner_TwoFactorEnabled' cannot be null.");
-        else if (owner_TwoFactorEnabled !== undefined)
-            url_ += "Owner.TwoFactorEnabled=" + encodeURIComponent("" + owner_TwoFactorEnabled) + "&"; 
-        if (owner_LockoutEnd !== undefined)
-            url_ += "Owner.LockoutEnd=" + encodeURIComponent(owner_LockoutEnd ? "" + owner_LockoutEnd.toJSON() : "") + "&"; 
-        if (owner_LockoutEnabled === null)
-            throw new Error("The parameter 'owner_LockoutEnabled' cannot be null.");
-        else if (owner_LockoutEnabled !== undefined)
-            url_ += "Owner.LockoutEnabled=" + encodeURIComponent("" + owner_LockoutEnabled) + "&"; 
-        if (owner_AccessFailedCount === null)
-            throw new Error("The parameter 'owner_AccessFailedCount' cannot be null.");
-        else if (owner_AccessFailedCount !== undefined)
-            url_ += "Owner.AccessFailedCount=" + encodeURIComponent("" + owner_AccessFailedCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "PUT",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPutAnswer(_response);
-        });
-    }
-
-    protected processPutAnswer(response: Response): Promise<FileResponse | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse | null>(<any>null);
-    }
-
-    deleteAnswer(id: number): Promise<Answer | null> {
-        let url_ = this.baseUrl + "/answers/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "DELETE",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processDeleteAnswer(_response);
-        });
-    }
-
-    protected processDeleteAnswer(response: Response): Promise<Answer | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Answer.fromJS(resultData200) : <any>null;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Answer | null>(<any>null);
-    }
-}
-
-export interface IBountiesClient {
-    getBounties(): Promise<Bounty[] | null>;
-    postBounty(userId: number | undefined, questionId: number | undefined, amount: number | undefined, amountSym: string | null | undefined): Promise<Bounty | null>;
-    getBounty(id: number): Promise<Bounty | null>;
-    putBounty(id: number, bountyId: number | undefined, amount: number | undefined, amountSym: string | null | undefined, question_QuestionId: number | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, awarded_Id: string | null | undefined, awarded_UserName: string | null | undefined, awarded_NormalizedUserName: string | null | undefined, awarded_Email: string | null | undefined, awarded_NormalizedEmail: string | null | undefined, awarded_EmailConfirmed: boolean | undefined, awarded_PasswordHash: string | null | undefined, awarded_SecurityStamp: string | null | undefined, awarded_ConcurrencyStamp: string | null | undefined, awarded_PhoneNumber: string | null | undefined, awarded_PhoneNumberConfirmed: boolean | undefined, awarded_TwoFactorEnabled: boolean | undefined, awarded_LockoutEnd: Date | null | undefined, awarded_LockoutEnabled: boolean | undefined, awarded_AccessFailedCount: number | undefined): Promise<FileResponse | null>;
-    deleteBounty(id: number): Promise<Bounty | null>;
-}
-
-export class BountiesClient implements IBountiesClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
-    }
-
-    getBounties(): Promise<Bounty[] | null> {
-        let url_ = this.baseUrl + "/bounties";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetBounties(_response);
-        });
-    }
-
-    protected processGetBounties(response: Response): Promise<Bounty[] | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(Bounty.fromJS(item));
-            }
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Bounty[] | null>(<any>null);
-    }
-
-    postBounty(userId: number | undefined, questionId: number | undefined, amount: number | undefined, amountSym: string | null | undefined): Promise<Bounty | null> {
-        let url_ = this.baseUrl + "/bounties?";
-        if (userId === null)
-            throw new Error("The parameter 'userId' cannot be null.");
-        else if (userId !== undefined)
-            url_ += "UserId=" + encodeURIComponent("" + userId) + "&"; 
-        if (questionId === null)
-            throw new Error("The parameter 'questionId' cannot be null.");
-        else if (questionId !== undefined)
-            url_ += "QuestionId=" + encodeURIComponent("" + questionId) + "&"; 
-        if (amount === null)
-            throw new Error("The parameter 'amount' cannot be null.");
-        else if (amount !== undefined)
-            url_ += "Amount=" + encodeURIComponent("" + amount) + "&"; 
-        if (amountSym !== undefined)
-            url_ += "AmountSym=" + encodeURIComponent("" + amountSym) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "POST",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPostBounty(_response);
-        });
-    }
-
-    protected processPostBounty(response: Response): Promise<Bounty | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Bounty.fromJS(resultData200) : <any>null;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Bounty | null>(<any>null);
-    }
-
-    getBounty(id: number): Promise<Bounty | null> {
-        let url_ = this.baseUrl + "/bounties/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetBounty(_response);
-        });
-    }
-
-    protected processGetBounty(response: Response): Promise<Bounty | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Bounty.fromJS(resultData200) : <any>null;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Bounty | null>(<any>null);
-    }
-
-    putBounty(id: number, bountyId: number | undefined, amount: number | undefined, amountSym: string | null | undefined, question_QuestionId: number | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, awarded_Id: string | null | undefined, awarded_UserName: string | null | undefined, awarded_NormalizedUserName: string | null | undefined, awarded_Email: string | null | undefined, awarded_NormalizedEmail: string | null | undefined, awarded_EmailConfirmed: boolean | undefined, awarded_PasswordHash: string | null | undefined, awarded_SecurityStamp: string | null | undefined, awarded_ConcurrencyStamp: string | null | undefined, awarded_PhoneNumber: string | null | undefined, awarded_PhoneNumberConfirmed: boolean | undefined, awarded_TwoFactorEnabled: boolean | undefined, awarded_LockoutEnd: Date | null | undefined, awarded_LockoutEnabled: boolean | undefined, awarded_AccessFailedCount: number | undefined): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/bounties/{id}?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
-        if (bountyId === null)
-            throw new Error("The parameter 'bountyId' cannot be null.");
-        else if (bountyId !== undefined)
-            url_ += "BountyId=" + encodeURIComponent("" + bountyId) + "&"; 
-        if (amount === null)
-            throw new Error("The parameter 'amount' cannot be null.");
-        else if (amount !== undefined)
-            url_ += "Amount=" + encodeURIComponent("" + amount) + "&"; 
-        if (amountSym !== undefined)
-            url_ += "AmountSym=" + encodeURIComponent("" + amountSym) + "&"; 
-        if (question_QuestionId === null)
-            throw new Error("The parameter 'question_QuestionId' cannot be null.");
-        else if (question_QuestionId !== undefined)
-            url_ += "Question.QuestionId=" + encodeURIComponent("" + question_QuestionId) + "&"; 
-        if (question_Text !== undefined)
-            url_ += "Question.Text=" + encodeURIComponent("" + question_Text) + "&"; 
-        if (question_UpVotes === null)
-            throw new Error("The parameter 'question_UpVotes' cannot be null.");
-        else if (question_UpVotes !== undefined)
-            url_ += "Question.UpVotes=" + encodeURIComponent("" + question_UpVotes) + "&"; 
-        if (question_Owner_Id !== undefined)
-            url_ += "Question.Owner.Id=" + encodeURIComponent("" + question_Owner_Id) + "&"; 
-        if (question_Owner_UserName !== undefined)
-            url_ += "Question.Owner.UserName=" + encodeURIComponent("" + question_Owner_UserName) + "&"; 
-        if (question_Owner_NormalizedUserName !== undefined)
-            url_ += "Question.Owner.NormalizedUserName=" + encodeURIComponent("" + question_Owner_NormalizedUserName) + "&"; 
-        if (question_Owner_Email !== undefined)
-            url_ += "Question.Owner.Email=" + encodeURIComponent("" + question_Owner_Email) + "&"; 
-        if (question_Owner_NormalizedEmail !== undefined)
-            url_ += "Question.Owner.NormalizedEmail=" + encodeURIComponent("" + question_Owner_NormalizedEmail) + "&"; 
-        if (question_Owner_EmailConfirmed === null)
-            throw new Error("The parameter 'question_Owner_EmailConfirmed' cannot be null.");
-        else if (question_Owner_EmailConfirmed !== undefined)
-            url_ += "Question.Owner.EmailConfirmed=" + encodeURIComponent("" + question_Owner_EmailConfirmed) + "&"; 
-        if (question_Owner_PasswordHash !== undefined)
-            url_ += "Question.Owner.PasswordHash=" + encodeURIComponent("" + question_Owner_PasswordHash) + "&"; 
-        if (question_Owner_SecurityStamp !== undefined)
-            url_ += "Question.Owner.SecurityStamp=" + encodeURIComponent("" + question_Owner_SecurityStamp) + "&"; 
-        if (question_Owner_ConcurrencyStamp !== undefined)
-            url_ += "Question.Owner.ConcurrencyStamp=" + encodeURIComponent("" + question_Owner_ConcurrencyStamp) + "&"; 
-        if (question_Owner_PhoneNumber !== undefined)
-            url_ += "Question.Owner.PhoneNumber=" + encodeURIComponent("" + question_Owner_PhoneNumber) + "&"; 
-        if (question_Owner_PhoneNumberConfirmed === null)
-            throw new Error("The parameter 'question_Owner_PhoneNumberConfirmed' cannot be null.");
-        else if (question_Owner_PhoneNumberConfirmed !== undefined)
-            url_ += "Question.Owner.PhoneNumberConfirmed=" + encodeURIComponent("" + question_Owner_PhoneNumberConfirmed) + "&"; 
-        if (question_Owner_TwoFactorEnabled === null)
-            throw new Error("The parameter 'question_Owner_TwoFactorEnabled' cannot be null.");
-        else if (question_Owner_TwoFactorEnabled !== undefined)
-            url_ += "Question.Owner.TwoFactorEnabled=" + encodeURIComponent("" + question_Owner_TwoFactorEnabled) + "&"; 
-        if (question_Owner_LockoutEnd !== undefined)
-            url_ += "Question.Owner.LockoutEnd=" + encodeURIComponent(question_Owner_LockoutEnd ? "" + question_Owner_LockoutEnd.toJSON() : "") + "&"; 
-        if (question_Owner_LockoutEnabled === null)
-            throw new Error("The parameter 'question_Owner_LockoutEnabled' cannot be null.");
-        else if (question_Owner_LockoutEnabled !== undefined)
-            url_ += "Question.Owner.LockoutEnabled=" + encodeURIComponent("" + question_Owner_LockoutEnabled) + "&"; 
-        if (question_Owner_AccessFailedCount === null)
-            throw new Error("The parameter 'question_Owner_AccessFailedCount' cannot be null.");
-        else if (question_Owner_AccessFailedCount !== undefined)
-            url_ += "Question.Owner.AccessFailedCount=" + encodeURIComponent("" + question_Owner_AccessFailedCount) + "&"; 
-        if (owner_Id !== undefined)
-            url_ += "Owner.Id=" + encodeURIComponent("" + owner_Id) + "&"; 
-        if (owner_UserName !== undefined)
-            url_ += "Owner.UserName=" + encodeURIComponent("" + owner_UserName) + "&"; 
-        if (owner_NormalizedUserName !== undefined)
-            url_ += "Owner.NormalizedUserName=" + encodeURIComponent("" + owner_NormalizedUserName) + "&"; 
-        if (owner_Email !== undefined)
-            url_ += "Owner.Email=" + encodeURIComponent("" + owner_Email) + "&"; 
-        if (owner_NormalizedEmail !== undefined)
-            url_ += "Owner.NormalizedEmail=" + encodeURIComponent("" + owner_NormalizedEmail) + "&"; 
-        if (owner_EmailConfirmed === null)
-            throw new Error("The parameter 'owner_EmailConfirmed' cannot be null.");
-        else if (owner_EmailConfirmed !== undefined)
-            url_ += "Owner.EmailConfirmed=" + encodeURIComponent("" + owner_EmailConfirmed) + "&"; 
-        if (owner_PasswordHash !== undefined)
-            url_ += "Owner.PasswordHash=" + encodeURIComponent("" + owner_PasswordHash) + "&"; 
-        if (owner_SecurityStamp !== undefined)
-            url_ += "Owner.SecurityStamp=" + encodeURIComponent("" + owner_SecurityStamp) + "&"; 
-        if (owner_ConcurrencyStamp !== undefined)
-            url_ += "Owner.ConcurrencyStamp=" + encodeURIComponent("" + owner_ConcurrencyStamp) + "&"; 
-        if (owner_PhoneNumber !== undefined)
-            url_ += "Owner.PhoneNumber=" + encodeURIComponent("" + owner_PhoneNumber) + "&"; 
-        if (owner_PhoneNumberConfirmed === null)
-            throw new Error("The parameter 'owner_PhoneNumberConfirmed' cannot be null.");
-        else if (owner_PhoneNumberConfirmed !== undefined)
-            url_ += "Owner.PhoneNumberConfirmed=" + encodeURIComponent("" + owner_PhoneNumberConfirmed) + "&"; 
-        if (owner_TwoFactorEnabled === null)
-            throw new Error("The parameter 'owner_TwoFactorEnabled' cannot be null.");
-        else if (owner_TwoFactorEnabled !== undefined)
-            url_ += "Owner.TwoFactorEnabled=" + encodeURIComponent("" + owner_TwoFactorEnabled) + "&"; 
-        if (owner_LockoutEnd !== undefined)
-            url_ += "Owner.LockoutEnd=" + encodeURIComponent(owner_LockoutEnd ? "" + owner_LockoutEnd.toJSON() : "") + "&"; 
-        if (owner_LockoutEnabled === null)
-            throw new Error("The parameter 'owner_LockoutEnabled' cannot be null.");
-        else if (owner_LockoutEnabled !== undefined)
-            url_ += "Owner.LockoutEnabled=" + encodeURIComponent("" + owner_LockoutEnabled) + "&"; 
-        if (owner_AccessFailedCount === null)
-            throw new Error("The parameter 'owner_AccessFailedCount' cannot be null.");
-        else if (owner_AccessFailedCount !== undefined)
-            url_ += "Owner.AccessFailedCount=" + encodeURIComponent("" + owner_AccessFailedCount) + "&"; 
-        if (awarded_Id !== undefined)
-            url_ += "Awarded.Id=" + encodeURIComponent("" + awarded_Id) + "&"; 
-        if (awarded_UserName !== undefined)
-            url_ += "Awarded.UserName=" + encodeURIComponent("" + awarded_UserName) + "&"; 
-        if (awarded_NormalizedUserName !== undefined)
-            url_ += "Awarded.NormalizedUserName=" + encodeURIComponent("" + awarded_NormalizedUserName) + "&"; 
-        if (awarded_Email !== undefined)
-            url_ += "Awarded.Email=" + encodeURIComponent("" + awarded_Email) + "&"; 
-        if (awarded_NormalizedEmail !== undefined)
-            url_ += "Awarded.NormalizedEmail=" + encodeURIComponent("" + awarded_NormalizedEmail) + "&"; 
-        if (awarded_EmailConfirmed === null)
-            throw new Error("The parameter 'awarded_EmailConfirmed' cannot be null.");
-        else if (awarded_EmailConfirmed !== undefined)
-            url_ += "Awarded.EmailConfirmed=" + encodeURIComponent("" + awarded_EmailConfirmed) + "&"; 
-        if (awarded_PasswordHash !== undefined)
-            url_ += "Awarded.PasswordHash=" + encodeURIComponent("" + awarded_PasswordHash) + "&"; 
-        if (awarded_SecurityStamp !== undefined)
-            url_ += "Awarded.SecurityStamp=" + encodeURIComponent("" + awarded_SecurityStamp) + "&"; 
-        if (awarded_ConcurrencyStamp !== undefined)
-            url_ += "Awarded.ConcurrencyStamp=" + encodeURIComponent("" + awarded_ConcurrencyStamp) + "&"; 
-        if (awarded_PhoneNumber !== undefined)
-            url_ += "Awarded.PhoneNumber=" + encodeURIComponent("" + awarded_PhoneNumber) + "&"; 
-        if (awarded_PhoneNumberConfirmed === null)
-            throw new Error("The parameter 'awarded_PhoneNumberConfirmed' cannot be null.");
-        else if (awarded_PhoneNumberConfirmed !== undefined)
-            url_ += "Awarded.PhoneNumberConfirmed=" + encodeURIComponent("" + awarded_PhoneNumberConfirmed) + "&"; 
-        if (awarded_TwoFactorEnabled === null)
-            throw new Error("The parameter 'awarded_TwoFactorEnabled' cannot be null.");
-        else if (awarded_TwoFactorEnabled !== undefined)
-            url_ += "Awarded.TwoFactorEnabled=" + encodeURIComponent("" + awarded_TwoFactorEnabled) + "&"; 
-        if (awarded_LockoutEnd !== undefined)
-            url_ += "Awarded.LockoutEnd=" + encodeURIComponent(awarded_LockoutEnd ? "" + awarded_LockoutEnd.toJSON() : "") + "&"; 
-        if (awarded_LockoutEnabled === null)
-            throw new Error("The parameter 'awarded_LockoutEnabled' cannot be null.");
-        else if (awarded_LockoutEnabled !== undefined)
-            url_ += "Awarded.LockoutEnabled=" + encodeURIComponent("" + awarded_LockoutEnabled) + "&"; 
-        if (awarded_AccessFailedCount === null)
-            throw new Error("The parameter 'awarded_AccessFailedCount' cannot be null.");
-        else if (awarded_AccessFailedCount !== undefined)
-            url_ += "Awarded.AccessFailedCount=" + encodeURIComponent("" + awarded_AccessFailedCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "PUT",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPutBounty(_response);
-        });
-    }
-
-    protected processPutBounty(response: Response): Promise<FileResponse | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse | null>(<any>null);
-    }
-
-    deleteBounty(id: number): Promise<Bounty | null> {
-        let url_ = this.baseUrl + "/bounties/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "DELETE",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processDeleteBounty(_response);
-        });
-    }
-
-    protected processDeleteBounty(response: Response): Promise<Bounty | null> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Bounty.fromJS(resultData200) : <any>null;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Bounty | null>(<any>null);
-    }
-}
-
 export interface IHomeClient {
     index(): Promise<FileResponse | null>;
     index2(): Promise<FileResponse | null>;
@@ -1096,17 +350,15 @@ export class HomeClient implements IHomeClient {
     }
 }
 
-export interface IQuestionsClient {
-    index(): Promise<FileResponse | null>;
-    postQuestion(questionId: number | undefined, text: string | null | undefined, upVotes: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<Question | null>;
-    question(id: number): Promise<FileResponse | null>;
-    putQuestion(id: number, questionId: number | undefined, text: string | null | undefined, upVotes: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<FileResponse | null>;
-    deleteQuestion(id: number): Promise<Question | null>;
-    newQuestion(): Promise<FileResponse | null>;
-    newQuestion2(text: string | null | undefined): Promise<FileResponse | null>;
+export interface IAnswersClient {
+    getAnswers(): Promise<Answer[] | null>;
+    postAnswer(postAnswerModel: PostAnswerModel): Promise<Answer | null>;
+    getAnswer(id: number): Promise<Answer | null>;
+    putAnswer(id: number, answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, upvoteCount: number | undefined): Promise<FileResponse | null>;
+    deleteAnswer(id: number): Promise<Answer | null>;
 }
 
-export class QuestionsClient implements IQuestionsClient {
+export class AnswersClient implements IAnswersClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -1116,8 +368,8 @@ export class QuestionsClient implements IQuestionsClient {
         this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
     }
 
-    index(): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/questions";
+    getAnswers(): Promise<Answer[] | null> {
+        let url_ = this.baseUrl + "/api/answers";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -1128,38 +380,168 @@ export class QuestionsClient implements IQuestionsClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processIndex(_response);
+            return this.processGetAnswers(_response);
         });
     }
 
-    protected processIndex(response: Response): Promise<FileResponse | null> {
+    protected processGetAnswers(response: Response): Promise<Answer[] | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(Answer.fromJS(item));
+            }
+            return result200;
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse | null>(<any>null);
+        return Promise.resolve<Answer[] | null>(<any>null);
     }
 
-    postQuestion(questionId: number | undefined, text: string | null | undefined, upVotes: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<Question | null> {
-        let url_ = this.baseUrl + "/questions?";
-        if (questionId === null)
-            throw new Error("The parameter 'questionId' cannot be null.");
-        else if (questionId !== undefined)
-            url_ += "QuestionId=" + encodeURIComponent("" + questionId) + "&"; 
+    postAnswer(postAnswerModel: PostAnswerModel): Promise<Answer | null> {
+        let url_ = this.baseUrl + "/api/answers";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(postAnswerModel);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPostAnswer(_response);
+        });
+    }
+
+    protected processPostAnswer(response: Response): Promise<Answer | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? Answer.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Answer | null>(<any>null);
+    }
+
+    getAnswer(id: number): Promise<Answer | null> {
+        let url_ = this.baseUrl + "/api/answers/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetAnswer(_response);
+        });
+    }
+
+    protected processGetAnswer(response: Response): Promise<Answer | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? Answer.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Answer | null>(<any>null);
+    }
+
+    putAnswer(id: number, answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, upvoteCount: number | undefined): Promise<FileResponse | null> {
+        let url_ = this.baseUrl + "/api/answers/{id}?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        if (answerId === null)
+            throw new Error("The parameter 'answerId' cannot be null.");
+        else if (answerId !== undefined)
+            url_ += "AnswerId=" + encodeURIComponent("" + answerId) + "&"; 
         if (text !== undefined)
             url_ += "Text=" + encodeURIComponent("" + text) + "&"; 
-        if (upVotes === null)
-            throw new Error("The parameter 'upVotes' cannot be null.");
-        else if (upVotes !== undefined)
-            url_ += "UpVotes=" + encodeURIComponent("" + upVotes) + "&"; 
+        if (question_QuestionId === null)
+            throw new Error("The parameter 'question_QuestionId' cannot be null.");
+        else if (question_QuestionId !== undefined)
+            url_ += "Question.QuestionId=" + encodeURIComponent("" + question_QuestionId) + "&"; 
+        if (question_Text !== undefined)
+            url_ += "Question.Text=" + encodeURIComponent("" + question_Text) + "&"; 
+        if (question_UpVotes === null)
+            throw new Error("The parameter 'question_UpVotes' cannot be null.");
+        else if (question_UpVotes !== undefined)
+            url_ += "Question.UpVotes=" + encodeURIComponent("" + question_UpVotes) + "&"; 
+        if (question_Owner_Id !== undefined)
+            url_ += "Question.Owner.Id=" + encodeURIComponent("" + question_Owner_Id) + "&"; 
+        if (question_Owner_UserName !== undefined)
+            url_ += "Question.Owner.UserName=" + encodeURIComponent("" + question_Owner_UserName) + "&"; 
+        if (question_Owner_NormalizedUserName !== undefined)
+            url_ += "Question.Owner.NormalizedUserName=" + encodeURIComponent("" + question_Owner_NormalizedUserName) + "&"; 
+        if (question_Owner_Email !== undefined)
+            url_ += "Question.Owner.Email=" + encodeURIComponent("" + question_Owner_Email) + "&"; 
+        if (question_Owner_NormalizedEmail !== undefined)
+            url_ += "Question.Owner.NormalizedEmail=" + encodeURIComponent("" + question_Owner_NormalizedEmail) + "&"; 
+        if (question_Owner_EmailConfirmed === null)
+            throw new Error("The parameter 'question_Owner_EmailConfirmed' cannot be null.");
+        else if (question_Owner_EmailConfirmed !== undefined)
+            url_ += "Question.Owner.EmailConfirmed=" + encodeURIComponent("" + question_Owner_EmailConfirmed) + "&"; 
+        if (question_Owner_PasswordHash !== undefined)
+            url_ += "Question.Owner.PasswordHash=" + encodeURIComponent("" + question_Owner_PasswordHash) + "&"; 
+        if (question_Owner_SecurityStamp !== undefined)
+            url_ += "Question.Owner.SecurityStamp=" + encodeURIComponent("" + question_Owner_SecurityStamp) + "&"; 
+        if (question_Owner_ConcurrencyStamp !== undefined)
+            url_ += "Question.Owner.ConcurrencyStamp=" + encodeURIComponent("" + question_Owner_ConcurrencyStamp) + "&"; 
+        if (question_Owner_PhoneNumber !== undefined)
+            url_ += "Question.Owner.PhoneNumber=" + encodeURIComponent("" + question_Owner_PhoneNumber) + "&"; 
+        if (question_Owner_PhoneNumberConfirmed === null)
+            throw new Error("The parameter 'question_Owner_PhoneNumberConfirmed' cannot be null.");
+        else if (question_Owner_PhoneNumberConfirmed !== undefined)
+            url_ += "Question.Owner.PhoneNumberConfirmed=" + encodeURIComponent("" + question_Owner_PhoneNumberConfirmed) + "&"; 
+        if (question_Owner_TwoFactorEnabled === null)
+            throw new Error("The parameter 'question_Owner_TwoFactorEnabled' cannot be null.");
+        else if (question_Owner_TwoFactorEnabled !== undefined)
+            url_ += "Question.Owner.TwoFactorEnabled=" + encodeURIComponent("" + question_Owner_TwoFactorEnabled) + "&"; 
+        if (question_Owner_LockoutEnd !== undefined)
+            url_ += "Question.Owner.LockoutEnd=" + encodeURIComponent(question_Owner_LockoutEnd ? "" + question_Owner_LockoutEnd.toJSON() : "") + "&"; 
+        if (question_Owner_LockoutEnabled === null)
+            throw new Error("The parameter 'question_Owner_LockoutEnabled' cannot be null.");
+        else if (question_Owner_LockoutEnabled !== undefined)
+            url_ += "Question.Owner.LockoutEnabled=" + encodeURIComponent("" + question_Owner_LockoutEnabled) + "&"; 
+        if (question_Owner_AccessFailedCount === null)
+            throw new Error("The parameter 'question_Owner_AccessFailedCount' cannot be null.");
+        else if (question_Owner_AccessFailedCount !== undefined)
+            url_ += "Question.Owner.AccessFailedCount=" + encodeURIComponent("" + question_Owner_AccessFailedCount) + "&"; 
         if (owner_Id !== undefined)
             url_ += "Owner.Id=" + encodeURIComponent("" + owner_Id) + "&"; 
         if (owner_UserName !== undefined)
@@ -1200,11 +582,491 @@ export class QuestionsClient implements IQuestionsClient {
             throw new Error("The parameter 'owner_AccessFailedCount' cannot be null.");
         else if (owner_AccessFailedCount !== undefined)
             url_ += "Owner.AccessFailedCount=" + encodeURIComponent("" + owner_AccessFailedCount) + "&"; 
+        if (upvoteCount === null)
+            throw new Error("The parameter 'upvoteCount' cannot be null.");
+        else if (upvoteCount !== undefined)
+            url_ += "UpvoteCount=" + encodeURIComponent("" + upvoteCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
+            method: "PUT",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPutAnswer(_response);
+        });
+    }
+
+    protected processPutAnswer(response: Response): Promise<FileResponse | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse | null>(<any>null);
+    }
+
+    deleteAnswer(id: number): Promise<Answer | null> {
+        let url_ = this.baseUrl + "/api/answers/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeleteAnswer(_response);
+        });
+    }
+
+    protected processDeleteAnswer(response: Response): Promise<Answer | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? Answer.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Answer | null>(<any>null);
+    }
+}
+
+export interface IBountiesClient {
+    getBounties(): Promise<Bounty[] | null>;
+    postBounty(postBountyModel: PostBountyModel): Promise<Bounty | null>;
+    getBounty(id: number): Promise<Bounty | null>;
+    putBounty(id: number, bountyId: number | undefined, amount: number | undefined, amountSym: string | null | undefined, question_QuestionId: number | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, awarded_Id: string | null | undefined, awarded_UserName: string | null | undefined, awarded_NormalizedUserName: string | null | undefined, awarded_Email: string | null | undefined, awarded_NormalizedEmail: string | null | undefined, awarded_EmailConfirmed: boolean | undefined, awarded_PasswordHash: string | null | undefined, awarded_SecurityStamp: string | null | undefined, awarded_ConcurrencyStamp: string | null | undefined, awarded_PhoneNumber: string | null | undefined, awarded_PhoneNumberConfirmed: boolean | undefined, awarded_TwoFactorEnabled: boolean | undefined, awarded_LockoutEnd: Date | null | undefined, awarded_LockoutEnabled: boolean | undefined, awarded_AccessFailedCount: number | undefined): Promise<FileResponse | null>;
+    deleteBounty(id: number): Promise<Bounty | null>;
+}
+
+export class BountiesClient implements IBountiesClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
+    }
+
+    getBounties(): Promise<Bounty[] | null> {
+        let url_ = this.baseUrl + "/api/bounties";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetBounties(_response);
+        });
+    }
+
+    protected processGetBounties(response: Response): Promise<Bounty[] | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(Bounty.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Bounty[] | null>(<any>null);
+    }
+
+    postBounty(postBountyModel: PostBountyModel): Promise<Bounty | null> {
+        let url_ = this.baseUrl + "/api/bounties";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(postBountyModel);
+
+        let options_ = <RequestInit>{
+            body: content_,
             method: "POST",
             headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPostBounty(_response);
+        });
+    }
+
+    protected processPostBounty(response: Response): Promise<Bounty | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? Bounty.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Bounty | null>(<any>null);
+    }
+
+    getBounty(id: number): Promise<Bounty | null> {
+        let url_ = this.baseUrl + "/api/bounties/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetBounty(_response);
+        });
+    }
+
+    protected processGetBounty(response: Response): Promise<Bounty | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? Bounty.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Bounty | null>(<any>null);
+    }
+
+    putBounty(id: number, bountyId: number | undefined, amount: number | undefined, amountSym: string | null | undefined, question_QuestionId: number | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, awarded_Id: string | null | undefined, awarded_UserName: string | null | undefined, awarded_NormalizedUserName: string | null | undefined, awarded_Email: string | null | undefined, awarded_NormalizedEmail: string | null | undefined, awarded_EmailConfirmed: boolean | undefined, awarded_PasswordHash: string | null | undefined, awarded_SecurityStamp: string | null | undefined, awarded_ConcurrencyStamp: string | null | undefined, awarded_PhoneNumber: string | null | undefined, awarded_PhoneNumberConfirmed: boolean | undefined, awarded_TwoFactorEnabled: boolean | undefined, awarded_LockoutEnd: Date | null | undefined, awarded_LockoutEnabled: boolean | undefined, awarded_AccessFailedCount: number | undefined): Promise<FileResponse | null> {
+        let url_ = this.baseUrl + "/api/bounties/{id}?";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        if (bountyId === null)
+            throw new Error("The parameter 'bountyId' cannot be null.");
+        else if (bountyId !== undefined)
+            url_ += "BountyId=" + encodeURIComponent("" + bountyId) + "&"; 
+        if (amount === null)
+            throw new Error("The parameter 'amount' cannot be null.");
+        else if (amount !== undefined)
+            url_ += "Amount=" + encodeURIComponent("" + amount) + "&"; 
+        if (amountSym !== undefined)
+            url_ += "AmountSym=" + encodeURIComponent("" + amountSym) + "&"; 
+        if (question_QuestionId === null)
+            throw new Error("The parameter 'question_QuestionId' cannot be null.");
+        else if (question_QuestionId !== undefined)
+            url_ += "Question.QuestionId=" + encodeURIComponent("" + question_QuestionId) + "&"; 
+        if (question_Text !== undefined)
+            url_ += "Question.Text=" + encodeURIComponent("" + question_Text) + "&"; 
+        if (question_UpVotes === null)
+            throw new Error("The parameter 'question_UpVotes' cannot be null.");
+        else if (question_UpVotes !== undefined)
+            url_ += "Question.UpVotes=" + encodeURIComponent("" + question_UpVotes) + "&"; 
+        if (question_Owner_Id !== undefined)
+            url_ += "Question.Owner.Id=" + encodeURIComponent("" + question_Owner_Id) + "&"; 
+        if (question_Owner_UserName !== undefined)
+            url_ += "Question.Owner.UserName=" + encodeURIComponent("" + question_Owner_UserName) + "&"; 
+        if (question_Owner_NormalizedUserName !== undefined)
+            url_ += "Question.Owner.NormalizedUserName=" + encodeURIComponent("" + question_Owner_NormalizedUserName) + "&"; 
+        if (question_Owner_Email !== undefined)
+            url_ += "Question.Owner.Email=" + encodeURIComponent("" + question_Owner_Email) + "&"; 
+        if (question_Owner_NormalizedEmail !== undefined)
+            url_ += "Question.Owner.NormalizedEmail=" + encodeURIComponent("" + question_Owner_NormalizedEmail) + "&"; 
+        if (question_Owner_EmailConfirmed === null)
+            throw new Error("The parameter 'question_Owner_EmailConfirmed' cannot be null.");
+        else if (question_Owner_EmailConfirmed !== undefined)
+            url_ += "Question.Owner.EmailConfirmed=" + encodeURIComponent("" + question_Owner_EmailConfirmed) + "&"; 
+        if (question_Owner_PasswordHash !== undefined)
+            url_ += "Question.Owner.PasswordHash=" + encodeURIComponent("" + question_Owner_PasswordHash) + "&"; 
+        if (question_Owner_SecurityStamp !== undefined)
+            url_ += "Question.Owner.SecurityStamp=" + encodeURIComponent("" + question_Owner_SecurityStamp) + "&"; 
+        if (question_Owner_ConcurrencyStamp !== undefined)
+            url_ += "Question.Owner.ConcurrencyStamp=" + encodeURIComponent("" + question_Owner_ConcurrencyStamp) + "&"; 
+        if (question_Owner_PhoneNumber !== undefined)
+            url_ += "Question.Owner.PhoneNumber=" + encodeURIComponent("" + question_Owner_PhoneNumber) + "&"; 
+        if (question_Owner_PhoneNumberConfirmed === null)
+            throw new Error("The parameter 'question_Owner_PhoneNumberConfirmed' cannot be null.");
+        else if (question_Owner_PhoneNumberConfirmed !== undefined)
+            url_ += "Question.Owner.PhoneNumberConfirmed=" + encodeURIComponent("" + question_Owner_PhoneNumberConfirmed) + "&"; 
+        if (question_Owner_TwoFactorEnabled === null)
+            throw new Error("The parameter 'question_Owner_TwoFactorEnabled' cannot be null.");
+        else if (question_Owner_TwoFactorEnabled !== undefined)
+            url_ += "Question.Owner.TwoFactorEnabled=" + encodeURIComponent("" + question_Owner_TwoFactorEnabled) + "&"; 
+        if (question_Owner_LockoutEnd !== undefined)
+            url_ += "Question.Owner.LockoutEnd=" + encodeURIComponent(question_Owner_LockoutEnd ? "" + question_Owner_LockoutEnd.toJSON() : "") + "&"; 
+        if (question_Owner_LockoutEnabled === null)
+            throw new Error("The parameter 'question_Owner_LockoutEnabled' cannot be null.");
+        else if (question_Owner_LockoutEnabled !== undefined)
+            url_ += "Question.Owner.LockoutEnabled=" + encodeURIComponent("" + question_Owner_LockoutEnabled) + "&"; 
+        if (question_Owner_AccessFailedCount === null)
+            throw new Error("The parameter 'question_Owner_AccessFailedCount' cannot be null.");
+        else if (question_Owner_AccessFailedCount !== undefined)
+            url_ += "Question.Owner.AccessFailedCount=" + encodeURIComponent("" + question_Owner_AccessFailedCount) + "&"; 
+        if (owner_Id !== undefined)
+            url_ += "Owner.Id=" + encodeURIComponent("" + owner_Id) + "&"; 
+        if (owner_UserName !== undefined)
+            url_ += "Owner.UserName=" + encodeURIComponent("" + owner_UserName) + "&"; 
+        if (owner_NormalizedUserName !== undefined)
+            url_ += "Owner.NormalizedUserName=" + encodeURIComponent("" + owner_NormalizedUserName) + "&"; 
+        if (owner_Email !== undefined)
+            url_ += "Owner.Email=" + encodeURIComponent("" + owner_Email) + "&"; 
+        if (owner_NormalizedEmail !== undefined)
+            url_ += "Owner.NormalizedEmail=" + encodeURIComponent("" + owner_NormalizedEmail) + "&"; 
+        if (owner_EmailConfirmed === null)
+            throw new Error("The parameter 'owner_EmailConfirmed' cannot be null.");
+        else if (owner_EmailConfirmed !== undefined)
+            url_ += "Owner.EmailConfirmed=" + encodeURIComponent("" + owner_EmailConfirmed) + "&"; 
+        if (owner_PasswordHash !== undefined)
+            url_ += "Owner.PasswordHash=" + encodeURIComponent("" + owner_PasswordHash) + "&"; 
+        if (owner_SecurityStamp !== undefined)
+            url_ += "Owner.SecurityStamp=" + encodeURIComponent("" + owner_SecurityStamp) + "&"; 
+        if (owner_ConcurrencyStamp !== undefined)
+            url_ += "Owner.ConcurrencyStamp=" + encodeURIComponent("" + owner_ConcurrencyStamp) + "&"; 
+        if (owner_PhoneNumber !== undefined)
+            url_ += "Owner.PhoneNumber=" + encodeURIComponent("" + owner_PhoneNumber) + "&"; 
+        if (owner_PhoneNumberConfirmed === null)
+            throw new Error("The parameter 'owner_PhoneNumberConfirmed' cannot be null.");
+        else if (owner_PhoneNumberConfirmed !== undefined)
+            url_ += "Owner.PhoneNumberConfirmed=" + encodeURIComponent("" + owner_PhoneNumberConfirmed) + "&"; 
+        if (owner_TwoFactorEnabled === null)
+            throw new Error("The parameter 'owner_TwoFactorEnabled' cannot be null.");
+        else if (owner_TwoFactorEnabled !== undefined)
+            url_ += "Owner.TwoFactorEnabled=" + encodeURIComponent("" + owner_TwoFactorEnabled) + "&"; 
+        if (owner_LockoutEnd !== undefined)
+            url_ += "Owner.LockoutEnd=" + encodeURIComponent(owner_LockoutEnd ? "" + owner_LockoutEnd.toJSON() : "") + "&"; 
+        if (owner_LockoutEnabled === null)
+            throw new Error("The parameter 'owner_LockoutEnabled' cannot be null.");
+        else if (owner_LockoutEnabled !== undefined)
+            url_ += "Owner.LockoutEnabled=" + encodeURIComponent("" + owner_LockoutEnabled) + "&"; 
+        if (owner_AccessFailedCount === null)
+            throw new Error("The parameter 'owner_AccessFailedCount' cannot be null.");
+        else if (owner_AccessFailedCount !== undefined)
+            url_ += "Owner.AccessFailedCount=" + encodeURIComponent("" + owner_AccessFailedCount) + "&"; 
+        if (awarded_Id !== undefined)
+            url_ += "Awarded.Id=" + encodeURIComponent("" + awarded_Id) + "&"; 
+        if (awarded_UserName !== undefined)
+            url_ += "Awarded.UserName=" + encodeURIComponent("" + awarded_UserName) + "&"; 
+        if (awarded_NormalizedUserName !== undefined)
+            url_ += "Awarded.NormalizedUserName=" + encodeURIComponent("" + awarded_NormalizedUserName) + "&"; 
+        if (awarded_Email !== undefined)
+            url_ += "Awarded.Email=" + encodeURIComponent("" + awarded_Email) + "&"; 
+        if (awarded_NormalizedEmail !== undefined)
+            url_ += "Awarded.NormalizedEmail=" + encodeURIComponent("" + awarded_NormalizedEmail) + "&"; 
+        if (awarded_EmailConfirmed === null)
+            throw new Error("The parameter 'awarded_EmailConfirmed' cannot be null.");
+        else if (awarded_EmailConfirmed !== undefined)
+            url_ += "Awarded.EmailConfirmed=" + encodeURIComponent("" + awarded_EmailConfirmed) + "&"; 
+        if (awarded_PasswordHash !== undefined)
+            url_ += "Awarded.PasswordHash=" + encodeURIComponent("" + awarded_PasswordHash) + "&"; 
+        if (awarded_SecurityStamp !== undefined)
+            url_ += "Awarded.SecurityStamp=" + encodeURIComponent("" + awarded_SecurityStamp) + "&"; 
+        if (awarded_ConcurrencyStamp !== undefined)
+            url_ += "Awarded.ConcurrencyStamp=" + encodeURIComponent("" + awarded_ConcurrencyStamp) + "&"; 
+        if (awarded_PhoneNumber !== undefined)
+            url_ += "Awarded.PhoneNumber=" + encodeURIComponent("" + awarded_PhoneNumber) + "&"; 
+        if (awarded_PhoneNumberConfirmed === null)
+            throw new Error("The parameter 'awarded_PhoneNumberConfirmed' cannot be null.");
+        else if (awarded_PhoneNumberConfirmed !== undefined)
+            url_ += "Awarded.PhoneNumberConfirmed=" + encodeURIComponent("" + awarded_PhoneNumberConfirmed) + "&"; 
+        if (awarded_TwoFactorEnabled === null)
+            throw new Error("The parameter 'awarded_TwoFactorEnabled' cannot be null.");
+        else if (awarded_TwoFactorEnabled !== undefined)
+            url_ += "Awarded.TwoFactorEnabled=" + encodeURIComponent("" + awarded_TwoFactorEnabled) + "&"; 
+        if (awarded_LockoutEnd !== undefined)
+            url_ += "Awarded.LockoutEnd=" + encodeURIComponent(awarded_LockoutEnd ? "" + awarded_LockoutEnd.toJSON() : "") + "&"; 
+        if (awarded_LockoutEnabled === null)
+            throw new Error("The parameter 'awarded_LockoutEnabled' cannot be null.");
+        else if (awarded_LockoutEnabled !== undefined)
+            url_ += "Awarded.LockoutEnabled=" + encodeURIComponent("" + awarded_LockoutEnabled) + "&"; 
+        if (awarded_AccessFailedCount === null)
+            throw new Error("The parameter 'awarded_AccessFailedCount' cannot be null.");
+        else if (awarded_AccessFailedCount !== undefined)
+            url_ += "Awarded.AccessFailedCount=" + encodeURIComponent("" + awarded_AccessFailedCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "PUT",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPutBounty(_response);
+        });
+    }
+
+    protected processPutBounty(response: Response): Promise<FileResponse | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse | null>(<any>null);
+    }
+
+    deleteBounty(id: number): Promise<Bounty | null> {
+        let url_ = this.baseUrl + "/api/bounties/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processDeleteBounty(_response);
+        });
+    }
+
+    protected processDeleteBounty(response: Response): Promise<Bounty | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? Bounty.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Bounty | null>(<any>null);
+    }
+}
+
+export interface IQuestionsClient {
+    getQuestions(): Promise<Question[] | null>;
+    postQuestion(postQuestionModel: PostQuestionModel): Promise<Question | null>;
+    question(id: number): Promise<FileResponse | null>;
+    putQuestion(id: number, questionId: number | undefined, text: string | null | undefined, upVotes: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<FileResponse | null>;
+    deleteQuestion(id: number): Promise<Question | null>;
+    newQuestion(): Promise<FileResponse | null>;
+    newQuestion2(text: string | null | undefined): Promise<FileResponse | null>;
+}
+
+export class QuestionsClient implements IQuestionsClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
+    }
+
+    getQuestions(): Promise<Question[] | null> {
+        let url_ = this.baseUrl + "/api/questions";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetQuestions(_response);
+        });
+    }
+
+    protected processGetQuestions(response: Response): Promise<Question[] | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(Question.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Question[] | null>(<any>null);
+    }
+
+    postQuestion(postQuestionModel: PostQuestionModel): Promise<Question | null> {
+        let url_ = this.baseUrl + "/api/questions";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(postQuestionModel);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -1233,7 +1095,7 @@ export class QuestionsClient implements IQuestionsClient {
     }
 
     question(id: number): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/questions/{id}";
+        let url_ = this.baseUrl + "/api/questions/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
@@ -1268,7 +1130,7 @@ export class QuestionsClient implements IQuestionsClient {
     }
 
     putQuestion(id: number, questionId: number | undefined, text: string | null | undefined, upVotes: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/questions/{id}?";
+        let url_ = this.baseUrl + "/api/questions/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
@@ -1353,7 +1215,7 @@ export class QuestionsClient implements IQuestionsClient {
     }
 
     deleteQuestion(id: number): Promise<Question | null> {
-        let url_ = this.baseUrl + "/questions/{id}";
+        let url_ = this.baseUrl + "/api/questions/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
@@ -1390,7 +1252,7 @@ export class QuestionsClient implements IQuestionsClient {
     }
 
     newQuestion(): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/questions/new";
+        let url_ = this.baseUrl + "/api/questions/new";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -1422,7 +1284,7 @@ export class QuestionsClient implements IQuestionsClient {
     }
 
     newQuestion2(text: string | null | undefined): Promise<FileResponse | null> {
-        let url_ = this.baseUrl + "/questions/new?";
+        let url_ = this.baseUrl + "/api/questions/new?";
         if (text !== undefined)
             url_ += "Text=" + encodeURIComponent("" + text) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -1458,9 +1320,10 @@ export class QuestionsClient implements IQuestionsClient {
 
 export class Answer implements IAnswer {
     answerId!: number;
-    text?: string | undefined;
+    text!: string;
     question!: Question;
     owner!: IdentityUser;
+    upvoteCount!: number;
 
     constructor(data?: IAnswer) {
         if (data) {
@@ -1481,6 +1344,7 @@ export class Answer implements IAnswer {
             this.text = data["text"];
             this.question = data["question"] ? Question.fromJS(data["question"]) : new Question();
             this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
+            this.upvoteCount = data["upvoteCount"];
         }
     }
 
@@ -1497,15 +1361,17 @@ export class Answer implements IAnswer {
         data["text"] = this.text;
         data["question"] = this.question ? this.question.toJSON() : <any>undefined;
         data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
+        data["upvoteCount"] = this.upvoteCount;
         return data; 
     }
 }
 
 export interface IAnswer {
     answerId: number;
-    text?: string | undefined;
+    text: string;
     question: Question;
     owner: IdentityUser;
+    upvoteCount: number;
 }
 
 export class Question implements IQuestion {
@@ -1678,6 +1544,46 @@ export class IdentityUser extends IdentityUserOfString implements IIdentityUser 
 export interface IIdentityUser extends IIdentityUserOfString {
 }
 
+export class PostAnswerModel implements IPostAnswerModel {
+    text!: string;
+    questionId!: number;
+
+    constructor(data?: IPostAnswerModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.text = data["text"];
+            this.questionId = data["questionId"];
+        }
+    }
+
+    static fromJS(data: any): PostAnswerModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostAnswerModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["text"] = this.text;
+        data["questionId"] = this.questionId;
+        return data; 
+    }
+}
+
+export interface IPostAnswerModel {
+    text: string;
+    questionId: number;
+}
+
 export class Bounty implements IBounty {
     bountyId!: number;
     amount!: number;
@@ -1736,6 +1642,94 @@ export interface IBounty {
     question: Question;
     owner: IdentityUser;
     awarded?: IdentityUser | undefined;
+}
+
+export class PostBountyModel implements IPostBountyModel {
+    userId!: number;
+    questionId!: number;
+    amount!: number;
+    amountSym?: string | undefined;
+
+    constructor(data?: IPostBountyModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userId = data["userId"];
+            this.questionId = data["questionId"];
+            this.amount = data["amount"];
+            this.amountSym = data["amountSym"];
+        }
+    }
+
+    static fromJS(data: any): PostBountyModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostBountyModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
+        data["questionId"] = this.questionId;
+        data["amount"] = this.amount;
+        data["amountSym"] = this.amountSym;
+        return data; 
+    }
+}
+
+export interface IPostBountyModel {
+    userId: number;
+    questionId: number;
+    amount: number;
+    amountSym?: string | undefined;
+}
+
+export class PostQuestionModel implements IPostQuestionModel {
+    text!: string;
+    ownerId!: number;
+
+    constructor(data?: IPostQuestionModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.text = data["text"];
+            this.ownerId = data["ownerId"];
+        }
+    }
+
+    static fromJS(data: any): PostQuestionModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostQuestionModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["text"] = this.text;
+        data["ownerId"] = this.ownerId;
+        return data; 
+    }
+}
+
+export interface IPostQuestionModel {
+    text: string;
+    ownerId: number;
 }
 
 export interface FileResponse {

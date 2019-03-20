@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Identity.Api.Attributes;
 using Identity.Api.Controllers.Base;
@@ -24,12 +25,9 @@ namespace Identity.Api.Controllers
         // GET: Questions
         [HttpGet]
         [ServiceFilter(typeof(RequireLoginFilter))]
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
         {
-            var questions = await DbContext.Questions.ToListAsync();
-            var model = new QuestionsIndexViewModel(questions);
-
-            return View(model);
+            return await DbContext.Questions.ToListAsync();
         }
 
         // GET: Questions/5
@@ -100,6 +98,7 @@ namespace Identity.Api.Controllers
         // POST: Questions
         [HttpPost]
         [Authorize]
+        [ServiceFilter(typeof(RequireLoginFilter))]
         public async Task<ActionResult<Question>> PostQuestion([FromBody] PostQuestionModel postQuestionModel)
         {
             var question = postQuestionModel.ToQuestion(DbContext);
