@@ -56,6 +56,7 @@
     "react": "16.7.0",
     "react-dom": "16.7.0",
     "react-hot-loader": "4.6.3",
+    "react-router-dom": "^5.0.0",
     "scatterjs-core": "^2.7.16",
     "scatterjs-plugin-eosjs2": "^1.5.0"
   },
