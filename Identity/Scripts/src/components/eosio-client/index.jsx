@@ -2,7 +2,7 @@ import ScatterJS from 'scatterjs-core';
 import ScatterEOS from 'scatterjs-plugin-eosjs2';
 import {JsonRpc, Api} from 'eosjs';
 
-import React from 'react';
+import * as React from 'react';
 
 ScatterJS.plugins(new ScatterEOS());
 

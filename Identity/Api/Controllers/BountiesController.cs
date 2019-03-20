@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Identity.Api.Attributes;
 using Identity.Api.Controllers.Base;
 using Identity.Api.Models;
 using Identity.Data;
@@ -74,6 +75,7 @@ namespace Identity.Api.Controllers
         // POST: Bounties
         // The BlockChain bounty will be created from eosjs, on the client side.
         [HttpPost]
+        [ServiceFilter(typeof(RequireLoginFilter))]
         public async Task<ActionResult<Bounty>> PostBounty([FromBody] PostBountyModel postBountyModel)
         {
             var bounty = postBountyModel.ToBounty(DbContext);

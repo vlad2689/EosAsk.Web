@@ -74,6 +74,7 @@ namespace Identity.Api.Controllers
 
         // POST: Answers
         [HttpPost]
+        [ServiceFilter(typeof(RequireLoginFilter))]
         public async Task<ActionResult<Answer>> PostAnswer([FromBody] PostAnswerModel postAnswerModel)
         {
             var answer = postAnswerModel.ToAnswer(DbContext, await GetCurrentUserAsync());
