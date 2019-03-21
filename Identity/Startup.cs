@@ -47,6 +47,8 @@ namespace Identity
             });
 
             services.AddScoped<RequireLoginFilter>();
+            
+            // services.AddSpaStaticFiles(configuration => { configuration.RootPath = "Scripts/build"; });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerDocument();
@@ -60,6 +62,8 @@ namespace Identity
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseCors(MyAllowSpecificOrigins);
+                
+                // app.UseWebpackDevMiddleware();
             }
             else
             {
@@ -73,6 +77,7 @@ namespace Identity
             app.UseDefaultFiles();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            // app.UseSpaStaticFiles();
             app.UseCookiePolicy();
             
             app.UseAuthentication();
@@ -81,9 +86,15 @@ namespace Identity
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}"
+                    template: "{controller}/{action=Index}/{id?}"
                     );
+                
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new {controller = "Home", action = "Index "});
             });
+            
+            // app.UseSpa(spa => { spa.Options.SourcePath = "Scripts"; });
         }
     }
 }

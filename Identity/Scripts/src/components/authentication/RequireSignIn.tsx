@@ -7,32 +7,27 @@ class RequireSignIn extends React.Component<any, any> {
         super(props);
         
         this.state = {
-            isSignedIn: false
+            isSignedIn: isUserSignedIn()
         }
     }
     
-    componentDidMount() {
-       this.setState({
-           isSignedIn: isUserSignedIn()
-       }) 
-    }
-    
     render() {
-        if (this.state.isSignedIn) {
+        if (this.state.isSignedIn == true) {
             return (
                 <div>
                     {this.props.children}
                 </div>
             )
         }
-        
-        return (
-            <RequireLoginScreen/>
-        )
+        else {
+            return (
+                <RequireSignInScreen/>
+            )
+        }
     }
 }
 
-class RequireLoginScreen extends React.Component {
+class RequireSignInScreen extends React.Component {
     constructor(props) {
         super(props);
         

@@ -1,4 +1,4 @@
-import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css';
+// import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
