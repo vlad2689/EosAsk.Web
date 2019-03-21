@@ -13,17 +13,6 @@ class App extends React.Component {
             <Router>
                 <Layout>
                     <div>
-                        <ul>
-                            <li>
-                                <Link to="/questions">Questions</Link>
-                            </li>
-                            <li>
-                                <Link to="/bounties">Bounties</Link>
-                            </li>
-                        </ul>
-
-                        <hr />
-
                         <Route exact path="/" component={Home} />
                         <Route path="/questions" component={Questions} />
                         <Route path="/bounties" component={Bounties} />

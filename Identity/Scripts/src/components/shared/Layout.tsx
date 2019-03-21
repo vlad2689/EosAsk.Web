@@ -2,6 +2,8 @@ import * as React from "react";
 import {Container, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Nav, NavLink, UncontrolledDropdown,
     DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
 
+import {Link} from "react-router-dom";
+
 class Layout extends React.Component<any, any> {
      constructor(props) {
          super(props);
@@ -28,10 +30,13 @@ class Layout extends React.Component<any, any> {
                      <Collapse isOpen={this.state.isOpen} navbar>
                          <Nav className="ml-auto" navbar>
                              <NavItem>
-                                 <NavLink href="/components/">Components</NavLink>
+                                 <NavLink><Link to="/">Home</Link></NavLink>
                              </NavItem>
                              <NavItem>
-                                 <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
+                                  <NavLink><Link to="/questions">Questions</Link></NavLink> 
+                             </NavItem>
+                             <NavItem>
+                                 <NavLink><Link to="/bounties">Bounties</Link></NavLink>
                              </NavItem>
                              <UncontrolledDropdown nav inNavbar>
                                  <DropdownToggle nav caret>
