@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Question, QuestionsClient} from "../../api/EosAskApiFetch";
-import QuestionView from "components/questions/Question";
+import QuestionView from "components/questions/QuestionView";
 
 interface QuestionsState {
     questions: Question[],

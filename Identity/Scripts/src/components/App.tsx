@@ -1,6 +1,7 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Questions from "components/questions/Questions";
+import Layout from "components/shared/Layout";
 
 class App extends React.Component {
     constructor(props) {
@@ -10,22 +11,24 @@ class App extends React.Component {
     render() {
         return (
             <Router>
-                <div>
-                    <ul>
-                        <li>
-                            <Link to="/questions">Questions</Link>
-                        </li>
-                        <li>
-                            <Link to="/bounties">Bounties</Link>
-                        </li>
-                    </ul>
+                <Layout>
+                    <div>
+                        <ul>
+                            <li>
+                                <Link to="/questions">Questions</Link>
+                            </li>
+                            <li>
+                                <Link to="/bounties">Bounties</Link>
+                            </li>
+                        </ul>
 
-                    <hr />
+                        <hr />
 
-                    <Route exact path="/" component={Home} />
-                    <Route path="/questions" component={Questions} />
-                    <Route path="/bounties" component={Bounties} />
-                </div>
+                        <Route exact path="/" component={Home} />
+                        <Route path="/questions" component={Questions} />
+                        <Route path="/bounties" component={Bounties} />
+                    </div>
+                </Layout>
             </Router>
         );
     }

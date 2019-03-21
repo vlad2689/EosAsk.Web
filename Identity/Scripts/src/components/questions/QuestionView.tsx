@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Question} from '../../api/EosAskApiFetch'
+import {Button, Row, Col} from 'reactstrap'
 
 class QuestionView extends React.Component<Question> {
     constructor(props) {
@@ -18,6 +19,7 @@ class QuestionView extends React.Component<Question> {
                 <div>
                     Owner: {this.props.owner.userName}
                 </div>
+                <Button color="danger">My Button</Button>
             </div>
         )
     }
