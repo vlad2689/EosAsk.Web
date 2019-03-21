@@ -38,7 +38,7 @@
   <ItemGroup>
     <Content Remove="Scripts\node_modules\**" />
     <Content Remove="Scripts\webpack-react-boilerplate\node_modules\**" />
-    <Content Include="Scripts\src\api\LoginClient.ts" />
+    <Content Include="Scripts\src\api\SignInClient.ts" />
   </ItemGroup>
 
 </Project>

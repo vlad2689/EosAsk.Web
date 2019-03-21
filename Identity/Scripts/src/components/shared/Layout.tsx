@@ -1,6 +1,8 @@
 import * as React from "react";
 import {Container, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Nav, NavLink, UncontrolledDropdown,
     DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
+import {getPostSignInRedirectUrlAndRemove} from "../../api/SignInClient";
+import {withRouter} from 'react-router-dom';
 
 import {Link} from "react-router-dom";
 
@@ -12,9 +14,11 @@ class Layout extends React.Component<any, any> {
          this.state = {
              isOpen: false,
          };
-         
-         // check is user logged in cached
-         // make them login if not
+
+         let redirectUrl = getPostSignInRedirectUrlAndRemove();
+         if (redirectUrl != null) {
+             window.location.href = redirectUrl;
+         }
      }
      
      toggle() {
@@ -68,4 +72,4 @@ class Layout extends React.Component<any, any> {
      }
 }
 
-export default Layout;
+export default withRouter(props => <Layout {...props}/>);
