@@ -22,5 +22,7 @@ namespace Identity.Api.Controllers.Base
         }
         
         protected Task<IdentityUser> GetCurrentUserAsync() => UserManager.GetUserAsync(HttpContext.User);
+        
+        protected bool IsSignedInUser() => SignInManager.IsSignedIn(HttpContext.User);
     }
 }

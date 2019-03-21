@@ -10,18 +10,20 @@ class Layout extends React.Component<any, any> {
          
          this.toggle = this.toggle.bind(this);
          this.state = {
-             isOpen: false
+             isOpen: false,
          };
+         
+         // check is user logged in cached
+         // make them login if not
+     }
+     
+     toggle() {
+         this.setState({
+             isOpen: !this.state.isOpen
+         });
      }
 
-        toggle() {
-            this.setState({
-                isOpen: !this.state.isOpen
-            });
-        }
-
-
-    render() {
+     render() {
          return (
              <div>
                  <Navbar color="light" light expand="md">
