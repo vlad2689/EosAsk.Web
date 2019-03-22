@@ -3,6 +3,8 @@ import { HashRouter as Router, Route, Link } from "react-router-dom";
 import Questions from "components/questions/Questions";
 import Layout from "components/shared/Layout";
 import RequireSignIn from "components/authentication/RequireSignIn";
+import QuestionsHome from "components/questions";
+import PostQuestion from "components/questions/PostQuestion";
 
 class App extends React.Component {
     constructor(props) {
@@ -13,23 +15,18 @@ class App extends React.Component {
         return (
             <Router>
                 <Layout>
-                    <div>
-                        <Route exact path="/" component={Home} />
-                        <Route path="/questions" component={QuestionsWrapper} />
-                        <Route path="/bounties" component={Bounties} />
-                    </div>
+                    <Route exact path="/" component={Home} />
+                    
+                    <Route exact path="/questions" component={QuestionsHome} />
+                    <Route exact path="/questions/new" component={PostQuestion} />
+
+
+                    <Route path="/bounties" component={Bounties} />
+
                 </Layout>
             </Router>
         );
     }
-}
-
-function QuestionsWrapper() {
-    return (
-        <RequireSignIn>
-            <Questions/>
-        </RequireSignIn>
-    )
 }
 
 function Home() {

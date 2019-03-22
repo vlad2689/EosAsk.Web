@@ -1,9 +1,21 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@{
     ViewData["Title"] = "Home Page";
 }
 
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 @section Scripts {
-   <script src="js/react/build/js/app.js"></script> 
+    <script>
+        window.userSignedIn = @SignInManager.IsSignedIn(User).ToString().ToLower();
+        
+        @if (SignInManager.IsSignedIn(User)) {
+            @: window.userId = @UserManager.GetUserId(User).ToString().ToLower();
+        }
+    </script>
+        <script src="js/react/build/js/app.js">
+    </script> 
 }
 
 <div id="app"></div>

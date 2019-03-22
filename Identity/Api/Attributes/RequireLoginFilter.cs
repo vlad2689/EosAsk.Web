@@ -1,3 +1,4 @@
+using Identity.Api.CustomResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,25 +25,6 @@ namespace Identity.Api.Attributes
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-        }
-
-        // The code below is taken from https://ignas.me/tech/custom-unauthorized-response-body/
-        private class CustomUnauthorizedResult : JsonResult
-        {
-            public CustomUnauthorizedResult(string message) : base(new CustomError(message))
-            {
-                StatusCode = StatusCodes.Status401Unauthorized;
-            }
-        }
-
-        private class CustomError
-        {
-            public string Error { get; }
-
-            public CustomError(string message)
-            {
-                Error = message;
-            }
         }
     }
 }

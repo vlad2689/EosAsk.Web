@@ -1,13 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Api.Models
 {
     public class PostBountyModel
     {
-        [Required]
-        public int UserId { get; set; }
+//        [Required]
+//        public int UserId { get; set; }
         
         [Required]
         public int QuestionId { get; set; }
@@ -18,7 +19,7 @@ namespace Identity.Api.Models
 
         public string AmountSym { get; set; } = "EOS";
 
-        public Bounty ToBounty(ApplicationDbContext dbContext)
+        public Bounty ToBounty(ApplicationDbContext dbContext, IdentityUser owner)
         {
             return new Bounty()
             {
@@ -26,7 +27,7 @@ namespace Identity.Api.Models
                 Amount = Amount,
                 AmountSym = AmountSym,
                 Awarded = null,
-                Owner = dbContext.Users.Find(UserId)
+                Owner = owner
             };
         }
     }

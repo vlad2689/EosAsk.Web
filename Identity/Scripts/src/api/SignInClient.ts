@@ -7,6 +7,10 @@ export function isUserSignedIn() {
     return (<any> window).userSignedIn || false;
 }
 
+export function getSignedInUserId() {
+    return (<any> window).userId || false;
+}
+
 export function getPostSignInRedirectUrlAndRemove() {
     let redirectUrl = getPostSignInRedirectUrl();
     if (redirectUrl) {

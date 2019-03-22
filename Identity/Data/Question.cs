@@ -10,6 +10,10 @@ namespace Identity.Data
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int QuestionId { get; set; }
 
+        [Required]
+        public string Title { get; set; }
+        
+        [Required]
         public string Text { get; set; }
 
         public int UpVotes { get; set; }

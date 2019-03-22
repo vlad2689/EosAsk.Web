@@ -78,8 +78,10 @@ namespace Identity.Api.Controllers
         [ServiceFilter(typeof(RequireLoginFilter))]
         public async Task<ActionResult<Bounty>> PostBounty([FromBody] PostBountyModel postBountyModel)
         {
-            var bounty = postBountyModel.ToBounty(DbContext);
+            var bounty = postBountyModel.ToBounty(DbContext, await GetCurrentUserAsync());
             DbContext.Bounties.Add(bounty);
+            
+            // TODO: Check that the bounty is on the blockchain before creating the bounty in the db
             
 //            await _bountySmartContract.InsertBounty(bounty.Question.QuestionId,
 //                new Asset

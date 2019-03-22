@@ -3,12 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Identity.Api.Attributes;
 using Identity.Api.Controllers.Base;
+using Identity.Api.CustomResults;
 using Identity.Api.Models;
 using Identity.Data;
 using Identity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Api.Controllers
@@ -45,11 +47,10 @@ namespace Identity.Api.Controllers
         
         // POST: Questions
         [HttpPost]
-        [Authorize]
         [ServiceFilter(typeof(RequireLoginFilter))]
         public async Task<ActionResult<Question>> PostQuestion([FromBody] PostQuestionModel postQuestionModel)
         {
-            var question = postQuestionModel.ToQuestion(DbContext);
+            var question = postQuestionModel.ToQuestion(DbContext, await GetCurrentUserAsync());
             DbContext.Questions.Add(question);
             await DbContext.SaveChangesAsync();
 

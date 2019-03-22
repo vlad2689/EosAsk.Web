@@ -1,36 +1,31 @@
 import * as React from 'react';
-import {Question, QuestionsClient} from "../../api/EosAskApiFetch";
+import {Question} from "../../api/EosAskApiFetch";
 import QuestionView from "components/questions/QuestionView";
 
-interface QuestionsState {
-    questions: Question[],
-    questionsClient: QuestionsClient
+interface State {
 }
 
-class Questions extends React.Component<any, QuestionsState> {
+interface Props {
+    questions: Question[]
+}
+
+class Questions extends React.Component<Props, State> {
     constructor(props) {
        super(props);
-       
-       this.state = {
-           questions: [],
-           questionsClient: new QuestionsClient()
-       }
-    }
-    
-    componentDidMount() {
-        this.state.questionsClient.getQuestions().then(result => {
-            this.setState({
-                questions: result
-            })
-        })
     }
     
     render() {
         return (
             <div>
-                {this.state.questions.map((q, i) => {
+                {this.props.questions.length > 0 && this.props.questions.map((q, i) => {
                     return (<QuestionView {...q} init={q.init} toJSON={q.toJSON} key={i}/>)
                 })}
+                
+                {this.props.questions.length == 0 &&
+                    <h1>
+                        No questions have been created on EosAsk until now.
+                    </h1>
+                }
             </div>
         )
     }
