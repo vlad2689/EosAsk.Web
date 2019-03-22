@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Button} from "reactstrap";
+import {Button, Row, Col} from "reactstrap";
 import {isUserSignedIn, LOGIN_URL, setPostSignInRedirectUrl as setRedirectUrl} from "../../api/SignInClient";
 
 class RequireSignIn extends React.Component<any, any> {
@@ -30,7 +30,6 @@ class RequireSignIn extends React.Component<any, any> {
 class RequireSignInScreen extends React.Component {
     constructor(props) {
         super(props);
-        
         this.handleLoginClick = this.handleLoginClick.bind(this);
     }
     
@@ -41,10 +40,18 @@ class RequireSignInScreen extends React.Component {
     
     render() {
         return (
-            <div>
-                A login is required
-                <Button color="danger" onClick={this.handleLoginClick}>Login or Register</Button>
-            </div>
+            <Row className="mt-4">
+                <Col xs="2"/>
+                <Col xs="">
+                    <h2 className="text-center">
+                        An EosAsk account is required to access this page. Please login or register below.
+                    </h2>
+                    <Button color="primary" className="mt-4 btn-block" onClick={this.handleLoginClick}>
+                        Login or Register
+                    </Button>
+                </Col>
+                <Col xs="2"/>
+            </Row>
         )
     }
 }
