@@ -76,10 +76,10 @@ namespace Identity.Api.Controllers
 
         // POST: Answers
         [HttpPost]
-        [ServiceFilter(typeof(RequireLoginFilter))]
+        // [ServiceFilter(typeof(RequireLoginFilter))]
         public async Task<ActionResult<Answer>> PostAnswer([FromBody] PostAnswerModel postAnswerModel)
         {
-            var answer = postAnswerModel.ToAnswer(DbContext, await GetCurrentUserAsync());
+            var answer = await postAnswerModel.ToAnswer(DbContext, await GetCurrentUserAsync());
             DbContext.Answers.Add(answer);
             await DbContext.SaveChangesAsync();
 

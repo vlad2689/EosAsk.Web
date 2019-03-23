@@ -18,7 +18,7 @@ class Questions extends React.Component<Props, State> {
         return (
             <div>
                 {this.props.questions.length > 0 && this.props.questions.map((q, i) => {
-                    return (<QuestionView {...q} init={q.init} toJSON={q.toJSON} key={i}/>)
+                    return (<QuestionView {...q} answers={q.answers} isListView={true} key={i}/>)
                 })}
                 
                 {this.props.questions.length == 0 &&

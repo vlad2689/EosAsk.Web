@@ -6,20 +6,7 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-export interface IHomeClient {
-    index(): Promise<FileResponse | null>;
-    index2(): Promise<FileResponse | null>;
-    about(): Promise<FileResponse | null>;
-    about2(): Promise<FileResponse | null>;
-    contact(): Promise<FileResponse | null>;
-    contact2(): Promise<FileResponse | null>;
-    privacy(): Promise<FileResponse | null>;
-    privacy2(): Promise<FileResponse | null>;
-    error(): Promise<FileResponse | null>;
-    error2(): Promise<FileResponse | null>;
-}
-
-export class HomeClient implements IHomeClient {
+export class HomeClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -350,15 +337,7 @@ export class HomeClient implements IHomeClient {
     }
 }
 
-export interface IAnswersClient {
-    getAnswers(): Promise<Answer[] | null>;
-    postAnswer(postAnswerModel: PostAnswerModel): Promise<Answer | null>;
-    getAnswer(id: number): Promise<Answer | null>;
-    putAnswer(id: number, answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Title: string | null | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, upvoteCount: number | undefined): Promise<FileResponse | null>;
-    deleteAnswer(id: number): Promise<Answer | null>;
-}
-
-export class AnswersClient implements IAnswersClient {
+export class AnswersClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -481,7 +460,7 @@ export class AnswersClient implements IAnswersClient {
         return Promise.resolve<Answer | null>(<any>null);
     }
 
-    putAnswer(id: number, answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Title: string | null | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, upvoteCount: number | undefined): Promise<FileResponse | null> {
+    putAnswer(id: number, answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Title: string | null | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, question_Answers: Answer[] | null | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, upvoteCount: number | undefined): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/answers/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -544,6 +523,13 @@ export class AnswersClient implements IAnswersClient {
             throw new Error("The parameter 'question_Owner_AccessFailedCount' cannot be null.");
         else if (question_Owner_AccessFailedCount !== undefined)
             url_ += "Question.Owner.AccessFailedCount=" + encodeURIComponent("" + question_Owner_AccessFailedCount) + "&"; 
+        if (question_Answers !== undefined)
+            question_Answers && question_Answers.forEach((item, index) => { 
+                for (let attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "Question.Answers[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
+        			}
+            });
         if (owner_Id !== undefined)
             url_ += "Owner.Id=" + encodeURIComponent("" + owner_Id) + "&"; 
         if (owner_UserName !== undefined)
@@ -656,15 +642,7 @@ export class AnswersClient implements IAnswersClient {
     }
 }
 
-export interface IBountiesClient {
-    getBounties(): Promise<Bounty[] | null>;
-    postBounty(postBountyModel: PostBountyModel): Promise<Bounty | null>;
-    getBounty(id: number): Promise<Bounty | null>;
-    putBounty(id: number, bountyId: number | undefined, amount: number | undefined, amountSym: string | null | undefined, question_QuestionId: number | undefined, question_Title: string | null | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, awarded_Id: string | null | undefined, awarded_UserName: string | null | undefined, awarded_NormalizedUserName: string | null | undefined, awarded_Email: string | null | undefined, awarded_NormalizedEmail: string | null | undefined, awarded_EmailConfirmed: boolean | undefined, awarded_PasswordHash: string | null | undefined, awarded_SecurityStamp: string | null | undefined, awarded_ConcurrencyStamp: string | null | undefined, awarded_PhoneNumber: string | null | undefined, awarded_PhoneNumberConfirmed: boolean | undefined, awarded_TwoFactorEnabled: boolean | undefined, awarded_LockoutEnd: Date | null | undefined, awarded_LockoutEnabled: boolean | undefined, awarded_AccessFailedCount: number | undefined): Promise<FileResponse | null>;
-    deleteBounty(id: number): Promise<Bounty | null>;
-}
-
-export class BountiesClient implements IBountiesClient {
+export class BountiesClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -787,7 +765,7 @@ export class BountiesClient implements IBountiesClient {
         return Promise.resolve<Bounty | null>(<any>null);
     }
 
-    putBounty(id: number, bountyId: number | undefined, amount: number | undefined, amountSym: string | null | undefined, question_QuestionId: number | undefined, question_Title: string | null | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, awarded_Id: string | null | undefined, awarded_UserName: string | null | undefined, awarded_NormalizedUserName: string | null | undefined, awarded_Email: string | null | undefined, awarded_NormalizedEmail: string | null | undefined, awarded_EmailConfirmed: boolean | undefined, awarded_PasswordHash: string | null | undefined, awarded_SecurityStamp: string | null | undefined, awarded_ConcurrencyStamp: string | null | undefined, awarded_PhoneNumber: string | null | undefined, awarded_PhoneNumberConfirmed: boolean | undefined, awarded_TwoFactorEnabled: boolean | undefined, awarded_LockoutEnd: Date | null | undefined, awarded_LockoutEnabled: boolean | undefined, awarded_AccessFailedCount: number | undefined): Promise<FileResponse | null> {
+    putBounty(id: number, bountyId: number | undefined, amount: number | undefined, amountSym: string | null | undefined, question_QuestionId: number | undefined, question_Title: string | null | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, question_Answers: Answer[] | null | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, awarded_Id: string | null | undefined, awarded_UserName: string | null | undefined, awarded_NormalizedUserName: string | null | undefined, awarded_Email: string | null | undefined, awarded_NormalizedEmail: string | null | undefined, awarded_EmailConfirmed: boolean | undefined, awarded_PasswordHash: string | null | undefined, awarded_SecurityStamp: string | null | undefined, awarded_ConcurrencyStamp: string | null | undefined, awarded_PhoneNumber: string | null | undefined, awarded_PhoneNumberConfirmed: boolean | undefined, awarded_TwoFactorEnabled: boolean | undefined, awarded_LockoutEnd: Date | null | undefined, awarded_LockoutEnabled: boolean | undefined, awarded_AccessFailedCount: number | undefined): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/bounties/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -854,6 +832,13 @@ export class BountiesClient implements IBountiesClient {
             throw new Error("The parameter 'question_Owner_AccessFailedCount' cannot be null.");
         else if (question_Owner_AccessFailedCount !== undefined)
             url_ += "Question.Owner.AccessFailedCount=" + encodeURIComponent("" + question_Owner_AccessFailedCount) + "&"; 
+        if (question_Answers !== undefined)
+            question_Answers && question_Answers.forEach((item, index) => { 
+                for (let attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "Question.Answers[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
+        			}
+            });
         if (owner_Id !== undefined)
             url_ += "Owner.Id=" + encodeURIComponent("" + owner_Id) + "&"; 
         if (owner_UserName !== undefined)
@@ -1002,15 +987,7 @@ export class BountiesClient implements IBountiesClient {
     }
 }
 
-export interface IQuestionsClient {
-    getQuestions(): Promise<Question[] | null>;
-    postQuestion(postQuestionModel: PostQuestionModel): Promise<Question | null>;
-    question(id: number): Promise<FileResponse | null>;
-    putQuestion(id: number, questionId: number | undefined, title: string | null | undefined, text: string | null | undefined, upVotes: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<FileResponse | null>;
-    deleteQuestion(id: number): Promise<Question | null>;
-}
-
-export class QuestionsClient implements IQuestionsClient {
+export class QuestionsClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -1131,7 +1108,7 @@ export class QuestionsClient implements IQuestionsClient {
         return Promise.resolve<FileResponse | null>(<any>null);
     }
 
-    putQuestion(id: number, questionId: number | undefined, title: string | null | undefined, text: string | null | undefined, upVotes: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined): Promise<FileResponse | null> {
+    putQuestion(id: number, questionId: number | undefined, title: string | null | undefined, text: string | null | undefined, upVotes: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, answers: Answer[] | null | undefined): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/questions/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1188,6 +1165,13 @@ export class QuestionsClient implements IQuestionsClient {
             throw new Error("The parameter 'owner_AccessFailedCount' cannot be null.");
         else if (owner_AccessFailedCount !== undefined)
             url_ += "Owner.AccessFailedCount=" + encodeURIComponent("" + owner_AccessFailedCount) + "&"; 
+        if (answers !== undefined)
+            answers && answers.forEach((item, index) => { 
+                for (let attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "Answers[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
+        			}
+            });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -1318,6 +1302,7 @@ export class Question implements IQuestion {
     text!: string;
     upVotes!: number;
     owner!: IdentityUser;
+    answers?: Answer[] | undefined;
 
     constructor(data?: IQuestion) {
         if (data) {
@@ -1338,6 +1323,11 @@ export class Question implements IQuestion {
             this.text = data["text"];
             this.upVotes = data["upVotes"];
             this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
+            if (data["answers"] && data["answers"].constructor === Array) {
+                this.answers = [] as any;
+                for (let item of data["answers"])
+                    this.answers!.push(Answer.fromJS(item));
+            }
         }
     }
 
@@ -1355,6 +1345,11 @@ export class Question implements IQuestion {
         data["text"] = this.text;
         data["upVotes"] = this.upVotes;
         data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
+        if (this.answers && this.answers.constructor === Array) {
+            data["answers"] = [];
+            for (let item of this.answers)
+                data["answers"].push(item.toJSON());
+        }
         return data; 
     }
 }
@@ -1365,6 +1360,7 @@ export interface IQuestion {
     text: string;
     upVotes: number;
     owner: IdentityUser;
+    answers?: Answer[] | undefined;
 }
 
 export class IdentityUserOfString implements IIdentityUserOfString {

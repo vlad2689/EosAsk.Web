@@ -4,11 +4,16 @@ let Cookies = require('js-cookie');
 export const LOGIN_URL = "https://localhost:5001/Identity/Account/Login";
 
 export function isUserSignedIn() {
-    return (<any> window).userSignedIn || false;
+    let signInCookie = Cookies.get(".AspNetCore.Identity.Application");
+    return  !!signInCookie;
+    
+    // return (<any> window).userSignedIn || false;
 }
 
 export function getSignedInUserId() {
-    return (<any> window).userId || false;
+    return "\"da1378c5-1c08-4189-aa1f-991be9f7702d\"";
+    
+    // return (<any> window).userId || false;
 }
 
 export function getPostSignInRedirectUrlAndRemove() {

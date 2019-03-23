@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
@@ -20,5 +21,7 @@ namespace Identity.Data
 
         [Required]
         public IdentityUser Owner { get; set; }
+
+        public virtual IEnumerable<Answer> Answers { get; set; }
     }
 }

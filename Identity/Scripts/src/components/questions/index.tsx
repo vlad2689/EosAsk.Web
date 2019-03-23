@@ -49,7 +49,7 @@ class QuestionsHome extends React.Component<Props, State> {
                     <div>
                         Top Questions
                         <Link to={`${match.url}/new`}>
-                            <Button color="primary">Ask a Question</Button>
+                            <Button color="primary" className="float-right">Ask a Question</Button>
                         </Link>
                     </div>
                 </h2>

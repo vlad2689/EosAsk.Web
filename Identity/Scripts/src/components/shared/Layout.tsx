@@ -30,7 +30,7 @@ class Layout extends React.Component<any, any> {
      render() {
          return (
              <div>
-                 <Navbar color="light" light expand="md">
+                 <Navbar className="mb-3" color="light" light expand="md">
                      <NavbarBrand href="/">EosAsk</NavbarBrand>
                      <NavbarToggler onClick={this.toggle} />
                      <Collapse isOpen={this.state.isOpen} navbar>
