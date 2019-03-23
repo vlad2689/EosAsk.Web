@@ -1,4 +1,5 @@
 ﻿using Identity.Api.Attributes;
+using Identity.Api.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -14,7 +15,7 @@ namespace Identity
 {
     public class Startup
     {
-        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        private readonly string EosAskCorsPolicy = "EosAskCorsPolicy";
         
         public Startup(IConfiguration configuration)
         {
@@ -26,6 +27,12 @@ namespace Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(EosAskCorsPolicy,
+                    builder => { builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); });
+            });
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -38,13 +45,6 @@ namespace Identity
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                    builder => { builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin(); });
-            });
 
             services.AddScoped<RequireLoginFilter>();
             
@@ -61,7 +61,6 @@ namespace Identity
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-                app.UseCors(MyAllowSpecificOrigins);
                 
                 // app.UseWebpackDevMiddleware();
             }
@@ -80,8 +79,10 @@ namespace Identity
             // app.UseSpaStaticFiles();
             app.UseCookiePolicy();
             
+            app.UseCors(EosAskCorsPolicy);
+            app.UseMiddleware<MaintainCorsHeadersMiddleware>();
             app.UseAuthentication();
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

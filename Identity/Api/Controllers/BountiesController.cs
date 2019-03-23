@@ -6,6 +6,7 @@ using Identity.Api.Controllers.Base;
 using Identity.Api.Models;
 using Identity.Data;
 using Identity.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Identity.Api.Controllers
 {
     [Route("api/bounties")]
+    [EnableCors("EosAskCorsPolicy")]
     public class BountiesController : EosAskBaseController
     {
         public BountiesController(ApplicationDbContext context, 

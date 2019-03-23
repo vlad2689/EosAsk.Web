@@ -1,21 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Identity.Api.Attributes;
 using Identity.Api.Controllers.Base;
-using Identity.Api.CustomResults;
 using Identity.Api.Models;
 using Identity.Data;
 using Identity.Models;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Api.Controllers
 {
     [Route("api/questions")]
+    [EnableCors("EosAskCorsPolicy")]
     public class QuestionsController : EosAskBaseController
     {
         public QuestionsController(ApplicationDbContext context, 
@@ -46,15 +44,16 @@ namespace Identity.Api.Controllers
         }
         
         // POST: Questions
+        // TODO: Remove stub
         [HttpPost]
-        [ServiceFilter(typeof(RequireLoginFilter))]
+        // [ServiceFilter(typeof(RequireLoginFilter))]
         public async Task<ActionResult<Question>> PostQuestion([FromBody] PostQuestionModel postQuestionModel)
         {
             var question = postQuestionModel.ToQuestion(DbContext, await GetCurrentUserAsync());
             DbContext.Questions.Add(question);
             await DbContext.SaveChangesAsync();
-
-            return CreatedAtAction("Question", new { id = question.QuestionId }, question);
+            
+            return Ok(question);
         }
 
         // PUT: Questions/5

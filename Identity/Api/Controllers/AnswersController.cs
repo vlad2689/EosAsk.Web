@@ -6,6 +6,7 @@ using Identity.Api.Controllers.Base;
 using Identity.Api.Models;
 using Identity.Data;
 using Identity.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Identity.Api.Controllers
 {
     [Route("api/answers")]
+    [EnableCors("EosAskCorsPolicy")]
     public class AnswersController : EosAskBaseController
     {
         public AnswersController(ApplicationDbContext context, 

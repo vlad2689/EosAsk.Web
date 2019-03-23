@@ -21,7 +21,13 @@ namespace Identity.Api.Controllers.Base
             
         }
         
-        protected Task<IdentityUser> GetCurrentUserAsync() => UserManager.GetUserAsync(HttpContext.User);
+        // TODO: Remove Stub
+        protected async Task<IdentityUser> GetCurrentUserAsync()
+        {
+            return await UserManager.FindByEmailAsync("test@test.test");
+            
+            // return UserManager.GetUserAsync(HttpContext.User);
+        }
         
         protected bool IsSignedInUser() => SignInManager.IsSignedIn(HttpContext.User);
     }
