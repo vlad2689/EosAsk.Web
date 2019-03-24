@@ -78,9 +78,9 @@ namespace Identity.Api.Controllers
         // The BlockChain bounty will be created from eosjs, on the client side.
         [HttpPost]
         [ServiceFilter(typeof(RequireLoginFilter))]
-        public async Task<ActionResult<Bounty>> PostBounty([FromBody] PostBountyModel postBountyModel)
+        public async Task<ActionResult<Bounty>> PostBounty([FromBody] PostBountyDTO postBountyDto)
         {
-            var bounty = postBountyModel.ToBounty(DbContext, await GetCurrentUserAsync());
+            var bounty = postBountyDto.ToBounty(DbContext, await GetCurrentUserAsync());
             DbContext.Bounties.Add(bounty);
             
             // TODO: Check that the bounty is on the blockchain before creating the bounty in the db
@@ -96,7 +96,7 @@ namespace Identity.Api.Controllers
             
             await DbContext.SaveChangesAsync();
 
-            return CreatedAtAction("GetBounty", new { id = bounty.BountyId }, postBountyModel);
+            return CreatedAtAction("GetBounty", new { id = bounty.BountyId }, postBountyDto);
         }
 
         // DELETE: Bounties/5

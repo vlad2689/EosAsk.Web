@@ -66,7 +66,7 @@ namespace Identity.Api.Controllers
             DbContext.Questions.Add(question);
             await DbContext.SaveChangesAsync();
 
-            return Ok(question);
+            return Ok();
         }
 
         // PUT: Questions/5

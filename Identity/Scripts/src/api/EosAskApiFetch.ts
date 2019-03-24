@@ -385,11 +385,11 @@ export class AnswersClient {
         return Promise.resolve<Answer[] | null>(<any>null);
     }
 
-    postAnswer(postAnswerModel: PostAnswerModel): Promise<Answer | null> {
+    postAnswer(postAnswerDto: PostAnswerDTO): Promise<Answer | null> {
         let url_ = this.baseUrl + "/api/answers";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(postAnswerModel);
+        const content_ = JSON.stringify(postAnswerDto);
 
         let options_ = <RequestInit>{
             body: content_,
@@ -690,11 +690,11 @@ export class BountiesClient {
         return Promise.resolve<Bounty[] | null>(<any>null);
     }
 
-    postBounty(postBountyModel: PostBountyModel): Promise<Bounty | null> {
+    postBounty(postBountyDto: PostBountyDTO): Promise<Bounty | null> {
         let url_ = this.baseUrl + "/api/bounties";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(postBountyModel);
+        const content_ = JSON.stringify(postBountyDto);
 
         let options_ = <RequestInit>{
             body: content_,
@@ -1484,11 +1484,11 @@ export class IdentityUser extends IdentityUserOfString implements IIdentityUser 
 export interface IIdentityUser extends IIdentityUserOfString {
 }
 
-export class PostAnswerModel implements IPostAnswerModel {
+export class PostAnswerDTO implements IPostAnswerDTO {
     text!: string;
     questionId!: number;
 
-    constructor(data?: IPostAnswerModel) {
+    constructor(data?: IPostAnswerDTO) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1504,9 +1504,9 @@ export class PostAnswerModel implements IPostAnswerModel {
         }
     }
 
-    static fromJS(data: any): PostAnswerModel {
+    static fromJS(data: any): PostAnswerDTO {
         data = typeof data === 'object' ? data : {};
-        let result = new PostAnswerModel();
+        let result = new PostAnswerDTO();
         result.init(data);
         return result;
     }
@@ -1519,7 +1519,7 @@ export class PostAnswerModel implements IPostAnswerModel {
     }
 }
 
-export interface IPostAnswerModel {
+export interface IPostAnswerDTO {
     text: string;
     questionId: number;
 }
@@ -1584,12 +1584,12 @@ export interface IBounty {
     awarded?: IdentityUser | undefined;
 }
 
-export class PostBountyModel implements IPostBountyModel {
+export class PostBountyDTO implements IPostBountyDTO {
     questionId!: number;
     amount!: number;
     amountSym?: string | undefined;
 
-    constructor(data?: IPostBountyModel) {
+    constructor(data?: IPostBountyDTO) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1606,9 +1606,9 @@ export class PostBountyModel implements IPostBountyModel {
         }
     }
 
-    static fromJS(data: any): PostBountyModel {
+    static fromJS(data: any): PostBountyDTO {
         data = typeof data === 'object' ? data : {};
-        let result = new PostBountyModel();
+        let result = new PostBountyDTO();
         result.init(data);
         return result;
     }
@@ -1622,7 +1622,7 @@ export class PostBountyModel implements IPostBountyModel {
     }
 }
 
-export interface IPostBountyModel {
+export interface IPostBountyDTO {
     questionId: number;
     amount: number;
     amountSym?: string | undefined;
@@ -1634,7 +1634,7 @@ export class QuestionDTO implements IQuestionDTO {
     text!: string;
     upVotes!: number;
     owner!: IdentityUser;
-    answers?: Answer[] | undefined;
+    answers?: AnswerDTO[] | undefined;
 
     constructor(data?: IQuestionDTO) {
         if (data) {
@@ -1658,7 +1658,7 @@ export class QuestionDTO implements IQuestionDTO {
             if (data["answers"] && data["answers"].constructor === Array) {
                 this.answers = [] as any;
                 for (let item of data["answers"])
-                    this.answers!.push(Answer.fromJS(item));
+                    this.answers!.push(AnswerDTO.fromJS(item));
             }
         }
     }
@@ -1692,7 +1692,63 @@ export interface IQuestionDTO {
     text: string;
     upVotes: number;
     owner: IdentityUser;
-    answers?: Answer[] | undefined;
+    answers?: AnswerDTO[] | undefined;
+}
+
+export class AnswerDTO implements IAnswerDTO {
+    answerId!: number;
+    text!: string;
+    question!: Question;
+    owner!: IdentityUser;
+    upvoteCount!: number;
+
+    constructor(data?: IAnswerDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.question = new Question();
+            this.owner = new IdentityUser();
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.answerId = data["answerId"];
+            this.text = data["text"];
+            this.question = data["question"] ? Question.fromJS(data["question"]) : new Question();
+            this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
+            this.upvoteCount = data["upvoteCount"];
+        }
+    }
+
+    static fromJS(data: any): AnswerDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new AnswerDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["answerId"] = this.answerId;
+        data["text"] = this.text;
+        data["question"] = this.question ? this.question.toJSON() : <any>undefined;
+        data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
+        data["upvoteCount"] = this.upvoteCount;
+        return data; 
+    }
+}
+
+export interface IAnswerDTO {
+    answerId: number;
+    text: string;
+    question: Question;
+    owner: IdentityUser;
+    upvoteCount: number;
 }
 
 export class PostQuestionDTO implements IPostQuestionDTO {

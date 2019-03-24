@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Scripts" />
-    <Folder Include="Scripts\src\components\questions\answers" />
     <Folder Include="wwwroot\js\react" />
   </ItemGroup>
 

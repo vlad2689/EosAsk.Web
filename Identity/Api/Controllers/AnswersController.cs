@@ -77,13 +77,13 @@ namespace Identity.Api.Controllers
         // POST: Answers
         [HttpPost]
         // [ServiceFilter(typeof(RequireLoginFilter))]
-        public async Task<ActionResult<Answer>> PostAnswer([FromBody] PostAnswerModel postAnswerModel)
+        public async Task<ActionResult<Answer>> PostAnswer([FromBody] PostAnswerDTO postAnswerDto)
         {
-            var answer = await postAnswerModel.ToAnswer(DbContext, await GetCurrentUserAsync());
+            var answer = await postAnswerDto.ToAnswer(DbContext, await GetCurrentUserAsync());
             DbContext.Answers.Add(answer);
             await DbContext.SaveChangesAsync();
 
-            return CreatedAtAction("GetAnswer", new { id = answer.AnswerId }, answer);
+            return Ok();
         }
 
         // DELETE: Answers/5

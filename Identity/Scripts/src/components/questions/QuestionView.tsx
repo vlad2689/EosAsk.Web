@@ -2,6 +2,7 @@ import * as React from "react";
 import {Answer, IdentityUser, Question, QuestionsClient} from '../../api/EosAskApiFetch'
 import {Button, Row, Col} from 'reactstrap'
 import {Link, Route} from 'react-router-dom';
+import Answers from './answers'
 
 interface PropsListView {
     questionId: number;
@@ -127,7 +128,7 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
                                     <div className="text-secondary">
                                         {question.upVotes}
                                     </div>
-                                    <div className="text-primary">
+                                    <div className="text-secondary">
                                         Upvotes
                                     </div>
                                 </div>
@@ -141,6 +142,11 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
                                         Asked by: {question.owner.userName}
                                     </small>
                                 </div>
+                            </Col>
+                        </Row>
+                        <Row className="mt-5">
+                            <Col>
+                                <Answers answers={question.answers} questionId={question.questionId}/>
                             </Col>
                         </Row>
                     </Col>

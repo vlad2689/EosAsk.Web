@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Api.DTOs
 {
-    public class PostAnswerModel
+    public class PostAnswerDTO
     {
         [Required]
         [MinLength(1, ErrorMessage = "Cannot post empty answer")]

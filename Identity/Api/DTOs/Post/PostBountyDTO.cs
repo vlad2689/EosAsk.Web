@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Api.DTOs
 {
-    public class PostBountyModel
+    public class PostBountyDTO
     {
 //        [Required]
 //        public int UserId { get; set; }

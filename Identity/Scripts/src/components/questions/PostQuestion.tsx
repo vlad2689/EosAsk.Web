@@ -58,8 +58,6 @@ class PostQuestion extends React.Component<Props, State> {
                 // handle error
                 alert("Couldn't post the question");
             }
-            
-            debugger;
 
             this.setState({
                 redirectToQuestion: true,
@@ -81,7 +79,7 @@ class PostQuestion extends React.Component<Props, State> {
             <div className="mt-3">
                 <Form onSubmit={this.handleSubmit}>
                     <FormGroup>
-                        <Label for="questionTitle">Title</Label>
+                        <Label for="questionTitle"><h5>Title</h5></Label>
                         <Input type="textarea" 
                                name="questionTitle" 
                                id="questionTitle" 
@@ -89,13 +87,15 @@ class PostQuestion extends React.Component<Props, State> {
                                placeholder="What is your programming question today?" />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="questionText">Body</Label>
+                        <Label for="questionText"><h5>Body</h5></Label>
                         <Input type="textarea" 
                                name="questionText" 
                                value={this.state.text}
                                onChange={this.handleBodyChange}
                                id="questionText" 
-                               placeholder="Describe your question." />
+                               placeholder="Describe your question." 
+                               rows="10"
+                        />
                     </FormGroup>
                     
                     <Button color="primary" className="btn-block">Submit</Button>
