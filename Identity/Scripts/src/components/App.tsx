@@ -1,5 +1,5 @@
 import * as React from "react";
-import { HashRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Layout from "components/shared/Layout";
 import QuestionsHome from "components/questions";
 import PostQuestion from "components/questions/PostQuestion";
@@ -19,7 +19,7 @@ class App extends React.Component {
                     <Route exact path="/questions" component={QuestionsHome} />
                     <Route exact path="/questions/new" component={PostQuestion} />
                     
-                    <Route exact path="/questions/:id" component={QuestionFullView} />
+                    <Route exact path="/questions/view/:id" component={QuestionFullView} />
 
                     <Route path="/bounties" component={Bounties} />
 

@@ -1,15 +1,18 @@
 import * as React from "react";
 import {QuestionsClient, PostQuestionDTO} from '../../api/EosAskApiFetch'
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 
 interface Props {
 }
 
 interface State {
-    title: string
-    text: string,
-    error: string,
-    questionsClient: QuestionsClient
+    title: string;
+    text: string;
+    error: string;
+    questionsClient: QuestionsClient;
+    questionId: number;
+    redirectToQuestion: boolean;
 }
 
 class PostQuestion extends React.Component<Props, State> {
@@ -24,7 +27,9 @@ class PostQuestion extends React.Component<Props, State> {
             title: '',
             text: '',
             error: '',
-            questionsClient: new QuestionsClient()
+            questionsClient: new QuestionsClient(),
+            redirectToQuestion: false,
+            questionId: null
         }
     }
     
@@ -49,18 +54,27 @@ class PostQuestion extends React.Component<Props, State> {
         });
         
         this.state.questionsClient.postQuestion(model).then((question) => {
-            debugger;
             if (question == null) {
                 // handle error
+                console.log("couldn't post for some reason");
             }
-            
-            // redirect to question page
+
+            this.setState({
+                redirectToQuestion: true,
+                questionId: question.questionId
+            });
         });
         
         event.preventDefault();
     }
     
     render() {
+        if (this.state.redirectToQuestion) {
+            return (
+                <Redirect to={`/questions/view/${this.state.questionId}`}/>
+            )
+        }
+        
         return (
             <div className="mt-3">
                 <Form onSubmit={this.handleSubmit}>

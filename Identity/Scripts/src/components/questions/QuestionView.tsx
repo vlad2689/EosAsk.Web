@@ -53,7 +53,7 @@ export class QuestionListView extends React.Component<PropsListView, any> {
                     
                     <div className="">
                         <h5>
-                            <Link to={`/questions/${this.props.questionId}`}>
+                            <Link to={`/questions/view/${this.props.questionId}`}>
                             {this.props.title}
                             </Link>
                         </h5>

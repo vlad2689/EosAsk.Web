@@ -39,18 +39,15 @@ namespace Identity.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<QuestionDTO>> GetQuestion(int id)
         {
+            if (!QuestionExists(id))
+            {
+                return NotFound();
+            }
+            
             var question = await DbContext.Questions
                 .Where(q => q.QuestionId == id)
                 .Include(q => q.Answers).ThenInclude(q => q.Owner)
                 .FirstOrDefaultAsync(q => q.QuestionId == id);
-            
-            if (question == null)
-            {
-                var result = new JsonResult(new CustomError("Resource not found"));
-                result.StatusCode = 404;
-
-                return result;
-            }
 
             return new QuestionDTO(question);
         }
