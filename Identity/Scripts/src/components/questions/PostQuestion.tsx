@@ -56,8 +56,10 @@ class PostQuestion extends React.Component<Props, State> {
         this.state.questionsClient.postQuestion(model).then((question) => {
             if (question == null) {
                 // handle error
-                console.log("couldn't post for some reason");
+                alert("Couldn't post the question");
             }
+            
+            debugger;
 
             this.setState({
                 redirectToQuestion: true,

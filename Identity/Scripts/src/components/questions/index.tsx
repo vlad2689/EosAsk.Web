@@ -3,7 +3,6 @@ import RequireSignIn from "components/authentication/RequireSignIn";
 import Questions from "components/questions/Questions";
 import {QuestionDTO, QuestionsClient} from "../../api/EosAskApiFetch";
 import {Route, Link} from "react-router-dom";
-import PostQuestion from "components/questions/PostQuestion";
 import {Button} from 'reactstrap';
 
 interface Props {

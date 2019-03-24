@@ -29,8 +29,11 @@ namespace Identity.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuestionDTO>>> GetQuestions()
         {
-            var questions = await DbContext.Questions.Include(q => q.Answers).ThenInclude(q => q.Owner)
-                .Select(q => new QuestionDTO(q)).ToListAsync();
+            var questions = await DbContext.Questions
+                .Include(q => q.Answers)
+                .Include(q => q.Owner)
+                .Select(q => new QuestionDTO(q))
+                .ToListAsync();
 
             return questions;
         }
@@ -43,10 +46,11 @@ namespace Identity.Api.Controllers
             {
                 return NotFound();
             }
-            
+
             var question = await DbContext.Questions
                 .Where(q => q.QuestionId == id)
-                .Include(q => q.Answers).ThenInclude(q => q.Owner)
+                .Include(q => q.Answers)
+                .Include(q => q.Owner)
                 .FirstOrDefaultAsync(q => q.QuestionId == id);
 
             return new QuestionDTO(question);
