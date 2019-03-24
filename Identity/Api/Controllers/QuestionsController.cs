@@ -2,13 +2,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Identity.Api.Controllers.Base;
-using Identity.Api.Models;
+using Identity.Api.CustomResults;
+using Identity.Api.DTOs;
+using Identity.Api.DTOs.Get;
 using Identity.Data;
-using Identity.Models;
+using IdentityModel.Jwk;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Identity.Api.Controllers
 {
@@ -16,7 +19,7 @@ namespace Identity.Api.Controllers
     [EnableCors("EosAskCorsPolicy")]
     public class QuestionsController : EosAskBaseController
     {
-        public QuestionsController(ApplicationDbContext context, 
+        public QuestionsController(ApplicationDbContext context,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager) : base(context, userManager, signInManager)
         {
@@ -24,35 +27,44 @@ namespace Identity.Api.Controllers
 
         // GET: Questions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
+        public async Task<ActionResult<IEnumerable<QuestionDTO>>> GetQuestions()
         {
-            return await DbContext.Questions.ToListAsync();
+            var questions = await DbContext.Questions.Include(q => q.Answers).ThenInclude(q => q.Owner)
+                .Select(q => new QuestionDTO(q)).ToListAsync();
+
+            return questions;
         }
 
         // GET: Questions/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Question(int id)
+        public async Task<ActionResult<QuestionDTO>> GetQuestion(int id)
         {
-            var question = await DbContext.Questions.FindAsync(id);
+            var question = await DbContext.Questions
+                .Where(q => q.QuestionId == id)
+                .Include(q => q.Answers).ThenInclude(q => q.Owner)
+                .FirstOrDefaultAsync(q => q.QuestionId == id);
+            
             if (question == null)
             {
-                return NotFound();
+                var result = new JsonResult(new CustomError("Resource not found"));
+                result.StatusCode = 404;
+
+                return result;
             }
 
-            var model = new QuestionViewModel(question);
-            return View(model);
+            return new QuestionDTO(question);
         }
-        
+
         // POST: Questions
         // TODO: Remove stub
         [HttpPost]
         // [ServiceFilter(typeof(RequireLoginFilter))]
-        public async Task<ActionResult<Question>> PostQuestion([FromBody] PostQuestionModel postQuestionModel)
+        public async Task<ActionResult<Question>> PostQuestion([FromBody] PostQuestionDTO postQuestionDto)
         {
-            var question = postQuestionModel.ToQuestion(DbContext, await GetCurrentUserAsync());
+            var question = postQuestionDto.ToQuestion(DbContext, await GetCurrentUserAsync());
             DbContext.Questions.Add(question);
             await DbContext.SaveChangesAsync();
-            
+
             return Ok(question);
         }
 

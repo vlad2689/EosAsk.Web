@@ -1,7 +1,7 @@
 import * as React from 'react';
 import RequireSignIn from "components/authentication/RequireSignIn";
 import Questions from "components/questions/Questions";
-import {Question, QuestionsClient} from "../../api/EosAskApiFetch";
+import {QuestionDTO, QuestionsClient} from "../../api/EosAskApiFetch";
 import {Route, Link} from "react-router-dom";
 import PostQuestion from "components/questions/PostQuestion";
 import {Button} from 'reactstrap';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 interface State {
-    questions: Question[],
+    questions: QuestionDTO[],
     questionsClient: QuestionsClient,
     isLoading: boolean
 }
@@ -27,17 +27,12 @@ class QuestionsHome extends React.Component<Props, State> {
        }
     }
     
-    componentDidMount() {
-        this.state.questionsClient.getQuestions().then(questions => {
-            this.setState({
-                questions: questions,
-                isLoading: false
-            })
-        }).finally(() => {
-            this.setState({
-                isLoading: false
-            })
-        })
+    async componentDidMount() {
+        let questions = await this.state.questionsClient.getQuestions();
+        this.setState({
+            questions: questions,
+            isLoading: false
+        });
     }
     
     render() {

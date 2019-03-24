@@ -1,5 +1,5 @@
 import * as React from "react";
-import {QuestionsClient, PostQuestionModel} from '../../api/EosAskApiFetch'
+import {QuestionsClient, PostQuestionDTO} from '../../api/EosAskApiFetch'
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 interface Props {
@@ -43,7 +43,7 @@ class PostQuestion extends React.Component<Props, State> {
     }
     
     handleSubmit(event) {
-        let model = PostQuestionModel.fromJS({
+        let model = PostQuestionDTO.fromJS({
             title: this.state.title,
             text: this.state.text,
         });

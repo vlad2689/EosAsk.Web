@@ -1,10 +1,9 @@
 import * as React from "react";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
-import Questions from "components/questions/Questions";
 import Layout from "components/shared/Layout";
-import RequireSignIn from "components/authentication/RequireSignIn";
 import QuestionsHome from "components/questions";
 import PostQuestion from "components/questions/PostQuestion";
+import {QuestionFullView} from "components/questions/QuestionView";
 
 class App extends React.Component {
     constructor(props) {
@@ -19,7 +18,8 @@ class App extends React.Component {
                     
                     <Route exact path="/questions" component={QuestionsHome} />
                     <Route exact path="/questions/new" component={PostQuestion} />
-
+                    
+                    <Route exact path="/questions/:id" component={QuestionFullView} />
 
                     <Route path="/bounties" component={Bounties} />
 

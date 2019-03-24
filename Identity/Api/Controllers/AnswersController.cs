@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Identity.Api.Attributes;
 using Identity.Api.Controllers.Base;
-using Identity.Api.Models;
+using Identity.Api.DTOs;
 using Identity.Data;
 using Identity.Models;
 using Microsoft.AspNetCore.Cors;

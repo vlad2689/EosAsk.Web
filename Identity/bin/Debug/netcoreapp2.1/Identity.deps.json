@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "f1bf9f5c82621f40a0266b6402c386eba7e7ea47"
+    "signature": "99599983a0009ae0577093e2a2ffcb5d4222841b"
   },
   "compilationOptions": {
     "defines": [
@@ -31,7 +31,8 @@
           "Microsoft.NETCore.App": "2.1.0",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.0.2105168",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.1.7",
-          "NSwag.AspNetCore": "12.0.15"
+          "NSwag.AspNetCore": "12.0.15",
+          "Newtonsoft.Json": "12.0.1"
         },
         "runtime": {
           "Identity.dll": {}
@@ -42,7 +43,7 @@
       },
       "IdentityModel/3.10.0": {
         "dependencies": {
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "System.Text.Encodings.Web": "4.5.0"
         },
         "runtime": {
@@ -319,7 +320,7 @@
       },
       "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/2.1.7": {
         "dependencies": {
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll": {
@@ -335,7 +336,7 @@
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "2.1.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Templating": "2.1.7",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.VisualStudio.Web.CodeGeneration.Core.dll": {
@@ -395,7 +396,7 @@
         "dependencies": {
           "Microsoft.CodeAnalysis.CSharp.Workspaces": "2.8.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Contracts": "2.1.7",
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "NuGet.Frameworks": "4.7.0"
         },
         "runtime": {
@@ -427,9 +428,20 @@
           "Microsoft.NETCore.Platforms": "2.1.0"
         }
       },
+      "Newtonsoft.Json/12.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.1.22727"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
       "NJsonSchema/9.13.22": {
         "dependencies": {
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "runtime": {
           "lib/netstandard2.0/NJsonSchema.dll": {
@@ -443,7 +455,7 @@
       },
       "NSwag.Annotations/12.0.15": {
         "dependencies": {
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "runtime": {
           "lib/netstandard2.0/NSwag.Annotations.dll": {
@@ -482,7 +494,7 @@
       "NSwag.Core/12.0.15": {
         "dependencies": {
           "NJsonSchema": "9.13.22",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "runtime": {
           "lib/netstandard2.0/NSwag.Core.dll": {
@@ -498,7 +510,7 @@
         "dependencies": {
           "NJsonSchema": "9.13.22",
           "NSwag.Core": "12.0.15",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "runtime": {
           "lib/netstandard2.0/NSwag.SwaggerGeneration.dll": {
@@ -532,7 +544,7 @@
         "dependencies": {
           "NJsonSchema": "9.13.22",
           "NSwag.SwaggerGeneration": "12.0.15",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "runtime": {
           "lib/netstandard2.0/NSwag.SwaggerGeneration.WebApi.dll": {
@@ -697,7 +709,7 @@
       },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
         "dependencies": {
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "Newtonsoft.Json.Bson": "1.0.1"
         },
         "compile": {
@@ -977,7 +989,7 @@
       "Microsoft.AspNetCore.Authentication.OAuth/2.1.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Authentication": "2.1.1",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Authentication.OAuth.dll": {}
@@ -1243,7 +1255,7 @@
           "Microsoft.AspNetCore.Http.Connections.Common": "1.0.1",
           "Microsoft.AspNetCore.Routing": "2.1.1",
           "Microsoft.AspNetCore.WebSockets": "2.1.1",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "compile": {
           "lib/netcoreapp2.1/Microsoft.AspNetCore.Http.Connections.dll": {}
@@ -1253,7 +1265,7 @@
       "Microsoft.AspNetCore.Http.Connections.Common/1.0.1": {
         "dependencies": {
           "Microsoft.AspNetCore.Connections.Abstractions": "2.1.1",
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "System.Buffers": "4.5.0"
         },
         "compile": {
@@ -1346,7 +1358,7 @@
       "Microsoft.AspNetCore.JsonPatch/2.1.1": {
         "dependencies": {
           "Microsoft.CSharp": "4.5.0",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {}
@@ -1577,7 +1589,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.1.1",
           "Microsoft.Extensions.Logging.Console": "2.1.1",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.NodeServices.dll": {}
@@ -1809,7 +1821,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Connections.Abstractions": "2.1.1",
           "Microsoft.Extensions.Options": "2.1.1",
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "System.Buffers": "4.5.0"
         },
         "compile": {
@@ -1835,7 +1847,7 @@
       "Microsoft.AspNetCore.SignalR.Protocols.Json/1.0.1": {
         "dependencies": {
           "Microsoft.AspNetCore.SignalR.Common": "1.0.1",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.SignalR.Protocols.Json.dll": {}
@@ -2159,7 +2171,7 @@
         "dependencies": {
           "Microsoft.Extensions.Configuration": "2.1.1",
           "Microsoft.Extensions.Configuration.FileExtensions": "2.1.1",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Configuration.Json.dll": {}
@@ -2214,7 +2226,7 @@
       "Microsoft.Extensions.DependencyModel/2.1.0": {
         "dependencies": {
           "Microsoft.DotNet.PlatformAbstractions": "2.1.0",
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "System.Diagnostics.Debug": "4.3.0",
           "System.Dynamic.Runtime": "4.3.0",
           "System.Linq": "4.3.0"
@@ -2404,7 +2416,7 @@
       "Microsoft.Extensions.Logging.EventSource/2.1.1": {
         "dependencies": {
           "Microsoft.Extensions.Logging": "2.1.1",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Logging.EventSource.dll": {}
@@ -2500,7 +2512,7 @@
         "dependencies": {
           "Microsoft.IdentityModel.Protocols": "5.2.0",
           "NETStandard.Library": "2.0.3",
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "System.Dynamic.Runtime": "4.3.0",
           "System.IdentityModel.Tokens.Jwt": "5.2.0"
         },
@@ -2526,7 +2538,7 @@
         "dependencies": {
           "Microsoft.IdentityModel.Logging": "5.2.0",
           "NETStandard.Library": "2.0.3",
-          "Newtonsoft.Json": "11.0.2",
+          "Newtonsoft.Json": "12.0.1",
           "System.Collections": "4.3.0",
           "System.Diagnostics.Tools": "4.3.0",
           "System.Runtime": "4.3.0",
@@ -2586,16 +2598,10 @@
         },
         "compileOnly": true
       },
-      "Newtonsoft.Json/11.0.2": {
-        "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
-        },
-        "compileOnly": true
-      },
       "Newtonsoft.Json.Bson/1.0.1": {
         "dependencies": {
           "NETStandard.Library": "2.0.3",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "compile": {
           "lib/netstandard1.3/Newtonsoft.Json.Bson.dll": {}
@@ -2903,7 +2909,7 @@
         "dependencies": {
           "Microsoft.IdentityModel.Tokens": "5.2.0",
           "NETStandard.Library": "2.0.3",
-          "Newtonsoft.Json": "11.0.2"
+          "Newtonsoft.Json": "12.0.1"
         },
         "compile": {
           "lib/netstandard1.4/System.IdentityModel.Tokens.Jwt.dll": {}
@@ -3803,6 +3809,13 @@
       "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jmVyoEyk0In8r+AObYQyFKVFm7uSRzE0XSHSbEtBJcZDMV6DqJoyB4FLcHwprPVhAh826so0db3DIKXVnpGoPA==",
+      "path": "newtonsoft.json/12.0.1",
+      "hashPath": "newtonsoft.json.12.0.1.nupkg.sha512"
     },
     "NJsonSchema/9.13.22": {
       "type": "package",
@@ -5014,13 +5027,6 @@
       "sha512": "sha512-vduxuHEqRgRrTE8wYG8Wxj/+6wwzddOmZzjKZx6rFMc/91aUBxI5etAFYxesoNaIja5NpgSTcnk6cN8BeYXf9A==",
       "path": "microsoft.win32.registry/4.5.0",
       "hashPath": "microsoft.win32.registry.4.5.0.nupkg.sha512"
-    },
-    "Newtonsoft.Json/11.0.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-znZGbws7E4BA9jxNZ7FuiIRI3C9hrgatVQSTKhIYZYNOud4M5VfGlTYi6RdYO5sQrebFuF/g9UEV3hOxDMXF6Q==",
-      "path": "newtonsoft.json/11.0.2",
-      "hashPath": "newtonsoft.json.11.0.2.nupkg.sha512"
     },
     "Newtonsoft.Json.Bson/1.0.1": {
       "type": "package",

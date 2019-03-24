@@ -1,12 +1,13 @@
 import * as React from 'react';
-import {Question} from "../../api/EosAskApiFetch";
-import QuestionView from "components/questions/QuestionView";
+import {Route} from 'react-router-dom';
+import {QuestionDTO} from "../../api/EosAskApiFetch";
+import {QuestionListView} from "components/questions/QuestionView";
 
 interface State {
 }
 
 interface Props {
-    questions: Question[]
+    questions: QuestionDTO[]
 }
 
 class Questions extends React.Component<Props, State> {
@@ -18,7 +19,11 @@ class Questions extends React.Component<Props, State> {
         return (
             <div>
                 {this.props.questions.length > 0 && this.props.questions.map((q, i) => {
-                    return (<QuestionView {...q} answers={q.answers} isListView={true} key={i}/>)
+                    return (
+                        <div key={i}>
+                            <QuestionListView {...q} answers={q.answers} />
+                        </div>
+                    )
                 })}
                 
                 {this.props.questions.length == 0 &&

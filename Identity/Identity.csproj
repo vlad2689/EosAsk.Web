@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.2105168" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.7" PrivateAssets="All" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="NSwag.AspNetCore" Version="12.0.15" />
   </ItemGroup>
 
@@ -41,6 +42,11 @@
     <Content Remove="Scripts\node_modules\**" />
     <Content Remove="Scripts\webpack-react-boilerplate\node_modules\**" />
     <Content Include="Scripts\src\api\SignInClient.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Questions\GetQuestion.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Questions\Index.cshtml" />
   </ItemGroup>
 
 </Project>

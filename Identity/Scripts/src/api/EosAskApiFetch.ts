@@ -997,7 +997,7 @@ export class QuestionsClient {
         this.baseUrl = baseUrl ? baseUrl : "https://localhost:5001";
     }
 
-    getQuestions(): Promise<Question[] | null> {
+    getQuestions(): Promise<QuestionDTO[] | null> {
         let url_ = this.baseUrl + "/api/questions";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1013,7 +1013,7 @@ export class QuestionsClient {
         });
     }
 
-    protected processGetQuestions(response: Response): Promise<Question[] | null> {
+    protected processGetQuestions(response: Response): Promise<QuestionDTO[] | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -1023,7 +1023,7 @@ export class QuestionsClient {
             if (resultData200 && resultData200.constructor === Array) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(Question.fromJS(item));
+                    result200!.push(QuestionDTO.fromJS(item));
             }
             return result200;
             });
@@ -1032,14 +1032,14 @@ export class QuestionsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Question[] | null>(<any>null);
+        return Promise.resolve<QuestionDTO[] | null>(<any>null);
     }
 
-    postQuestion(postQuestionModel: PostQuestionModel): Promise<Question | null> {
+    postQuestion(postQuestionDto: PostQuestionDTO): Promise<Question | null> {
         let url_ = this.baseUrl + "/api/questions";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(postQuestionModel);
+        const content_ = JSON.stringify(postQuestionDto);
 
         let options_ = <RequestInit>{
             body: content_,
@@ -1073,7 +1073,7 @@ export class QuestionsClient {
         return Promise.resolve<Question | null>(<any>null);
     }
 
-    question(id: number): Promise<FileResponse | null> {
+    getQuestion(id: number): Promise<QuestionDTO | null> {
         let url_ = this.baseUrl + "/api/questions/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -1088,24 +1088,26 @@ export class QuestionsClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processQuestion(_response);
+            return this.processGetQuestion(_response);
         });
     }
 
-    protected processQuestion(response: Response): Promise<FileResponse | null> {
+    protected processGetQuestion(response: Response): Promise<QuestionDTO | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? QuestionDTO.fromJS(resultData200) : <any>null;
+            return result200;
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse | null>(<any>null);
+        return Promise.resolve<QuestionDTO | null>(<any>null);
     }
 
     putQuestion(id: number, questionId: number | undefined, title: string | null | undefined, text: string | null | undefined, upVotes: number | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, answers: Answer[] | null | undefined): Promise<FileResponse | null> {
@@ -1626,11 +1628,78 @@ export interface IPostBountyModel {
     amountSym?: string | undefined;
 }
 
-export class PostQuestionModel implements IPostQuestionModel {
+export class QuestionDTO implements IQuestionDTO {
+    questionId!: number;
+    title!: string;
+    text!: string;
+    upVotes!: number;
+    owner!: IdentityUser;
+    answers?: Answer[] | undefined;
+
+    constructor(data?: IQuestionDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.owner = new IdentityUser();
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.questionId = data["questionId"];
+            this.title = data["title"];
+            this.text = data["text"];
+            this.upVotes = data["upVotes"];
+            this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
+            if (data["answers"] && data["answers"].constructor === Array) {
+                this.answers = [] as any;
+                for (let item of data["answers"])
+                    this.answers!.push(Answer.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): QuestionDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new QuestionDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["questionId"] = this.questionId;
+        data["title"] = this.title;
+        data["text"] = this.text;
+        data["upVotes"] = this.upVotes;
+        data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
+        if (this.answers && this.answers.constructor === Array) {
+            data["answers"] = [];
+            for (let item of this.answers)
+                data["answers"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IQuestionDTO {
+    questionId: number;
+    title: string;
+    text: string;
+    upVotes: number;
+    owner: IdentityUser;
+    answers?: Answer[] | undefined;
+}
+
+export class PostQuestionDTO implements IPostQuestionDTO {
     title!: string;
     text!: string;
 
-    constructor(data?: IPostQuestionModel) {
+    constructor(data?: IPostQuestionDTO) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1646,9 +1715,9 @@ export class PostQuestionModel implements IPostQuestionModel {
         }
     }
 
-    static fromJS(data: any): PostQuestionModel {
+    static fromJS(data: any): PostQuestionDTO {
         data = typeof data === 'object' ? data : {};
-        let result = new PostQuestionModel();
+        let result = new PostQuestionDTO();
         result.init(data);
         return result;
     }
@@ -1661,7 +1730,7 @@ export class PostQuestionModel implements IPostQuestionModel {
     }
 }
 
-export interface IPostQuestionModel {
+export interface IPostQuestionDTO {
     title: string;
     text: string;
 }

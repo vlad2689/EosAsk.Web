@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Identity.Data;
 using Microsoft.AspNetCore.Identity;
 
-namespace Identity.Api.Models
+namespace Identity.Api.DTOs
 {
     public class PostBountyModel
     {
