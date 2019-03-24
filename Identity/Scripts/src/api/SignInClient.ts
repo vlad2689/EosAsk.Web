@@ -1,7 +1,25 @@
+import {CheckLoginClient, UserDTO} from "./EosAskApiFetch";
+
 let Cookies = require('js-cookie');
+let sessionStorage = require('sessionstorage');
 
 // TODO: Change this url to not have localhost
 export const LOGIN_URL = "https://localhost:5001/Identity/Account/Login";
+const userClient = new CheckLoginClient();
+
+export async function getSignedInUser() : Promise<UserDTO> {
+    if (!isUserSignedIn()) {
+        return null;
+    }
+    let user = sessionStorage.getItem('signedInUser');
+    if (!user) {
+        user = await userClient.getLoginStatus();
+        sessionStorage.setItem('signedInUser', JSON.stringify(user));
+        return user;
+    }
+    
+    return (JSON.parse(user).user);
+}
 
 export function isUserSignedIn() {
     let signInCookie = Cookies.get(".AspNetCore.Identity.Application");

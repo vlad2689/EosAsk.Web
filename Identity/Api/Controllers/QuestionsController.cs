@@ -2,16 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Identity.Api.Controllers.Base;
-using Identity.Api.CustomResults;
 using Identity.Api.DTOs;
 using Identity.Api.DTOs.Get;
 using Identity.Data;
-using IdentityModel.Jwk;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace Identity.Api.Controllers
 {

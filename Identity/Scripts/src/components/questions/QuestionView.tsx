@@ -13,21 +13,6 @@ interface PropsListView {
     answers: Answer[];
 }
 
-// class QuestionView extends React.Component<Props, State> {
-//     constructor(props) {
-//         super(props);
-//     }
-//    
-//     render() {
-//         if (this.props.isListView) {
-//             return <QuestionListView {...this.props} />
-//         }
-//         else {
-//             return <QuestionFullView {...this.props} />
-//         }
-//     }
-// }
-
 export class QuestionListView extends React.Component<PropsListView, any> {
     constructor(props) {
         super(props);

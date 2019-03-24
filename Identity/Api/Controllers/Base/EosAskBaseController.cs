@@ -29,6 +29,11 @@ namespace Identity.Api.Controllers.Base
             // return UserManager.GetUserAsync(HttpContext.User);
         }
         
-        protected bool IsSignedInUser() => SignInManager.IsSignedIn(HttpContext.User);
+        protected bool IsSignedInUser()
+        {
+            return true;
+            
+            // return SignInManager.IsSignedIn(HttpContext.User);
+        }
     }
 }
