@@ -59,7 +59,8 @@ namespace Identity.Api.Controllers
                 .Include(q => q.Owner)
                 .FirstOrDefaultAsync(q => q.QuestionId == id);
 
-            return new QuestionDTO(question, null);
+            var questionBounty = DbContext.Bounties.FirstOrDefault(b => b.Question.QuestionId == question.QuestionId);
+            return new QuestionDTO(question,questionBounty != null ? new BountyDTO(questionBounty) : null);
         }
 
         // POST: Questions

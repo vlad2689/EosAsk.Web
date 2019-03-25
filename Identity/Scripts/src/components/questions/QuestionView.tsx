@@ -4,6 +4,7 @@ import {QuestionDTO, BountyDTO} from "../../api/EosAskApiFetch";
 import {Button, Row, Col} from 'reactstrap'
 import {Link, Route} from 'react-router-dom';
 import Answers from './answers'
+import {BountyFullView, BountyListView} from "components/questions/bounties/BountyView";
 
 interface PropsListView {
     questionId: number;
@@ -49,6 +50,9 @@ export class QuestionListView extends React.Component<PropsListView, any> {
                                 {this.props.title}
                             </Link>
                         </h5>
+                        <div>
+                            <BountyListView bounty={this.props.bounty}/>
+                        </div>
                         <div className="text-right text-info">
                             <small>
                                 Asked by: {this.props.owner.userName}
@@ -96,8 +100,6 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
     render() {
         let { question } = this.state;
         
-        console.log(question.bounty);
-        
         if (this.state.isLoading) {
             return null;
         }
@@ -126,6 +128,7 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
                                 <h5>
                                     {question.text}
                                 </h5>
+                                <BountyFullView bounty={question.bounty}/>
                                 <div className="text-right text-info">
                                     <small>
                                         Asked by: {question.owner.userName}
