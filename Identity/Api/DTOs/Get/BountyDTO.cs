@@ -11,7 +11,7 @@ namespace Identity.Api.DTOs.Get
             BountyId = bounty.BountyId;
             Amount = bounty.Amount;
             AmountSym = bounty.AmountSym;
-            Question = bounty.Question;
+            Question = new QuestionDTO(bounty.Question, null);
             Owner = bounty.Owner;
             Awarded = bounty.Awarded;
         }
@@ -25,7 +25,7 @@ namespace Identity.Api.DTOs.Get
         public string AmountSym { get; } = "EOS";
         
         [Required]
-        public Question Question { get; }
+        public QuestionDTO Question { get; }
         
         [Required]
         public IdentityUser Owner { get; }

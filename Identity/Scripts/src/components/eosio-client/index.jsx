@@ -75,7 +75,7 @@ class EosioClient extends React.Component {
   logout = () => this.state.scatter.logout();
 
   transfer = async () => {
-    const api = this.state.scatter.eos(network, Api, {rpc, beta3:true})
+    const api = this.state.scatter.eos(network, Api, {rpc, beta3:true});
     return this.setState({api: api}, this.tryTransfer);
   };
 

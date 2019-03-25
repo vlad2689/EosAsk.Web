@@ -8,6 +8,7 @@ using Identity.Data;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Api.Controllers
@@ -26,13 +27,21 @@ namespace Identity.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuestionDTO>>> GetQuestions()
         {
-            var questions = await DbContext.Questions
+            var questions = DbContext.Questions
                 .Include(q => q.Answers)
                 .Include(q => q.Owner)
-                .Select(q => new QuestionDTO(q))
-                .ToListAsync();
+                .Select(q => new QuestionDTO(q, null))
+                .ToDictionary(q => q.QuestionId);
 
-            return questions;
+            var bounties = DbContext.Bounties
+                .ToDictionary(q => q.Question.QuestionId);
+
+            foreach (var bountyDto in bounties)
+            {
+                questions[bountyDto.Key].Bounty = new BountyDTO(bountyDto.Value);
+            }
+
+            return questions.Values;
         }
 
         // GET: Questions/5
@@ -50,7 +59,7 @@ namespace Identity.Api.Controllers
                 .Include(q => q.Owner)
                 .FirstOrDefaultAsync(q => q.QuestionId == id);
 
-            return new QuestionDTO(question);
+            return new QuestionDTO(question, null);
         }
 
         // POST: Questions

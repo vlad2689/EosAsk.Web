@@ -1,5 +1,6 @@
 import * as React from "react";
-import {Answer, IdentityUser, Question, QuestionsClient} from '../../api/EosAskApiFetch'
+import {Answer, IdentityUser, QuestionsClient} from '../../api/EosAskApiFetch'
+import {QuestionDTO, BountyDTO} from "../../api/EosAskApiFetch";
 import {Button, Row, Col} from 'reactstrap'
 import {Link, Route} from 'react-router-dom';
 import Answers from './answers'
@@ -11,6 +12,7 @@ interface PropsListView {
     upVotes: number;
     owner: IdentityUser;
     answers: Answer[];
+    bounty?: BountyDTO;
 }
 
 export class QuestionListView extends React.Component<PropsListView, any> {
@@ -65,7 +67,7 @@ interface PropsFullView {
 }
 
 interface StateFullView {
-    question: Question,
+    question: QuestionDTO,
     isLoading: boolean
 }
 
@@ -93,6 +95,8 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
 
     render() {
         let { question } = this.state;
+        
+        console.log(question.bounty);
         
         if (this.state.isLoading) {
             return null;

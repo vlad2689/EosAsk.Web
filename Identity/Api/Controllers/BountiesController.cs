@@ -17,7 +17,7 @@ namespace Identity.Api.Controllers
     [EnableCors("EosAskCorsPolicy")]
     public class BountiesController : EosAskBaseController
     {
-        public BountiesController(ApplicationDbContext context, 
+        public BountiesController(ApplicationDbContext context,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager) : base(context, userManager, signInManager)
         {
@@ -27,7 +27,8 @@ namespace Identity.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bounty>>> GetBounties()
         {
-            return await DbContext.Bounties.ToListAsync();
+            return await DbContext.Bounties.Include(b => b.Question).Include(b => b.Owner).Include(b => b.Awarded)
+                .ToListAsync();
         }
 
         // GET: Bounties/5
@@ -42,6 +43,31 @@ namespace Identity.Api.Controllers
             }
 
             return bounty;
+        }
+        
+        // POST: Bounties
+        // The BlockChain bounty will be created from eosjs, on the client side.
+        [HttpPost]
+        // [ServiceFilter(typeof(RequireLoginFilter))]
+        public async Task<ActionResult<Bounty>> PostBounty([FromBody] PostBountyDTO postBountyDto)
+        {
+            var bounty = postBountyDto.ToBounty(DbContext, await GetCurrentUserAsync());
+            DbContext.Bounties.Add(bounty);
+
+            // TODO: Check that the bounty is on the blockchain before creating the bounty in the db
+
+//            await _bountySmartContract.InsertBounty(bounty.Question.QuestionId,
+//                new Asset
+//                {
+//                    Amount = bounty.Amount,
+//                    Symbol = bounty.AmountSym
+//                },
+//                bounty.Owner.EosUsername,
+//                "5J5hukk7TgbMZ8AwidoSX9EsiCsZCYJkn3dhe22E8DoUWqBMSdN");
+
+            await DbContext.SaveChangesAsync();
+
+            return CreatedAtAction("GetBounty", new {id = bounty.BountyId}, postBountyDto);
         }
 
         // PUT: Bounties/5
@@ -72,31 +98,6 @@ namespace Identity.Api.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: Bounties
-        // The BlockChain bounty will be created from eosjs, on the client side.
-        [HttpPost]
-        [ServiceFilter(typeof(RequireLoginFilter))]
-        public async Task<ActionResult<Bounty>> PostBounty([FromBody] PostBountyDTO postBountyDto)
-        {
-            var bounty = postBountyDto.ToBounty(DbContext, await GetCurrentUserAsync());
-            DbContext.Bounties.Add(bounty);
-            
-            // TODO: Check that the bounty is on the blockchain before creating the bounty in the db
-            
-//            await _bountySmartContract.InsertBounty(bounty.Question.QuestionId,
-//                new Asset
-//                {
-//                    Amount = bounty.Amount,
-//                    Symbol = bounty.AmountSym
-//                },
-//                bounty.Owner.EosUsername,
-//                "5J5hukk7TgbMZ8AwidoSX9EsiCsZCYJkn3dhe22E8DoUWqBMSdN");
-            
-            await DbContext.SaveChangesAsync();
-
-            return CreatedAtAction("GetBounty", new { id = bounty.BountyId }, postBountyDto);
         }
 
         // DELETE: Bounties/5

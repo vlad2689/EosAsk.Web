@@ -1715,6 +1715,7 @@ export class QuestionDTO implements IQuestionDTO {
     text!: string;
     upVotes!: number;
     owner!: IdentityUser;
+    bounty?: BountyDTO | undefined;
     answers?: AnswerDTO[] | undefined;
 
     constructor(data?: IQuestionDTO) {
@@ -1736,6 +1737,7 @@ export class QuestionDTO implements IQuestionDTO {
             this.text = data["text"];
             this.upVotes = data["upVotes"];
             this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
+            this.bounty = data["bounty"] ? BountyDTO.fromJS(data["bounty"]) : <any>undefined;
             if (data["answers"] && data["answers"].constructor === Array) {
                 this.answers = [] as any;
                 for (let item of data["answers"])
@@ -1758,6 +1760,7 @@ export class QuestionDTO implements IQuestionDTO {
         data["text"] = this.text;
         data["upVotes"] = this.upVotes;
         data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
+        data["bounty"] = this.bounty ? this.bounty.toJSON() : <any>undefined;
         if (this.answers && this.answers.constructor === Array) {
             data["answers"] = [];
             for (let item of this.answers)
@@ -1773,7 +1776,68 @@ export interface IQuestionDTO {
     text: string;
     upVotes: number;
     owner: IdentityUser;
+    bounty?: BountyDTO | undefined;
     answers?: AnswerDTO[] | undefined;
+}
+
+export class BountyDTO implements IBountyDTO {
+    bountyId!: number;
+    amount!: number;
+    amountSym!: string;
+    question!: Question;
+    owner!: IdentityUser;
+    awarded?: IdentityUser | undefined;
+
+    constructor(data?: IBountyDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.question = new Question();
+            this.owner = new IdentityUser();
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.bountyId = data["bountyId"];
+            this.amount = data["amount"];
+            this.amountSym = data["amountSym"];
+            this.question = data["question"] ? Question.fromJS(data["question"]) : new Question();
+            this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
+            this.awarded = data["awarded"] ? IdentityUser.fromJS(data["awarded"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BountyDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new BountyDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["bountyId"] = this.bountyId;
+        data["amount"] = this.amount;
+        data["amountSym"] = this.amountSym;
+        data["question"] = this.question ? this.question.toJSON() : <any>undefined;
+        data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
+        data["awarded"] = this.awarded ? this.awarded.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IBountyDTO {
+    bountyId: number;
+    amount: number;
+    amountSym: string;
+    question: Question;
+    owner: IdentityUser;
+    awarded?: IdentityUser | undefined;
 }
 
 export class AnswerDTO implements IAnswerDTO {

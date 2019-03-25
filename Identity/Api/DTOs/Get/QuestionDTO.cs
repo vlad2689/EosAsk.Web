@@ -8,7 +8,7 @@ namespace Identity.Api.DTOs.Get
 {
     public class QuestionDTO
     {
-        public QuestionDTO(Question question)
+        public QuestionDTO(Question question, BountyDTO bounty)
         {
             QuestionId = question.QuestionId;
             Title = question.Title;
@@ -16,6 +16,7 @@ namespace Identity.Api.DTOs.Get
             UpVotes = question.UpVotes;
             Owner = question.Owner;
             Answers = question.Answers.Select(answer => new AnswerDTO(answer, false));
+            Bounty = bounty; 
         }
         
         public int QuestionId { get; }
@@ -30,6 +31,8 @@ namespace Identity.Api.DTOs.Get
 
         [Required]
         public IdentityUser Owner { get; }
+        
+        public BountyDTO Bounty { get; set; }
 
         public virtual IEnumerable<AnswerDTO> Answers { get; }
     }
