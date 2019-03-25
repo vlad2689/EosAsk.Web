@@ -1,54 +1,63 @@
 import {CheckLoginClient, UserDTO} from "./EosAskApiFetch";
 
-let Cookies = require('js-cookie');
-let sessionStorage = require('sessionstorage');
+const Cookies = require('js-cookie');
 
 // TODO: Change this url to not have localhost
 export const LOGIN_URL = "https://localhost:5001/Identity/Account/Login";
-const userClient = new CheckLoginClient();
 
+const userClient = new CheckLoginClient();
+const KEY_SIGN_IN = "signedInUser";
+const COOKIE_LOGIN = ".AspNetCore.Identity.Application";
+const COOKIE_REDIRECT = "loginRedirect";
+
+let sessionStorage = window.sessionStorage || {
+    getItem: () => {return null},
+    setItem: () => {},
+    removeItem: () => {},
+    clear: () => {}
+};
+
+// retrieves the user if there is a login cookie;
+// returns a null object otherwise
 export async function getSignedInUser() : Promise<UserDTO> {
     if (!isUserSignedIn()) {
         return null;
     }
-    let user = sessionStorage.getItem('signedInUser');
+    let user = sessionStorage.getItem(KEY_SIGN_IN);
     if (!user) {
         user = await userClient.getLoginStatus();
-        sessionStorage.setItem('signedInUser', JSON.stringify(user));
+        sessionStorage.setItem(KEY_SIGN_IN, JSON.stringify(user));
         return user;
     }
     
-    return (JSON.parse(user).user);
+    return (JSON.parse(user));
+}
+
+export function logout() {
+    Cookies.remove(COOKIE_LOGIN);
+    sessionStorage.removeItem(KEY_SIGN_IN);
 }
 
 export function isUserSignedIn() {
-    let signInCookie = Cookies.get(".AspNetCore.Identity.Application");
+    let signInCookie = Cookies.get(COOKIE_LOGIN);
     return  !!signInCookie;
-    
-    // return (<any> window).userSignedIn || false;
-}
-
-export function getSignedInUserId() {
-    return "\"da1378c5-1c08-4189-aa1f-991be9f7702d\"";
-    
-    // return (<any> window).userId || false;
 }
 
 export function getPostSignInRedirectUrlAndRemove() {
     let redirectUrl = getPostSignInRedirectUrl();
     if (redirectUrl) {
-        Cookies.remove('loginRedirect');
+        Cookies.remove(COOKIE_REDIRECT);
     }
     
     return redirectUrl;
 }
 
 export function getPostSignInRedirectUrl() {
-    return Cookies.get('loginRedirect') || null;
+    return Cookies.get(COOKIE_REDIRECT) || null;
 }
 
 export function setPostSignInRedirectUrl() {
     let currUrl = window.location.href;
-    Cookies.set('loginRedirect', currUrl, {expires: 1});
+    Cookies.set(COOKIE_REDIRECT, currUrl, {expires: 1}); // expires in 1 day
 }
 
