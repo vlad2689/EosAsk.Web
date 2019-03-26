@@ -49,13 +49,13 @@ class Layout extends React.Component<any, State> {
                     <Collapse isOpen={this.state.isAccountDropdownOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                                <NavLink><Link to="/">Home</Link></NavLink>
+                                <Link to="/" className="nav-link">Home</Link>
                             </NavItem>
                             <NavItem>
-                                <NavLink><Link to="/questions">Questions</Link></NavLink>
+                                <Link to="/questions" className="nav-link">Questions</Link>
                             </NavItem>
                             <NavItem>
-                                <NavLink><Link to="/bounties">Bounties</Link></NavLink>
+                                <Link to="/bounties" className="nav-link">Bounties</Link>
                             </NavItem>
                             <AccountDropdown/>
                         </Nav>

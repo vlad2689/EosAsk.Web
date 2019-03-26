@@ -22,7 +22,6 @@ export function createAddAnsAction(questionId, answerId) : BountyAction {
 export function createOnSuccessCb(bountyAction: BountyAction) : Function {
     if (bountyAction.name == ANS_ADD) {
         return async (result) => {
-            alert('result: ' + result);
             console.log('result', result);
             
             await new AnswersClient().markCreatedOnBlockchain((bountyAction.data as any).answer_id);

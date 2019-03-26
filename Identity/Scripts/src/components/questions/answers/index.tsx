@@ -25,9 +25,9 @@ export default class Answers extends React.Component<Props, State> {
                    Answers
                </h5>
                <hr/>
-               {this.props.answers.map(a => {
+               {this.props.answers.map((a, i) => {
                    return (
-                       <AnswerView {...a}/>
+                       <AnswerView {...a} key={i}/>
                    )
                })}
                {/*TODO: update the list without a page refresh*/}
