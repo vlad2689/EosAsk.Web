@@ -27,10 +27,11 @@ interface Props {
 }
 
 interface State {
-    bountyAction: BountyAction,
-    scatter: any,
-    api: any,
-    status: string
+    bountyAction: BountyAction
+    scatter: any;
+    api: any;
+    status: string;
+    isLoading: boolean;
 }
 
 class EosioClient extends React.Component<Props, State> {
@@ -57,7 +58,8 @@ class EosioClient extends React.Component<Props, State> {
             bountyAction: storedBountyAction,
             scatter: {},
             api: {},
-            status: ScatterStatus.NO_SCATTER
+            status: ScatterStatus.NO_SCATTER,
+            isLoading: true
         };
 
         this.login = this.login.bind(this);
@@ -72,18 +74,15 @@ class EosioClient extends React.Component<Props, State> {
             this.setStatus();
         }, 50);
 
-        console.log(ScatterJS.scatter);
-
         ScatterJS.scatter.connect('eosjs2-test', {
             network
         }).then(connected => {
             if (!connected) return false;
 
             this.setState({
-                scatter: ScatterJS.scatter
+                scatter: ScatterJS.scatter,
+                isLoading: false
             });
-
-            console.log(this.state);
         });
     }
 
@@ -103,8 +102,19 @@ class EosioClient extends React.Component<Props, State> {
         this.setState({status})
     };
 
-    login = () => this.state.scatter.login();
-    logout = () => this.state.scatter.logout();
+    login = () => {
+        if (!this.state.isLoading && Object.keys(this.state.scatter).length > 0) {
+            this.state.scatter.login();
+        } else if (!this.state.isLoading) {
+            alert("Please login into your Scatter first");
+        }
+    };
+    
+    logout = () => {
+        if (Object.keys(this.state.scatter).length > 0) {
+            this.state.scatter.logout();
+        }
+    };
 
     runAction = async () => {
         const api = this.state.scatter.eos(network, Api, {rpc, beta3: true});

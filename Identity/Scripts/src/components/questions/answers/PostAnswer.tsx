@@ -58,7 +58,7 @@ export default class PostAnswer extends React.Component<Props, State> {
         if (this.state.redirect) {
             let locationCreateEosAnswer = {
                 pathname: "/eosio_action",
-                bountyAction: createAddAnsAction(this.props.questionId)
+                bountyAction: createAddAnsAction(this.props.questionId, this.state.answer.answerId)
             };
             return (
                 <Redirect to={locationCreateEosAnswer} />

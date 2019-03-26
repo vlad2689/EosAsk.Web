@@ -1,3 +1,5 @@
+import {Answer, AnswersClient} from "../../api/EosAskApiFetch";
+
 const ANS_ADD = "ansadd";
 
 export interface BountyAction {
@@ -6,11 +8,12 @@ export interface BountyAction {
     fromParamName: string,
 }
 
-export function createAddAnsAction(questionId) : BountyAction {
+export function createAddAnsAction(questionId, answerId) : BountyAction {
     return {
         name: ANS_ADD,
         data: {
-            question_id: questionId
+            question_id: questionId,
+            answer_id: answerId
         },
         fromParamName: "answerer",
     }
@@ -18,9 +21,12 @@ export function createAddAnsAction(questionId) : BountyAction {
 
 export function createOnSuccessCb(bountyAction: BountyAction) : Function {
     if (bountyAction.name == ANS_ADD) {
-        return (result) => {
+        return async (result) => {
             alert('result: ' + result);
             console.log('result', result);
+            
+            await new AnswersClient().markCreatedOnBlockchain((bountyAction.data as any).answer_id);
+            window.location.href = `/questions/view/${(bountyAction.data as any).question_id}`
         }
     }
 }
