@@ -13,7 +13,6 @@ interface Props {
     upvoteCount: number;
     isCreatedOnBlockchain: boolean;
     questionId: number;
-    questionOwner: IdentityUser
 }
 
 interface State {
@@ -32,7 +31,6 @@ export default class AnswerView extends React.Component<Props, State> {
     async componentDidMount() {
         this.setState({
             showUpdateBlockchainLink: !this.props.isCreatedOnBlockchain 
-                && this.props.questionOwner.userName != this.props.owner.userName
                 && (await isSignedIn(this.props.owner))
         })
     }

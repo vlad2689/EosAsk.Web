@@ -166,7 +166,6 @@ export function QuestionFullViewStateless(props: FullViewStateless) {
                     <Row className="mt-5">
                         <Col>
                             <Answers answers={question.answers} 
-                                     questionOwner={question.owner}
                                      questionId={question.questionId}
                             />
                         </Col>

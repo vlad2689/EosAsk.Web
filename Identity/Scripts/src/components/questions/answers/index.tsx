@@ -7,7 +7,6 @@ import PostAnswer from "components/questions/answers/PostAnswer";
 interface Props {
     answers: AnswerDTO[];
     questionId: number;
-    questionOwner: IdentityUser;
 }
 
 interface State {
@@ -29,7 +28,6 @@ export default class Answers extends React.Component<Props, State> {
                {this.props.answers.map((a, i) => {
                    return (
                        <AnswerView {...a} key={i} 
-                                   questionOwner={this.props.questionOwner}
                                    questionId={this.props.questionId}/>
                    )
                })}
