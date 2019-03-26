@@ -8,6 +8,13 @@ export interface BountyAction {
     fromParamName: string,
 }
 
+export function getEosioActionLocation(bountyAction) : any {
+    return {
+        pathname: "/eosio_action",
+        bountyAction: bountyAction
+    }
+}
+
 export function createAddAnsAction(questionId, answerId) : BountyAction {
     return {
         name: ANS_ADD,

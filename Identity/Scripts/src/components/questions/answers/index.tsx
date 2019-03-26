@@ -27,7 +27,7 @@ export default class Answers extends React.Component<Props, State> {
                <hr/>
                {this.props.answers.map((a, i) => {
                    return (
-                       <AnswerView {...a} key={i}/>
+                       <AnswerView {...a} key={i} questionId={this.props.questionId}/>
                    )
                })}
                {/*TODO: update the list without a page refresh*/}

@@ -1,8 +1,8 @@
 import * as React from "react";
 import {PostAnswerDTO, AnswersClient, AnswerDTO} from '../../../api/EosAskApiFetch'
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import { Redirect } from 'react-router-dom';
-import {createAddAnsAction} from "components/eosio-client/bounty-actions";
+import {Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
+import {Redirect} from 'react-router-dom';
+import {createAddAnsAction, getEosioActionLocation} from "components/eosio-client/bounty-actions";
 
 interface Props {
     questionId: number;
@@ -21,7 +21,7 @@ export default class PostAnswer extends React.Component<Props, State> {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleBodyChange = this.handleBodyChange.bind(this);
-        
+
         this.state = {
             text: '',
             error: '',
@@ -53,18 +53,19 @@ export default class PostAnswer extends React.Component<Props, State> {
             error: ''
         })
     }
-    
+
     render() {
         if (this.state.redirect) {
-            let locationCreateEosAnswer = {
-                pathname: "/eosio_action",
-                bountyAction: createAddAnsAction(this.props.questionId, this.state.answer.answerId)
-            };
+            let redirectTo = getEosioActionLocation(createAddAnsAction(
+                this.props.questionId, 
+                this.state.answer.answerId)
+            );
+            
             return (
-                <Redirect to={locationCreateEosAnswer} />
+                <Redirect to={redirectTo}/>
             )
         }
-        
+
         return (
             <div className="mt-3">
                 <Form onSubmit={this.handleSubmit}>
@@ -80,7 +81,7 @@ export default class PostAnswer extends React.Component<Props, State> {
                                onChange={this.handleBodyChange}
                                id="questionText"
                                rows="6"
-                               />
+                        />
                     </FormGroup>
 
                     <Button color="primary" className="">Post Answer</Button>

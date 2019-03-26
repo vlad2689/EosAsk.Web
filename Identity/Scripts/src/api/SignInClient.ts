@@ -1,4 +1,4 @@
-import {CheckLoginClient, UserDTO} from "./EosAskApiFetch";
+import {CheckLoginClient, IdentityUser, UserDTO} from "./EosAskApiFetch";
 
 const Cookies = require('js-cookie');
 
@@ -41,6 +41,10 @@ export function logout() {
 export function isUserSignedIn() {
     let signInCookie = Cookies.get(COOKIE_LOGIN);
     return  !!signInCookie;
+}
+
+export async function isSignedIn(user : IdentityUser) {
+    return (await getSignedInUser()).user.userName == user.userName
 }
 
 export function getPostSignInRedirectUrlAndRemove() {

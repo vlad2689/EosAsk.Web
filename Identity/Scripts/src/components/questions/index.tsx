@@ -38,7 +38,7 @@ class QuestionsHome extends React.Component<Props, State> {
         let { match } = this.props;
         
         return (
-            <RequireSignInHard>
+            <div>
                 <h2>
                     <div>
                         Top Questions
@@ -51,7 +51,7 @@ class QuestionsHome extends React.Component<Props, State> {
                 {!this.state.isLoading &&
                     <Questions questions={this.state.questions} />
                 }
-            </RequireSignInHard>
+            </div>
         )
     }
 }
