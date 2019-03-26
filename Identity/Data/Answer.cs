@@ -21,5 +21,7 @@ namespace Identity.Data
         public IdentityUser Owner { get; set; }
 
         public int UpvoteCount { get; set; } = 0;
+
+        public bool IsCreatedOnBlockchain { get; set; }
     }
 }

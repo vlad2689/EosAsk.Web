@@ -1,7 +1,8 @@
 import * as React from "react";
-import {PostAnswerDTO, AnswersClient} from '../../../api/EosAskApiFetch'
+import {PostAnswerDTO, AnswersClient, AnswerDTO} from '../../../api/EosAskApiFetch'
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { Redirect } from 'react-router-dom';
+import {createAddAnsAction} from "components/eosio-client/bounty-actions";
 
 interface Props {
     questionId: number;
@@ -11,6 +12,8 @@ interface State {
     text: string;
     error: string;
     answersClient: AnswersClient;
+    redirect: boolean;
+    answer: AnswerDTO;
 }
 
 export default class PostAnswer extends React.Component<Props, State> {
@@ -22,7 +25,9 @@ export default class PostAnswer extends React.Component<Props, State> {
         this.state = {
             text: '',
             error: '',
-            answersClient: new AnswersClient()
+            answersClient: new AnswersClient(),
+            redirect: false,
+            answer: null
         }
     }
 
@@ -32,8 +37,11 @@ export default class PostAnswer extends React.Component<Props, State> {
             questionId: this.props.questionId
         });
 
-        this.state.answersClient.postAnswer(model).then(() => {
-            location.reload();
+        this.state.answersClient.postAnswer(model).then((answer) => {
+            this.setState({
+                redirect: true,
+                answer: answer
+            })
         });
 
         event.preventDefault();
@@ -47,6 +55,16 @@ export default class PostAnswer extends React.Component<Props, State> {
     }
     
     render() {
+        if (this.state.redirect) {
+            let locationCreateEosAnswer = {
+                pathname: "/eosio_action",
+                bountyAction: createAddAnsAction(this.props.questionId)
+            };
+            return (
+                <Redirect to={locationCreateEosAnswer} />
+            )
+        }
+        
         return (
             <div className="mt-3">
                 <Form onSubmit={this.handleSubmit}>

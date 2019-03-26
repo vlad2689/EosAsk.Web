@@ -1,10 +1,11 @@
 import * as React from "react";
-import {Answer} from "../../../api/EosAskApiFetch";
+import {AnswerDTO} from "../../../api/EosAskApiFetch";
+import RequireSignInSoft from "../../../components/authentication/RequireSignInSoft";
 import AnswerView from "components/questions/answers/AnswerView";
 import PostAnswer from "components/questions/answers/PostAnswer";
 
 interface Props {
-    answers: Answer[]
+    answers: AnswerDTO[]
     questionId: number
 }
 
@@ -29,7 +30,10 @@ export default class Answers extends React.Component<Props, State> {
                        <AnswerView {...a}/>
                    )
                })}
-               <PostAnswer questionId={this.props.questionId}/>
+               {/*TODO: update the list without a page refresh*/}
+               <RequireSignInSoft reasonToSignIn="Sign in or register to post your own answer">
+                   <PostAnswer questionId={this.props.questionId}/>
+               </RequireSignInSoft>
            </div> 
         )
     }

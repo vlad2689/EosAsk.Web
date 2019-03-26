@@ -1,10 +1,11 @@
 import * as React from "react";
-import {Answer, IdentityUser, QuestionsClient} from '../../api/EosAskApiFetch'
+import {Answer, AnswerDTO, IdentityUser, QuestionsClient} from '../../api/EosAskApiFetch'
 import {QuestionDTO, BountyDTO} from "../../api/EosAskApiFetch";
 import {Button, Row, Col} from 'reactstrap'
 import {Link, Route} from 'react-router-dom';
 import Answers from './answers'
 import {BountyFullView, BountyListView} from "components/questions/bounties/BountyView";
+import PostBounty from "components/questions/bounties/PostBounty";
 
 interface PropsListView {
     questionId: number;
@@ -12,7 +13,7 @@ interface PropsListView {
     text: string;
     upVotes: number;
     owner: IdentityUser;
-    answers: Answer[];
+    answers: AnswerDTO[];
     bounty?: BountyDTO;
 }
 
@@ -72,27 +73,28 @@ interface PropsFullView {
 
 interface StateFullView {
     question: QuestionDTO,
-    isLoading: boolean
+    isLoading: boolean,
+    canPostBounty: boolean
 }
 
 export class QuestionFullView extends React.Component<PropsFullView, StateFullView> {
     constructor(props) {
         super(props);
-        // TODO: Make this query the api and display the question like that.
         
         this.state = {
             question: null,
-            isLoading: true
+            isLoading: true,
+            canPostBounty: false
         }
     }
     
     componentDidMount() {
         let questionsClient = new QuestionsClient();
         questionsClient.getQuestion(this.props.match.params.id).then(question => {
-            console.log(question);
             this.setState({
                 question: question,
-                isLoading: false
+                isLoading: false,
+                canPostBounty: !!question && !question.bounty
             })
         });
     }
@@ -104,46 +106,70 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
             return null;
         }
         
+        let locationPostBounty = {
+            pathname: `/questions/post_bounty/${this.props.match.params.id}`,
+            question: question
+        };
+        
         return (
-            <div className="w-100">
-                <Row>
-                    <Col xs="2"/>
-                    <Col xs="8">
-                        <h3>
-                            {question.title}
-                        </h3>
-                        <hr/>
-                        <Row>
-                            <Col xs={2}>
-                                <div className="d-inline-block text-center">
-                                    <div className="text-secondary">
-                                        {question.upVotes}
-                                    </div>
-                                    <div className="text-secondary">
-                                        Upvotes
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col xs={10}>
-                                <h5>
-                                    {question.text}
-                                </h5>
-                                <BountyFullView bounty={question.bounty}/>
-                                <div className="text-right text-info">
-                                    <small>
-                                        Asked by: {question.owner.userName}
-                                    </small>
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row className="mt-5">
-                            <Col>
-                                <Answers answers={question.answers} questionId={question.questionId}/>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
+            <div>
+                {this.state.canPostBounty && (
+                    <Link to={locationPostBounty}>
+                        <Button color="primary" className="btn-block mb-5">Add Bounty</Button>
+                    </Link>
+                )}
+                <QuestionFullViewStateless question={question}/>
             </div>
         )
     }
+}
+
+interface FullViewStateless {
+    question: QuestionDTO
+}
+
+export function QuestionFullViewStateless(props: FullViewStateless) {
+    let { question } = props;
+    
+    return (
+        <div className="w-100">
+            <Row>
+                <Col xs="2"/>
+                <Col xs="8">
+                    <h3>
+                        {question.title}
+                    </h3>
+                    <hr/>
+                    <Row>
+                        <Col xs={2}>
+                            <div className="d-inline-block text-center">
+                                <div className="text-secondary">
+                                    {question.upVotes}
+                                </div>
+                                <div className="text-secondary">
+                                    Upvotes
+                                </div>
+                            </div>
+                        </Col>
+                        <Col xs={10}>
+                            <h5>
+                                {question.text}
+                            </h5>
+                            <BountyFullView bounty={question.bounty}/>
+                            <div className="text-right text-info">
+                                <small>
+                                    Asked by: {question.owner.userName}
+                                </small>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className="mt-5">
+                        <Col>
+                            <Answers answers={question.answers} questionId={question.questionId}/>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+        </div>
+    )
 }

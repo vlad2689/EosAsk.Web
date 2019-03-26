@@ -1,5 +1,5 @@
 import * as React from 'react';
-import RequireSignIn from "components/authentication/RequireSignIn";
+import RequireSignInHard from "components/authentication/RequireSignInHard";
 import Questions from "components/questions/Questions";
 import {QuestionDTO, QuestionsClient} from "../../api/EosAskApiFetch";
 import {Route, Link} from "react-router-dom";
@@ -38,7 +38,7 @@ class QuestionsHome extends React.Component<Props, State> {
         let { match } = this.props;
         
         return (
-            <RequireSignIn>
+            <RequireSignInHard>
                 <h2>
                     <div>
                         Top Questions
@@ -51,7 +51,7 @@ class QuestionsHome extends React.Component<Props, State> {
                 {!this.state.isLoading &&
                     <Questions questions={this.state.questions} />
                 }
-            </RequireSignIn>
+            </RequireSignInHard>
         )
     }
 }

@@ -4,6 +4,8 @@ import Layout from "components/shared/Layout";
 import QuestionsHome from "components/questions";
 import PostQuestion from "components/questions/PostQuestion";
 import {QuestionFullView} from "components/questions/QuestionView";
+import PostBounty from "components/questions/bounties/PostBounty";
+import EosioClient from "components/eosio-client"
 
 class App extends React.Component {
     constructor(props) {
@@ -20,6 +22,9 @@ class App extends React.Component {
                     <Route exact path="/questions/new" component={PostQuestion} />
                     
                     <Route exact path="/questions/view/:id" component={QuestionFullView} />
+                    <Route exact path="/questions/post_bounty/:id" component={PostBounty} />
+                    
+                    <Route exact path="/eosio_action" component={EosioClient} />
 
                     <Route path="/bounties" component={Bounties} />
 

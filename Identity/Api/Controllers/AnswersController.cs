@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Identity.Api.Attributes;
 using Identity.Api.Controllers.Base;
 using Identity.Api.DTOs;
+using Identity.Api.DTOs.Get;
 using Identity.Data;
 using Identity.Models;
 using Microsoft.AspNetCore.Cors;
@@ -74,16 +75,32 @@ namespace Identity.Api.Controllers
             return NoContent();
         }
 
+        [HttpPost("markCreatedOnBlockchain")]
+        public async Task<ActionResult<AnswerDTO>> MarkCreatedOnBlockchain(int answerId)
+        {
+            if (!AnswerExists(answerId))
+            {
+                return NotFound();
+            }
+            
+            var answer = await DbContext.Answers.FindAsync(answerId);
+
+            answer.IsCreatedOnBlockchain = true;
+            await DbContext.SaveChangesAsync();
+
+            return Ok(new AnswerDTO(answer, false));
+        }
+
         // POST: Answers
         [HttpPost]
         // [ServiceFilter(typeof(RequireLoginFilter))]
-        public async Task<ActionResult<Answer>> PostAnswer([FromBody] PostAnswerDTO postAnswerDto)
+        public async Task<ActionResult<AnswerDTO>> PostAnswer([FromBody] PostAnswerDTO postAnswerDto)
         {
             var answer = await postAnswerDto.ToAnswer(DbContext, await GetCurrentUserAsync());
             DbContext.Answers.Add(answer);
             await DbContext.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new AnswerDTO(answer, false));
         }
 
         // DELETE: Answers/5
