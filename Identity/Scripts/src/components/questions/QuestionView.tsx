@@ -165,7 +165,10 @@ export function QuestionFullViewStateless(props: FullViewStateless) {
                     </Row>
                     <Row className="mt-5">
                         <Col>
-                            <Answers answers={question.answers} questionId={question.questionId}/>
+                            <Answers answers={question.answers} 
+                                     questionOwner={question.owner}
+                                     questionId={question.questionId}
+                            />
                         </Col>
                     </Row>
                 </Col>
