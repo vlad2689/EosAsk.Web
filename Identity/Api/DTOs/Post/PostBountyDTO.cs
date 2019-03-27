@@ -7,9 +7,6 @@ namespace Identity.Api.DTOs
 {
     public class PostBountyDTO
     {
-//        [Required]
-//        public int UserId { get; set; }
-        
         [Required]
         public int QuestionId { get; set; }
 
@@ -27,7 +24,8 @@ namespace Identity.Api.DTOs
                 Amount = Amount,
                 AmountSym = AmountSym,
                 Awarded = null,
-                Owner = owner
+                Owner = owner,
+                IsCreatedOnBlockchain = false
             };
         }
     }

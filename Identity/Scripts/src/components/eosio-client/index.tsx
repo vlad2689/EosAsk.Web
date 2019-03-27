@@ -129,9 +129,9 @@ class EosioClient extends React.Component<Props, State> {
             let action = this.state.bountyAction;
 
             if (action.fromParamName) {
-                action.data = {
-                    ...action.data,
-                    [action.fromParamName]: from.name
+                action.eosTransactionData = {
+                    ...action.eosTransactionData,
+                    [action.fromParamName]: from.name,
                 };
             }
 
@@ -143,7 +143,7 @@ class EosioClient extends React.Component<Props, State> {
                         actor: from.name,
                         permission: from.authority,
                     }],
-                    data: action.data
+                    data: action.eosTransactionData
                 }]
             }, {
                 blocksBehind: 3,

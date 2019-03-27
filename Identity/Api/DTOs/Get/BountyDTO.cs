@@ -29,7 +29,6 @@ namespace Identity.Api.DTOs.Get
 
         public IdentityUser Awarded { get; }
 
-        // TODO: Run migrations
         public bool IsCreatedOnBlockchain { get; }
     }
 }

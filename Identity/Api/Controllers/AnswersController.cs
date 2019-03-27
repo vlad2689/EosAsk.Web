@@ -84,6 +84,8 @@ namespace Identity.Api.Controllers
             }
             
             var answer = await DbContext.Answers.FindAsync(answerId);
+            
+            // TODO: Check that the answer is on the blockchain before creating the answer in the db
 
             answer.IsCreatedOnBlockchain = true;
             await DbContext.SaveChangesAsync();

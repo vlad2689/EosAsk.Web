@@ -5,7 +5,6 @@ import {Button, Row, Col} from 'reactstrap'
 import {Link, Route} from 'react-router-dom';
 import Answers from './answers'
 import {BountyFullView, BountyListView} from "components/questions/bounties/BountyView";
-import PostBounty from "components/questions/bounties/PostBounty";
 
 interface PropsListView {
     questionId: number;
@@ -94,7 +93,7 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
             this.setState({
                 question: question,
                 isLoading: false,
-                canPostBounty: !!question && !question.bounty
+                canPostBounty: !!question && (!question.bounty || !question.bounty.isCreatedOnBlockchain)
             })
         });
     }
@@ -106,70 +105,75 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
             return null;
         }
         
-        let locationPostBounty = {
-            pathname: `/questions/post_bounty/${this.props.match.params.id}`,
-            question: question
-        };
-        
-        return (
-            <div>
-                {this.state.canPostBounty && (
+        let addBountyButton = null;
+        if (this.state.canPostBounty) {
+            
+            let locationPostBounty = {
+                pathname: `/questions/post_bounty/${this.props.match.params.id}`,
+                question: question,
+                bountyAmount: 0
+            };
+
+            addBountyButton = (
+                <div>
                     <Link to={locationPostBounty}>
                         <Button color="primary" className="btn-block mb-5">Add Bounty</Button>
                     </Link>
-                )}
-                <QuestionFullViewStateless question={question}/>
+                </div>
+            )
+        }
+        
+        return (
+            <div>
+                <QuestionFullViewStateless addBountyButton={addBountyButton} question={question}/>
             </div>
         )
     }
 }
 
 interface FullViewStateless {
-    question: QuestionDTO
+    question: QuestionDTO;
+    addBountyButton: any;
 }
 
 export function QuestionFullViewStateless(props: FullViewStateless) {
-    let { question } = props;
+    let { question, addBountyButton } = props;
     
     return (
         <div className="w-100">
+            <h3>
+                {question.title}
+            </h3>
+            {addBountyButton}
+            <hr/>
             <Row>
-                <Col xs="2"/>
-                <Col xs="8">
-                    <h3>
-                        {question.title}
-                    </h3>
-                    <hr/>
-                    <Row>
-                        <Col xs={2}>
-                            <div className="d-inline-block text-center">
-                                <div className="text-secondary">
-                                    {question.upVotes}
-                                </div>
-                                <div className="text-secondary">
-                                    Upvotes
-                                </div>
-                            </div>
-                        </Col>
-                        <Col xs={10}>
-                            <h5>
-                                {question.text}
-                            </h5>
-                            <BountyFullView bounty={question.bounty}/>
-                            <div className="text-right text-info">
-                                <small>
-                                    Asked by: {question.owner.userName}
-                                </small>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row className="mt-5">
-                        <Col>
-                            <Answers answers={question.answers} 
-                                     questionId={question.questionId}
-                            />
-                        </Col>
-                    </Row>
+                <Col xs={2}>
+                    <div className="d-inline-block text-center">
+                        <div className="text-secondary">
+                            {question.upVotes}
+                        </div>
+                        <div className="text-secondary">
+                            Upvotes
+                        </div>
+                    </div>
+                </Col>
+                <Col xs={10}>
+                    <h5>
+                        {question.text}
+                    </h5>
+                    <BountyFullView bounty={question.bounty}/>
+                    <div className="text-right text-info">
+                        <small>
+                            Asked by: {question.owner.userName}
+                        </small>
+                    </div>
+                </Col>
+            </Row>
+            <Row className="mt-5">
+                <Col>
+                    <Answers answers={question.answers} 
+                             questionId={question.questionId}
+                    />
                 </Col>
             </Row>
         </div>

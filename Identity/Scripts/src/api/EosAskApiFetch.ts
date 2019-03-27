@@ -732,7 +732,7 @@ export class BountiesClient {
         return Promise.resolve<Bounty[] | null>(<any>null);
     }
 
-    postBounty(postBountyDto: PostBountyDTO): Promise<Bounty | null> {
+    postBounty(postBountyDto: PostBountyDTO): Promise<BountyDTO | null> {
         let url_ = this.baseUrl + "/api/bounties";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -752,14 +752,14 @@ export class BountiesClient {
         });
     }
 
-    protected processPostBounty(response: Response): Promise<Bounty | null> {
+    protected processPostBounty(response: Response): Promise<BountyDTO | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Bounty.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? BountyDTO.fromJS(resultData200) : <any>null;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -767,7 +767,7 @@ export class BountiesClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Bounty | null>(<any>null);
+        return Promise.resolve<BountyDTO | null>(<any>null);
     }
 
     getBounty(id: number): Promise<Bounty | null> {
@@ -807,7 +807,7 @@ export class BountiesClient {
         return Promise.resolve<Bounty | null>(<any>null);
     }
 
-    putBounty(id: number, bountyId: number | undefined, amount: number | undefined, amountSym: string | null | undefined, question_QuestionId: number | undefined, question_Title: string | null | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, question_Answers: Answer[] | null | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, awarded_Id: string | null | undefined, awarded_UserName: string | null | undefined, awarded_NormalizedUserName: string | null | undefined, awarded_Email: string | null | undefined, awarded_NormalizedEmail: string | null | undefined, awarded_EmailConfirmed: boolean | undefined, awarded_PasswordHash: string | null | undefined, awarded_SecurityStamp: string | null | undefined, awarded_ConcurrencyStamp: string | null | undefined, awarded_PhoneNumber: string | null | undefined, awarded_PhoneNumberConfirmed: boolean | undefined, awarded_TwoFactorEnabled: boolean | undefined, awarded_LockoutEnd: Date | null | undefined, awarded_LockoutEnabled: boolean | undefined, awarded_AccessFailedCount: number | undefined): Promise<FileResponse | null> {
+    putBounty(id: number, bountyId: number | undefined, amount: number | undefined, amountSym: string | null | undefined, question_QuestionId: number | undefined, question_Title: string | null | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, question_Answers: Answer[] | null | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, awarded_Id: string | null | undefined, awarded_UserName: string | null | undefined, awarded_NormalizedUserName: string | null | undefined, awarded_Email: string | null | undefined, awarded_NormalizedEmail: string | null | undefined, awarded_EmailConfirmed: boolean | undefined, awarded_PasswordHash: string | null | undefined, awarded_SecurityStamp: string | null | undefined, awarded_ConcurrencyStamp: string | null | undefined, awarded_PhoneNumber: string | null | undefined, awarded_PhoneNumberConfirmed: boolean | undefined, awarded_TwoFactorEnabled: boolean | undefined, awarded_LockoutEnd: Date | null | undefined, awarded_LockoutEnabled: boolean | undefined, awarded_AccessFailedCount: number | undefined, isCreatedOnBlockchain: boolean | undefined): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/bounties/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -961,6 +961,10 @@ export class BountiesClient {
             throw new Error("The parameter 'awarded_AccessFailedCount' cannot be null.");
         else if (awarded_AccessFailedCount !== undefined)
             url_ += "Awarded.AccessFailedCount=" + encodeURIComponent("" + awarded_AccessFailedCount) + "&"; 
+        if (isCreatedOnBlockchain === null)
+            throw new Error("The parameter 'isCreatedOnBlockchain' cannot be null.");
+        else if (isCreatedOnBlockchain !== undefined)
+            url_ += "IsCreatedOnBlockchain=" + encodeURIComponent("" + isCreatedOnBlockchain) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -1026,6 +1030,44 @@ export class BountiesClient {
             });
         }
         return Promise.resolve<Bounty | null>(<any>null);
+    }
+
+    markCreatedOnBlockchain(bountyId: number | undefined): Promise<AnswerDTO | null> {
+        let url_ = this.baseUrl + "/api/bounties/markCreatedOnBlockchain?";
+        if (bountyId === null)
+            throw new Error("The parameter 'bountyId' cannot be null.");
+        else if (bountyId !== undefined)
+            url_ += "bountyId=" + encodeURIComponent("" + bountyId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processMarkCreatedOnBlockchain(_response);
+        });
+    }
+
+    protected processMarkCreatedOnBlockchain(response: Response): Promise<AnswerDTO | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AnswerDTO.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AnswerDTO | null>(<any>null);
     }
 }
 
@@ -1122,7 +1164,7 @@ export class QuestionsClient {
         return Promise.resolve<QuestionDTO[] | null>(<any>null);
     }
 
-    postQuestion(postQuestionDto: PostQuestionDTO): Promise<Question | null> {
+    postQuestion(postQuestionDto: PostQuestionDTO): Promise<QuestionDTO | null> {
         let url_ = this.baseUrl + "/api/questions";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1142,14 +1184,14 @@ export class QuestionsClient {
         });
     }
 
-    protected processPostQuestion(response: Response): Promise<Question | null> {
+    protected processPostQuestion(response: Response): Promise<QuestionDTO | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? Question.fromJS(resultData200) : <any>null;
+            result200 = resultData200 ? QuestionDTO.fromJS(resultData200) : <any>null;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -1157,7 +1199,7 @@ export class QuestionsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Question | null>(<any>null);
+        return Promise.resolve<QuestionDTO | null>(<any>null);
     }
 
     getQuestion(id: number): Promise<QuestionDTO | null> {
@@ -1682,6 +1724,7 @@ export class Bounty implements IBounty {
     question!: Question;
     owner!: IdentityUser;
     awarded?: IdentityUser | undefined;
+    isCreatedOnBlockchain!: boolean;
 
     constructor(data?: IBounty) {
         if (data) {
@@ -1704,6 +1747,7 @@ export class Bounty implements IBounty {
             this.question = data["question"] ? Question.fromJS(data["question"]) : new Question();
             this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
             this.awarded = data["awarded"] ? IdentityUser.fromJS(data["awarded"]) : <any>undefined;
+            this.isCreatedOnBlockchain = data["isCreatedOnBlockchain"];
         }
     }
 
@@ -1722,6 +1766,7 @@ export class Bounty implements IBounty {
         data["question"] = this.question ? this.question.toJSON() : <any>undefined;
         data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
         data["awarded"] = this.awarded ? this.awarded.toJSON() : <any>undefined;
+        data["isCreatedOnBlockchain"] = this.isCreatedOnBlockchain;
         return data; 
     }
 }
@@ -1733,6 +1778,142 @@ export interface IBounty {
     question: Question;
     owner: IdentityUser;
     awarded?: IdentityUser | undefined;
+    isCreatedOnBlockchain: boolean;
+}
+
+export class BountyDTO implements IBountyDTO {
+    bountyId!: number;
+    amount!: number;
+    amountSym!: string;
+    question!: QuestionDTO;
+    owner!: IdentityUser;
+    awarded?: IdentityUser | undefined;
+    isCreatedOnBlockchain!: boolean;
+
+    constructor(data?: IBountyDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.question = new QuestionDTO();
+            this.owner = new IdentityUser();
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.bountyId = data["bountyId"];
+            this.amount = data["amount"];
+            this.amountSym = data["amountSym"];
+            this.question = data["question"] ? QuestionDTO.fromJS(data["question"]) : new QuestionDTO();
+            this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
+            this.awarded = data["awarded"] ? IdentityUser.fromJS(data["awarded"]) : <any>undefined;
+            this.isCreatedOnBlockchain = data["isCreatedOnBlockchain"];
+        }
+    }
+
+    static fromJS(data: any): BountyDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new BountyDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["bountyId"] = this.bountyId;
+        data["amount"] = this.amount;
+        data["amountSym"] = this.amountSym;
+        data["question"] = this.question ? this.question.toJSON() : <any>undefined;
+        data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
+        data["awarded"] = this.awarded ? this.awarded.toJSON() : <any>undefined;
+        data["isCreatedOnBlockchain"] = this.isCreatedOnBlockchain;
+        return data; 
+    }
+}
+
+export interface IBountyDTO {
+    bountyId: number;
+    amount: number;
+    amountSym: string;
+    question: QuestionDTO;
+    owner: IdentityUser;
+    awarded?: IdentityUser | undefined;
+    isCreatedOnBlockchain: boolean;
+}
+
+export class QuestionDTO implements IQuestionDTO {
+    questionId!: number;
+    title!: string;
+    text!: string;
+    upVotes!: number;
+    owner!: IdentityUser;
+    bounty?: BountyDTO | undefined;
+    answers?: AnswerDTO[] | undefined;
+
+    constructor(data?: IQuestionDTO) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.owner = new IdentityUser();
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.questionId = data["questionId"];
+            this.title = data["title"];
+            this.text = data["text"];
+            this.upVotes = data["upVotes"];
+            this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
+            this.bounty = data["bounty"] ? BountyDTO.fromJS(data["bounty"]) : <any>undefined;
+            if (data["answers"] && data["answers"].constructor === Array) {
+                this.answers = [] as any;
+                for (let item of data["answers"])
+                    this.answers!.push(AnswerDTO.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): QuestionDTO {
+        data = typeof data === 'object' ? data : {};
+        let result = new QuestionDTO();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["questionId"] = this.questionId;
+        data["title"] = this.title;
+        data["text"] = this.text;
+        data["upVotes"] = this.upVotes;
+        data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
+        data["bounty"] = this.bounty ? this.bounty.toJSON() : <any>undefined;
+        if (this.answers && this.answers.constructor === Array) {
+            data["answers"] = [];
+            for (let item of this.answers)
+                data["answers"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IQuestionDTO {
+    questionId: number;
+    title: string;
+    text: string;
+    upVotes: number;
+    owner: IdentityUser;
+    bounty?: BountyDTO | undefined;
+    answers?: AnswerDTO[] | undefined;
 }
 
 export class PostBountyDTO implements IPostBountyDTO {
@@ -1813,137 +1994,6 @@ export class UserDTO implements IUserDTO {
 
 export interface IUserDTO {
     user?: IdentityUser | undefined;
-}
-
-export class QuestionDTO implements IQuestionDTO {
-    questionId!: number;
-    title!: string;
-    text!: string;
-    upVotes!: number;
-    owner!: IdentityUser;
-    bounty?: BountyDTO | undefined;
-    answers?: AnswerDTO[] | undefined;
-
-    constructor(data?: IQuestionDTO) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        if (!data) {
-            this.owner = new IdentityUser();
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.questionId = data["questionId"];
-            this.title = data["title"];
-            this.text = data["text"];
-            this.upVotes = data["upVotes"];
-            this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
-            this.bounty = data["bounty"] ? BountyDTO.fromJS(data["bounty"]) : <any>undefined;
-            if (data["answers"] && data["answers"].constructor === Array) {
-                this.answers = [] as any;
-                for (let item of data["answers"])
-                    this.answers!.push(AnswerDTO.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): QuestionDTO {
-        data = typeof data === 'object' ? data : {};
-        let result = new QuestionDTO();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["questionId"] = this.questionId;
-        data["title"] = this.title;
-        data["text"] = this.text;
-        data["upVotes"] = this.upVotes;
-        data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
-        data["bounty"] = this.bounty ? this.bounty.toJSON() : <any>undefined;
-        if (this.answers && this.answers.constructor === Array) {
-            data["answers"] = [];
-            for (let item of this.answers)
-                data["answers"].push(item.toJSON());
-        }
-        return data; 
-    }
-}
-
-export interface IQuestionDTO {
-    questionId: number;
-    title: string;
-    text: string;
-    upVotes: number;
-    owner: IdentityUser;
-    bounty?: BountyDTO | undefined;
-    answers?: AnswerDTO[] | undefined;
-}
-
-export class BountyDTO implements IBountyDTO {
-    bountyId!: number;
-    amount!: number;
-    amountSym!: string;
-    question!: QuestionDTO;
-    owner!: IdentityUser;
-    awarded?: IdentityUser | undefined;
-
-    constructor(data?: IBountyDTO) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-        if (!data) {
-            this.question = new QuestionDTO();
-            this.owner = new IdentityUser();
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.bountyId = data["bountyId"];
-            this.amount = data["amount"];
-            this.amountSym = data["amountSym"];
-            this.question = data["question"] ? QuestionDTO.fromJS(data["question"]) : new QuestionDTO();
-            this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
-            this.awarded = data["awarded"] ? IdentityUser.fromJS(data["awarded"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): BountyDTO {
-        data = typeof data === 'object' ? data : {};
-        let result = new BountyDTO();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["bountyId"] = this.bountyId;
-        data["amount"] = this.amount;
-        data["amountSym"] = this.amountSym;
-        data["question"] = this.question ? this.question.toJSON() : <any>undefined;
-        data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
-        data["awarded"] = this.awarded ? this.awarded.toJSON() : <any>undefined;
-        return data; 
-    }
-}
-
-export interface IBountyDTO {
-    bountyId: number;
-    amount: number;
-    amountSym: string;
-    question: QuestionDTO;
-    owner: IdentityUser;
-    awarded?: IdentityUser | undefined;
 }
 
 export class PostQuestionDTO implements IPostQuestionDTO {

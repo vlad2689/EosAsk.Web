@@ -9,9 +9,9 @@ export class BountyListView extends React.Component<ListViewProps, any> {
     constructor(props) {
         super(props);
     }
-
+    
     render() {
-        if (this.props.bounty == null) {
+        if (this.props.bounty == null || !this.props.bounty.isCreatedOnBlockchain) {
             return null;
         }
 

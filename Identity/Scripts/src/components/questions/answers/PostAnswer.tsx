@@ -12,7 +12,7 @@ interface State {
     text: string;
     error: string;
     answersClient: AnswersClient;
-    redirect: boolean;
+    redirectLocation: any;
     answer: AnswerDTO;
 }
 
@@ -26,7 +26,7 @@ export default class PostAnswer extends React.Component<Props, State> {
             text: '',
             error: '',
             answersClient: new AnswersClient(),
-            redirect: false,
+            redirectLocation: false,
             answer: null
         }
     }
@@ -39,7 +39,10 @@ export default class PostAnswer extends React.Component<Props, State> {
 
         this.state.answersClient.postAnswer(model).then((answer) => {
             this.setState({
-                redirect: true,
+                redirectLocation: getEosioActionLocation(createAddAnsAction(
+                    this.props.questionId,
+                    this.state.answer.answerId)
+                ),
                 answer: answer
             })
         });
@@ -55,14 +58,9 @@ export default class PostAnswer extends React.Component<Props, State> {
     }
 
     render() {
-        if (this.state.redirect) {
-            let redirectTo = getEosioActionLocation(createAddAnsAction(
-                this.props.questionId, 
-                this.state.answer.answerId)
-            );
-            
+        if (this.state.redirectLocation) {
             return (
-                <Redirect to={redirectTo}/>
+                <Redirect to={this.state.redirectLocation}/>
             )
         }
 

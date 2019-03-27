@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
-    Container, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Nav, NavLink, UncontrolledDropdown,
-    DropdownToggle, DropdownMenu, DropdownItem, Button
+    Container, Navbar, NavbarBrand, NavbarToggler, Collapse, NavItem, Nav, UncontrolledDropdown,
+    DropdownToggle, DropdownMenu, DropdownItem, Button, Row, Col
 } from "reactstrap";
 import {
     getPostSignInRedirectUrlAndRemove,
@@ -62,7 +62,13 @@ class Layout extends React.Component<any, State> {
                     </Collapse>
                 </Navbar>
                 <Container>
-                    {this.props.children}
+                    <Row>
+                        <Col xs={2}/>
+                        <Col xs={8}>
+                            {this.props.children}
+                        </Col>
+                        <Col xs={2}/>
+                    </Row>
                 </Container>
             </div>
         )

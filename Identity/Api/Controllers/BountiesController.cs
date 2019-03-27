@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Identity.Api.Attributes;
 using Identity.Api.Controllers.Base;
 using Identity.Api.DTOs;
+using Identity.Api.DTOs.Get;
 using Identity.Data;
 using Identity.Models;
 using Microsoft.AspNetCore.Cors;
@@ -49,25 +50,33 @@ namespace Identity.Api.Controllers
         // The BlockChain bounty will be created from eosjs, on the client side.
         [HttpPost]
         // [ServiceFilter(typeof(RequireLoginFilter))]
-        public async Task<ActionResult<Bounty>> PostBounty([FromBody] PostBountyDTO postBountyDto)
+        public async Task<ActionResult<BountyDTO>> PostBounty([FromBody] PostBountyDTO postBountyDto)
         {
             var bounty = postBountyDto.ToBounty(DbContext, await GetCurrentUserAsync());
             DbContext.Bounties.Add(bounty);
 
+            await DbContext.SaveChangesAsync();
+            var dto = new BountyDTO(bounty, true);
+            return Ok(dto);
+        }
+        
+        
+        [HttpPost("markCreatedOnBlockchain")]
+        public async Task<ActionResult<AnswerDTO>> MarkCreatedOnBlockchain(int bountyId)
+        {
+            if (!BountyExists(bountyId))
+            {
+                return NotFound();
+            }
+            
+            var bounty = await DbContext.Bounties.Include(b => b.Question).FirstAsync(b => b.BountyId == bountyId);
+            
             // TODO: Check that the bounty is on the blockchain before creating the bounty in the db
 
-//            await _bountySmartContract.InsertBounty(bounty.Question.QuestionId,
-//                new Asset
-//                {
-//                    Amount = bounty.Amount,
-//                    Symbol = bounty.AmountSym
-//                },
-//                bounty.Owner.EosUsername,
-//                "5J5hukk7TgbMZ8AwidoSX9EsiCsZCYJkn3dhe22E8DoUWqBMSdN");
-
+            bounty.IsCreatedOnBlockchain = true;
             await DbContext.SaveChangesAsync();
 
-            return CreatedAtAction("GetBounty", new {id = bounty.BountyId}, postBountyDto);
+            return Ok(new BountyDTO(bounty, true));
         }
 
         // PUT: Bounties/5
@@ -103,12 +112,18 @@ namespace Identity.Api.Controllers
 
         // DELETE: Bounties/5
         [HttpDelete("{id}")]
+        // [ServiceFilter(typeof(RequireLoginFilter))]
         public async Task<ActionResult<Bounty>> DeleteBounty(int id)
         {
             var bounty = await DbContext.Bounties.FindAsync(id);
             if (bounty == null)
             {
                 return NotFound();
+            }
+
+            if (await GetCurrentUserAsync() != bounty.Owner)
+            {
+                return Unauthorized();
             }
 
             DbContext.Bounties.Remove(bounty);
