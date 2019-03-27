@@ -23,5 +23,11 @@ namespace Identity.Data
         public int UpvoteCount { get; set; } = 0;
 
         public bool IsCreatedOnBlockchain { get; set; }
+
+        /// <summary>
+        /// The question poster has decided that this answer is not a correct answer for their bounty.
+        /// And so cannot give this bounty an answer.
+        /// </summary>
+        public bool IsBadAnswer { get; set; }
     }
 }

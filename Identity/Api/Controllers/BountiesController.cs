@@ -79,9 +79,9 @@ namespace Identity.Api.Controllers
             return Ok(new BountyDTO(bounty, true));
         }
 
-        [HttpPost("updateAwarded")]
+        [HttpPost("markAwarded")]
         // [ServiceFilter(typeof(RequireLoginFilter))]
-        public async Task<ActionResult<BountyDTO>> UpdateAwarded(int bountyId, int answerId)
+        public async Task<ActionResult<BountyDTO>> MarkAwarded(int bountyId, int answerId)
         {
             var bounty = await DbContext.Bounties.Include(b => b.Awarded)
                 .FirstOrDefaultAsync(b => b.BountyId == bountyId);

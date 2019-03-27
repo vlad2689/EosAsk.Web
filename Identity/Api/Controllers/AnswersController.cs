@@ -93,6 +93,26 @@ namespace Identity.Api.Controllers
             return Ok(new AnswerDTO(answer, false));
         }
 
+        public async Task<ActionResult<AnswerDTO>> MarkBadAnswer(int answerId)
+        {
+            if (!AnswerExists(answerId))
+            {
+                return NotFound();
+            }
+            
+            var answer = await DbContext.Answers.FindAsync(answerId);
+
+            if (answer.IsBadAnswer)
+            {
+                return BadRequest();
+            }
+
+            answer.IsBadAnswer = true;
+            await DbContext.SaveChangesAsync();
+
+            return Ok(new AnswerDTO(answer, false));
+        }
+
         // POST: Answers
         [HttpPost]
         // [ServiceFilter(typeof(RequireLoginFilter))]
