@@ -74,6 +74,7 @@ namespace Identity.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBounty(int id, Bounty bounty)
         {
+            // TODO: Change this
             if (id != bounty.BountyId)
             {
                 return BadRequest();

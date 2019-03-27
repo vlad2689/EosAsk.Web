@@ -25,5 +25,7 @@ namespace Identity.Data
         public IdentityUser Owner { get; set; }
 
         public IdentityUser Awarded { get; set; }
+
+        public bool IsCreatedOnBlockchain { get; set; }
     }
 }

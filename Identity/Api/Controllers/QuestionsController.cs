@@ -38,7 +38,7 @@ namespace Identity.Api.Controllers
 
             foreach (var bountyDto in bounties)
             {
-                questions[bountyDto.Key].Bounty = new BountyDTO(bountyDto.Value);
+                questions[bountyDto.Key].Bounty = new BountyDTO(bountyDto.Value, false);
             }
 
             return questions.Values;
@@ -60,7 +60,7 @@ namespace Identity.Api.Controllers
                 .FirstOrDefaultAsync(q => q.QuestionId == id);
 
             var questionBounty = DbContext.Bounties.FirstOrDefault(b => b.Question.QuestionId == question.QuestionId);
-            return new QuestionDTO(question,questionBounty != null ? new BountyDTO(questionBounty) : null);
+            return new QuestionDTO(question,questionBounty != null ? new BountyDTO(questionBounty, false) : null);
         }
 
         // POST: Questions
