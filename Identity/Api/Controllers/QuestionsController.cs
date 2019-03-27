@@ -67,13 +67,13 @@ namespace Identity.Api.Controllers
         // TODO: Remove stub
         [HttpPost]
         // [ServiceFilter(typeof(RequireLoginFilter))]
-        public async Task<ActionResult<Question>> PostQuestion([FromBody] PostQuestionDTO postQuestionDto)
+        public async Task<ActionResult<QuestionDTO>> PostQuestion([FromBody] PostQuestionDTO postQuestionDto)
         {
             var question = postQuestionDto.ToQuestion(DbContext, await GetCurrentUserAsync());
             DbContext.Questions.Add(question);
             await DbContext.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new QuestionDTO(question, null));
         }
 
         // PUT: Questions/5
