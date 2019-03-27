@@ -45,7 +45,7 @@ namespace Identity.Api.Controllers
 
             return bounty;
         }
-        
+
         // POST: Bounties
         // The BlockChain bounty will be created from eosjs, on the client side.
         [HttpPost]
@@ -59,21 +59,56 @@ namespace Identity.Api.Controllers
             var dto = new BountyDTO(bounty, true);
             return Ok(dto);
         }
-        
-        
+
+
         [HttpPost("markCreatedOnBlockchain")]
-        public async Task<ActionResult<AnswerDTO>> MarkCreatedOnBlockchain(int bountyId)
+        public async Task<ActionResult<BountyDTO>> MarkCreatedOnBlockchain(int bountyId)
         {
             if (!BountyExists(bountyId))
             {
                 return NotFound();
             }
-            
+
             var bounty = await DbContext.Bounties.Include(b => b.Question).FirstAsync(b => b.BountyId == bountyId);
-            
+
             // TODO: Check that the bounty is on the blockchain before creating the bounty in the db
 
             bounty.IsCreatedOnBlockchain = true;
+            await DbContext.SaveChangesAsync();
+
+            return Ok(new BountyDTO(bounty, true));
+        }
+
+        [HttpPost("updateAwarded")]
+        // [ServiceFilter(typeof(RequireLoginFilter))]
+        public async Task<ActionResult<BountyDTO>> UpdateAwarded(int bountyId, int answerId)
+        {
+            var bounty = await DbContext.Bounties.Include(b => b.Awarded)
+                .FirstOrDefaultAsync(b => b.BountyId == bountyId);
+            if (bounty == null)
+            {
+                return NotFound();
+            }
+
+            if (bounty.Awarded != null)
+            {
+                return BadRequest();
+            }
+
+            var user = await GetCurrentUserAsync();
+            if (user != bounty.Owner)
+            {
+                return Unauthorized();
+            }
+
+            var answer = await DbContext.Answers.Include(ans => ans.Owner)
+                .FirstOrDefaultAsync(ans => ans.AnswerId == answerId);
+            if (answer == null)
+            {
+                return NotFound();
+            }
+
+            bounty.Awarded = answer.Owner;
             await DbContext.SaveChangesAsync();
 
             return Ok(new BountyDTO(bounty, true));

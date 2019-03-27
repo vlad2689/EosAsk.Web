@@ -2,6 +2,8 @@ import {AnswersClient, BountiesClient} from "../../api/EosAskApiFetch";
 
 const ANS_ADD = "ansadd";
 const BOUNTY_ADD = "bountyadd";
+const PAYOUT = "payout";
+const RECLAIM = "reclaim";
 
 export interface BountyAction {
     name: string,
@@ -37,6 +39,33 @@ export function createAddBountyAction(quantity: string, questionId: number, boun
     }
 }
 
+export function createPayoutAction(questionId: number, answerId: number, bountyId: number): BountyAction {
+    return {
+        name: PAYOUT,
+        eosTransactionData: {
+            question_id: questionId,
+            answerId: answerId
+        },
+        extraData: {
+            bountyId
+        },
+        fromParamName: "from"
+    }
+}
+
+export function createReclaimAction(questionId: number, bountyId: number): BountyAction {
+    return {
+        name: RECLAIM,
+        eosTransactionData: {
+            question_id: questionId
+        },
+        extraData: {
+            bountyId
+        },
+        fromParamName: "from"
+    }
+}
+
 export function getEosioActionLocation(bountyAction): any {
     return {
         pathname: "/eosio_action",
@@ -61,8 +90,27 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
             window.location.href = `/questions/view/${(bountyAction.eosTransactionData as any).question_id}`;
         }
     }
+    else if (bountyAction.name == PAYOUT) {
+        return async () => {
+            let bountyId = (bountyAction.extraData as any).bountyId;
+            let questionId = (bountyAction.eosTransactionData as any).question_id;
+            
+            await new BountiesClient().updateAwarded(bountyId, questionId);
+            window.location.href = `/questions/view/${(questionId)}`;
+        }
+    }
+    else if (bountyAction.name == RECLAIM) {
+        return async () => {
+            let bountyId = (bountyAction.extraData as any).bountyId;
+            await new BountiesClient().deleteBounty(bountyId);
+            
+            let questionId = (bountyAction.eosTransactionData as any).question_id;
+            window.location.href = `/questions/view/${(questionId)}`;
+        }
+    }
 
-    return () => {
+    return (result) => {
+        return console.log(result);
     };
 }
 

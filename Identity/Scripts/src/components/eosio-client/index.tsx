@@ -156,6 +156,8 @@ class EosioClient extends React.Component<Props, State> {
     };
 
     render() {
+        // TODO: Make this look pretty and ask users to refresh the page after they open scatter.
+        
         let buttons = this.state.status !== ScatterStatus.NO_SCATTER && 
                       this.state.status !== ScatterStatus.NO_IDENTITY ?
             (
