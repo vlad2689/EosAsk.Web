@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Identity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190327210651_AddIsBadAnswerToAnswer")]
-    partial class AddIsBadAnswerToAnswer
+    [Migration("20190327225706_AddStatusToAnswer")]
+    partial class AddStatusToAnswer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,14 +27,14 @@ namespace Identity.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsBadAnswer");
-
                     b.Property<bool>("IsCreatedOnBlockchain");
 
                     b.Property<string>("OwnerId")
                         .IsRequired();
 
                     b.Property<int>("QuestionId");
+
+                    b.Property<int>("Status");
 
                     b.Property<string>("Text")
                         .IsRequired();

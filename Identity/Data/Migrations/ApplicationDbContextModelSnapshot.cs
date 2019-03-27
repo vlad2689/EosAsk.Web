@@ -25,14 +25,14 @@ namespace Identity.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsBadAnswer");
-
                     b.Property<bool>("IsCreatedOnBlockchain");
 
                     b.Property<string>("OwnerId")
                         .IsRequired();
 
                     b.Property<int>("QuestionId");
+
+                    b.Property<int>("Status");
 
                     b.Property<string>("Text")
                         .IsRequired();

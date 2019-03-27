@@ -5,6 +5,7 @@ import {Button, Row, Col} from 'reactstrap'
 import {Link, Route} from 'react-router-dom';
 import Answers from './answers'
 import {BountyFullView, BountyListView} from "components/questions/bounties/BountyView";
+import {isSignedIn} from "../../api/SignInClient";
 
 interface PropsListView {
     questionId: number;
@@ -20,7 +21,7 @@ export class QuestionListView extends React.Component<PropsListView, any> {
     constructor(props) {
         super(props);
     }
-    
+
     render() {
         return (
             <div className="w-100">
@@ -43,7 +44,7 @@ export class QuestionListView extends React.Component<PropsListView, any> {
                             </div>
                         </div>
                     </Col>
-                    
+
                     <Col xs="8" className="">
                         <h5>
                             <Link to={`/questions/view/${this.props.questionId}`}>
@@ -71,43 +72,53 @@ interface PropsFullView {
 }
 
 interface StateFullView {
-    question: QuestionDTO,
-    isLoading: boolean,
-    canPostBounty: boolean
+    question: QuestionDTO;
+    isLoading: boolean;
+    isViewerQuestionOwner: boolean;
+    canPostBounty: boolean;
+    canReclaimBounty: boolean;
+    canPayoutBounty: boolean;
 }
 
 export class QuestionFullView extends React.Component<PropsFullView, StateFullView> {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             question: null,
             isLoading: true,
-            canPostBounty: false
+            isViewerQuestionOwner: false,
+            canPostBounty: false,
+            canReclaimBounty: false,
+            canPayoutBounty: false
         }
     }
-    
-    componentDidMount() {
+
+    async componentDidMount() {
         let questionsClient = new QuestionsClient();
-        questionsClient.getQuestion(this.props.match.params.id).then(question => {
+        questionsClient.getQuestion(this.props.match.params.id).then(async (question) => {
+            let isViewerQuestionOwner = await isSignedIn(question.owner);
+
             this.setState({
                 question: question,
                 isLoading: false,
-                canPostBounty: !!question && (!question.bounty || !question.bounty.isCreatedOnBlockchain)
+                canPostBounty: isViewerQuestionOwner && !!question && 
+                    (!question.bounty || !question.bounty.isCreatedOnBlockchain),
+                isViewerQuestionOwner,
+                
             })
         });
     }
 
     render() {
-        let { question } = this.state;
-        
+        let {question} = this.state;
+
         if (this.state.isLoading) {
             return null;
         }
-        
+
         let addBountyButton = null;
         if (this.state.canPostBounty) {
-            
             let locationPostBounty = {
                 pathname: `/questions/post_bounty/${this.props.match.params.id}`,
                 question: question,
@@ -122,7 +133,7 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
                 </div>
             )
         }
-        
+
         return (
             <div>
                 <QuestionFullViewStateless addBountyButton={addBountyButton} question={question}/>
@@ -137,8 +148,8 @@ interface FullViewStateless {
 }
 
 export function QuestionFullViewStateless(props: FullViewStateless) {
-    let { question, addBountyButton } = props;
-    
+    let {question, addBountyButton} = props;
+
     return (
         <div className="w-100">
             <h3>
@@ -171,7 +182,7 @@ export function QuestionFullViewStateless(props: FullViewStateless) {
             </Row>
             <Row className="mt-5">
                 <Col>
-                    <Answers answers={question.answers} 
+                    <Answers answers={question.answers}
                              questionId={question.questionId}
                     />
                 </Col>

@@ -4,6 +4,7 @@ const ANS_ADD = "ansadd";
 const BOUNTY_ADD = "bountyadd";
 const PAYOUT = "payout";
 const RECLAIM = "reclaim";
+const ANS_BAD = "ansbad";
 
 export interface BountyAction {
     name: string,
@@ -66,6 +67,20 @@ export function createReclaimAction(questionId: number, bountyId: number): Bount
     }
 }
 
+export function createAnsBadAction(answerId: number, questionId: number): BountyAction {
+    return {
+        name: ANS_BAD,
+        eosTransactionData: {
+            answer_id: answerId,
+            reason: 0 // custom reasons not supported at the moment
+        },
+        extraData: {
+            questionId
+        },
+        fromParamName: "bounty_owner"
+    }
+}
+
 export function getEosioActionLocation(bountyAction): any {
     return {
         pathname: "/eosio_action",
@@ -95,7 +110,7 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
             let bountyId = (bountyAction.extraData as any).bountyId;
             let questionId = (bountyAction.eosTransactionData as any).question_id;
             
-            await new BountiesClient().updateAwarded(bountyId, questionId);
+            await new BountiesClient().markAwarded(bountyId, questionId);
             window.location.href = `/questions/view/${(questionId)}`;
         }
     }
@@ -105,6 +120,15 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
             await new BountiesClient().deleteBounty(bountyId);
             
             let questionId = (bountyAction.eosTransactionData as any).question_id;
+            window.location.href = `/questions/view/${(questionId)}`;
+        }
+    }
+    else if (bountyAction.name == ANS_BAD) {
+        return async () => {
+            let answerId = (bountyAction.eosTransactionData as any).answer_id;
+            await new AnswersClient().markBadAnswer(answerId);
+
+            let questionId = (bountyAction.extraData as any).questionId;
             window.location.href = `/questions/view/${(questionId)}`;
         }
     }

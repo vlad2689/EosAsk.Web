@@ -41,7 +41,7 @@ export default class PostAnswer extends React.Component<Props, State> {
             this.setState({
                 redirectLocation: getEosioActionLocation(createAddAnsAction(
                     this.props.questionId,
-                    this.state.answer.answerId)
+                    answer.answerId)
                 ),
                 answer: answer
             })

@@ -92,7 +92,8 @@ namespace Identity.Api.Controllers
 
             return Ok(new AnswerDTO(answer, false));
         }
-
+        
+        [HttpPost("markBadAnswer")]
         public async Task<ActionResult<AnswerDTO>> MarkBadAnswer(int answerId)
         {
             if (!AnswerExists(answerId))
@@ -102,12 +103,12 @@ namespace Identity.Api.Controllers
             
             var answer = await DbContext.Answers.FindAsync(answerId);
 
-            if (answer.IsBadAnswer)
+            if (answer.Status == 2)
             {
                 return BadRequest();
             }
 
-            answer.IsBadAnswer = true;
+            answer.Status = 2; // bad answer
             await DbContext.SaveChangesAsync();
 
             return Ok(new AnswerDTO(answer, false));

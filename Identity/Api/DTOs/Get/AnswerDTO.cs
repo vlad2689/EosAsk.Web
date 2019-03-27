@@ -18,7 +18,7 @@ namespace Identity.Api.DTOs.Get
             Owner = answer.Owner;
             UpvoteCount = answer.UpvoteCount;
             IsCreatedOnBlockchain = answer.IsCreatedOnBlockchain;
-            IsBadAnswer = answer.IsBadAnswer;
+            Status = answer.Status;
         }
         
         public int AnswerId { get; }
@@ -36,6 +36,6 @@ namespace Identity.Api.DTOs.Get
         
         public bool IsCreatedOnBlockchain { get; set; }
 
-        public bool IsBadAnswer { get; }
+        public int Status { get; }
     }
 }

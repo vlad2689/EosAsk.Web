@@ -460,7 +460,7 @@ export class AnswersClient {
         return Promise.resolve<Answer | null>(<any>null);
     }
 
-    putAnswer(id: number, answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Title: string | null | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, question_Answers: Answer[] | null | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, upvoteCount: number | undefined, isCreatedOnBlockchain: boolean | undefined): Promise<FileResponse | null> {
+    putAnswer(id: number, answerId: number | undefined, text: string | null | undefined, question_QuestionId: number | undefined, question_Title: string | null | undefined, question_Text: string | null | undefined, question_UpVotes: number | undefined, question_Owner_Id: string | null | undefined, question_Owner_UserName: string | null | undefined, question_Owner_NormalizedUserName: string | null | undefined, question_Owner_Email: string | null | undefined, question_Owner_NormalizedEmail: string | null | undefined, question_Owner_EmailConfirmed: boolean | undefined, question_Owner_PasswordHash: string | null | undefined, question_Owner_SecurityStamp: string | null | undefined, question_Owner_ConcurrencyStamp: string | null | undefined, question_Owner_PhoneNumber: string | null | undefined, question_Owner_PhoneNumberConfirmed: boolean | undefined, question_Owner_TwoFactorEnabled: boolean | undefined, question_Owner_LockoutEnd: Date | null | undefined, question_Owner_LockoutEnabled: boolean | undefined, question_Owner_AccessFailedCount: number | undefined, question_Answers: Answer[] | null | undefined, owner_Id: string | null | undefined, owner_UserName: string | null | undefined, owner_NormalizedUserName: string | null | undefined, owner_Email: string | null | undefined, owner_NormalizedEmail: string | null | undefined, owner_EmailConfirmed: boolean | undefined, owner_PasswordHash: string | null | undefined, owner_SecurityStamp: string | null | undefined, owner_ConcurrencyStamp: string | null | undefined, owner_PhoneNumber: string | null | undefined, owner_PhoneNumberConfirmed: boolean | undefined, owner_TwoFactorEnabled: boolean | undefined, owner_LockoutEnd: Date | null | undefined, owner_LockoutEnabled: boolean | undefined, owner_AccessFailedCount: number | undefined, upvoteCount: number | undefined, isCreatedOnBlockchain: boolean | undefined, status: number | undefined): Promise<FileResponse | null> {
         let url_ = this.baseUrl + "/api/answers/{id}?";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -578,6 +578,10 @@ export class AnswersClient {
             throw new Error("The parameter 'isCreatedOnBlockchain' cannot be null.");
         else if (isCreatedOnBlockchain !== undefined)
             url_ += "IsCreatedOnBlockchain=" + encodeURIComponent("" + isCreatedOnBlockchain) + "&"; 
+        if (status === null)
+            throw new Error("The parameter 'status' cannot be null.");
+        else if (status !== undefined)
+            url_ += "Status=" + encodeURIComponent("" + status) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -666,6 +670,44 @@ export class AnswersClient {
     }
 
     protected processMarkCreatedOnBlockchain(response: Response): Promise<AnswerDTO | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AnswerDTO.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AnswerDTO | null>(<any>null);
+    }
+
+    markBadAnswer(answerId: number | undefined): Promise<AnswerDTO | null> {
+        let url_ = this.baseUrl + "/api/answers/markBadAnswer?";
+        if (answerId === null)
+            throw new Error("The parameter 'answerId' cannot be null.");
+        else if (answerId !== undefined)
+            url_ += "answerId=" + encodeURIComponent("" + answerId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "POST",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processMarkBadAnswer(_response);
+        });
+    }
+
+    protected processMarkBadAnswer(response: Response): Promise<AnswerDTO | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -1070,8 +1112,8 @@ export class BountiesClient {
         return Promise.resolve<BountyDTO | null>(<any>null);
     }
 
-    updateAwarded(bountyId: number | undefined, answerId: number | undefined): Promise<BountyDTO | null> {
-        let url_ = this.baseUrl + "/api/bounties/updateAwarded?";
+    markAwarded(bountyId: number | undefined, answerId: number | undefined): Promise<BountyDTO | null> {
+        let url_ = this.baseUrl + "/api/bounties/markAwarded?";
         if (bountyId === null)
             throw new Error("The parameter 'bountyId' cannot be null.");
         else if (bountyId !== undefined)
@@ -1090,11 +1132,11 @@ export class BountiesClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processUpdateAwarded(_response);
+            return this.processMarkAwarded(_response);
         });
     }
 
-    protected processUpdateAwarded(response: Response): Promise<BountyDTO | null> {
+    protected processMarkAwarded(response: Response): Promise<BountyDTO | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -1420,6 +1462,7 @@ export class Answer implements IAnswer {
     owner!: IdentityUser;
     upvoteCount!: number;
     isCreatedOnBlockchain!: boolean;
+    status!: number;
 
     constructor(data?: IAnswer) {
         if (data) {
@@ -1442,6 +1485,7 @@ export class Answer implements IAnswer {
             this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
             this.upvoteCount = data["upvoteCount"];
             this.isCreatedOnBlockchain = data["isCreatedOnBlockchain"];
+            this.status = data["status"];
         }
     }
 
@@ -1460,6 +1504,7 @@ export class Answer implements IAnswer {
         data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
         data["upvoteCount"] = this.upvoteCount;
         data["isCreatedOnBlockchain"] = this.isCreatedOnBlockchain;
+        data["status"] = this.status;
         return data; 
     }
 }
@@ -1471,6 +1516,7 @@ export interface IAnswer {
     owner: IdentityUser;
     upvoteCount: number;
     isCreatedOnBlockchain: boolean;
+    status: number;
 }
 
 export class Question implements IQuestion {
@@ -1666,6 +1712,7 @@ export class AnswerDTO implements IAnswerDTO {
     owner!: IdentityUser;
     upvoteCount!: number;
     isCreatedOnBlockchain!: boolean;
+    status!: number;
 
     constructor(data?: IAnswerDTO) {
         if (data) {
@@ -1688,6 +1735,7 @@ export class AnswerDTO implements IAnswerDTO {
             this.owner = data["owner"] ? IdentityUser.fromJS(data["owner"]) : new IdentityUser();
             this.upvoteCount = data["upvoteCount"];
             this.isCreatedOnBlockchain = data["isCreatedOnBlockchain"];
+            this.status = data["status"];
         }
     }
 
@@ -1706,6 +1754,7 @@ export class AnswerDTO implements IAnswerDTO {
         data["owner"] = this.owner ? this.owner.toJSON() : <any>undefined;
         data["upvoteCount"] = this.upvoteCount;
         data["isCreatedOnBlockchain"] = this.isCreatedOnBlockchain;
+        data["status"] = this.status;
         return data; 
     }
 }
@@ -1717,6 +1766,7 @@ export interface IAnswerDTO {
     owner: IdentityUser;
     upvoteCount: number;
     isCreatedOnBlockchain: boolean;
+    status: number;
 }
 
 export class PostAnswerDTO implements IPostAnswerDTO {

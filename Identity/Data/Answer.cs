@@ -24,10 +24,6 @@ namespace Identity.Data
 
         public bool IsCreatedOnBlockchain { get; set; }
 
-        /// <summary>
-        /// The question poster has decided that this answer is not a correct answer for their bounty.
-        /// And so cannot give this bounty an answer.
-        /// </summary>
-        public bool IsBadAnswer { get; set; }
+        public int Status { get; set; } // 0 == undecided, 1 == awarded, 2 == incorrect
     }
 }
