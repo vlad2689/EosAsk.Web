@@ -20,6 +20,8 @@ namespace Identity.Data
         [Required]
         public IdentityUser Owner { get; set; }
 
+        public double TippedEosAmount { get; set; } = default(double);
+
         public int UpvoteCount { get; set; } = 0;
 
         public bool IsCreatedOnBlockchain { get; set; }

@@ -19,6 +19,7 @@ namespace Identity.Api.DTOs.Get
             UpvoteCount = answer.UpvoteCount;
             IsCreatedOnBlockchain = answer.IsCreatedOnBlockchain;
             Status = answer.Status;
+            TippedEosAmount = answer.TippedEosAmount;
         }
         
         public int AnswerId { get; }
@@ -32,9 +33,11 @@ namespace Identity.Api.DTOs.Get
         [Required]
         public IdentityUser Owner { get; }
 
+        public double TippedEosAmount { get; }
+
         public int UpvoteCount { get; }
         
-        public bool IsCreatedOnBlockchain { get; set; }
+        public bool IsCreatedOnBlockchain { get; }
 
         public int Status { get; }
     }
