@@ -9,6 +9,7 @@ import {
 } from "components/eosio-client/bounty-actions";
 import {Link} from "react-router-dom";
 import {isSignedIn} from "../../../api/SignInClient";
+import PostTipButton from "components/questions/tips/PostTipButton";
 
 interface Props {
     answerId: number;
@@ -21,12 +22,14 @@ interface Props {
     questionOwner: IdentityUser;
     status: number;
     questionBounty: BountyDTO;
+    tippedEosAmount: number;
 }
 
 interface State {
     canShowUpdateBlockchainLink: boolean;
     canMarkAnswerBad: boolean;
     canPayoutBounty: boolean;
+    canTipAnswer: boolean;
 }
 
 export default class AnswerView extends React.Component<Props, State> {
@@ -36,7 +39,8 @@ export default class AnswerView extends React.Component<Props, State> {
         this.state = {
             canShowUpdateBlockchainLink: false,
             canMarkAnswerBad: false,
-            canPayoutBounty: false
+            canPayoutBounty: false,
+            canTipAnswer: false
         }
     }
 
@@ -50,11 +54,12 @@ export default class AnswerView extends React.Component<Props, State> {
         let isActiveBounty = questionBounty != null && questionBounty.isCreatedOnBlockchain && questionBounty.awarded == null;
         let canPayoutBounty = !canShowUpdateBlockchainLink && isActiveBounty && this.props.status != 2 && 
             !isAnswerFromQuestionOwner;
-
+        
         this.setState({
             canShowUpdateBlockchainLink,
             canMarkAnswerBad, // status 2 == incorrect
-            canPayoutBounty
+            canPayoutBounty,
+            canTipAnswer: !isAnswerFromQuestionOwner
         })
     }
 
@@ -64,10 +69,13 @@ export default class AnswerView extends React.Component<Props, State> {
                 <Row>
                     <Col xs={2}>
                         <div className="text-center">
-                            {this.props.upvoteCount}
-                            <div className="text-secondary">
-                                Upvotes
+                            {this.props.tippedEosAmount} EOS
+                            <div className="text-secondary mb-4">
+                                Tipped
                             </div>
+                            {this.state.canTipAnswer && (
+                                <PostTipButton answerId={this.props.answerId} questionId={this.props.questionId}/>
+                            )}
                         </div>
                     </Col>
                     <Col xs={10}>

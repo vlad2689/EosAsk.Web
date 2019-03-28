@@ -5,6 +5,7 @@ const BOUNTY_ADD = "bountyadd";
 const PAYOUT = "payout";
 const RECLAIM = "reclaim";
 const ANS_BAD = "ansbad";
+const ANS_TIP = "anstip";
 
 export interface BountyAction {
     name: string,
@@ -67,6 +68,20 @@ export function createReclaimAction(questionId: number, bountyId: number): Bount
     }
 }
 
+export function createAnsTipAction(answerId: number, questionId: number, quantity: string): BountyAction {
+    return {
+        name: ANS_TIP,
+        eosTransactionData: {
+            quantity: `${parseFloat(quantity).toFixed(4)} EOS`,
+            answer_id: answerId
+        },
+        extraData: {
+            questionId
+        },
+        fromParamName: "from"
+    }
+}
+
 export function createAnsBadAction(answerId: number, questionId: number): BountyAction {
     return {
         name: ANS_BAD,
@@ -110,7 +125,7 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
             let bountyId = (bountyAction.extraData as any).bountyId;
             let answerId = (bountyAction.eosTransactionData as any).answer_id;
             let questionId = (bountyAction.eosTransactionData as any).question_id;
-            
+
             await new BountiesClient().markAwarded(bountyId, answerId);
             window.location.href = `/questions/view/${(questionId)}`;
         }
@@ -119,7 +134,7 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
         return async () => {
             let bountyId = (bountyAction.extraData as any).bountyId;
             await new BountiesClient().deleteBounty(bountyId);
-            
+
             let questionId = (bountyAction.eosTransactionData as any).question_id;
             window.location.href = `/questions/view/${(questionId)}`;
         }
@@ -128,6 +143,17 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
         return async () => {
             let answerId = (bountyAction.eosTransactionData as any).answer_id;
             await new AnswersClient().markBadAnswer(answerId);
+
+            let questionId = (bountyAction.extraData as any).questionId;
+            window.location.href = `/questions/view/${(questionId)}`;
+        }
+    }
+    else if (bountyAction.name == ANS_TIP) {
+        return async () => {
+            let answerId = (bountyAction.eosTransactionData as any).answer_id,
+                quantity = (bountyAction.eosTransactionData as any).quantity,
+                tipAmount = Number(quantity.substr(0, quantity.indexOf(" ")));
+            await new AnswersClient().incrementTip(answerId, tipAmount);
 
             let questionId = (bountyAction.extraData as any).questionId;
             window.location.href = `/questions/view/${(questionId)}`;

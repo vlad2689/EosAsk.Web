@@ -92,6 +92,24 @@ namespace Identity.Api.Controllers
 
             return Ok(new AnswerDTO(answer, false));
         }
+
+        [HttpPost("incrementTip")]
+        public async Task<ActionResult<AnswerDTO>> IncrementTip(int answerId, double eosTipIncrement)
+        {
+            if (!AnswerExists(answerId))
+            {
+                return NotFound();
+            }
+            
+            var answer = await DbContext.Answers.FindAsync(answerId);
+            
+            // TODO: Use the eos blockchain data for this
+
+            answer.TippedEosAmount = answer.TippedEosAmount + eosTipIncrement;
+            await DbContext.SaveChangesAsync();
+
+            return Ok(new AnswerDTO(answer, false));
+        }
         
         [HttpPost("markBadAnswer")]
         public async Task<ActionResult<AnswerDTO>> MarkBadAnswer(int answerId)
