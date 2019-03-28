@@ -1,7 +1,12 @@
 import * as React from 'react'
-import {IdentityUser, Question} from "../../../api/EosAskApiFetch";
+import {BountyDTO, IdentityUser, Question} from "../../../api/EosAskApiFetch";
 import {Row, Col, Button} from "reactstrap";
-import {createAddAnsAction, createAnsBadAction, getEosioActionLocation} from "components/eosio-client/bounty-actions";
+import {
+    createAddAnsAction,
+    createAnsBadAction,
+    createPayoutAction,
+    getEosioActionLocation
+} from "components/eosio-client/bounty-actions";
 import {Link} from "react-router-dom";
 import {isSignedIn} from "../../../api/SignInClient";
 
@@ -14,11 +19,13 @@ interface Props {
     isCreatedOnBlockchain: boolean;
     questionId: number;
     status: number;
+    questionBounty: BountyDTO;
 }
 
 interface State {
     canShowUpdateBlockchainLink: boolean;
     canMarkAnswerBad: boolean;
+    canPayoutBounty: boolean;
 }
 
 export default class AnswerView extends React.Component<Props, State> {
@@ -27,22 +34,28 @@ export default class AnswerView extends React.Component<Props, State> {
 
         this.state = {
             canShowUpdateBlockchainLink: false,
-            canMarkAnswerBad: false
+            canMarkAnswerBad: false,
+            canPayoutBounty: false
         }
     }
 
     async componentDidMount() {
         let isViewerSignedIn = await isSignedIn(this.props.owner);
         let canShowUpdateBlockchainLink = !this.props.isCreatedOnBlockchain && isViewerSignedIn;
+        let canMarkAnswerBad = !canShowUpdateBlockchainLink && (this.props.status == 0);
+
+        let {questionBounty} = this.props;
+        let isActiveBounty = questionBounty != null && questionBounty.isCreatedOnBlockchain && questionBounty.awarded == null;
+        let canPayoutBounty = !canShowUpdateBlockchainLink && isActiveBounty && this.props.status != 2;
 
         this.setState({
             canShowUpdateBlockchainLink,
-            canMarkAnswerBad: !canShowUpdateBlockchainLink && (this.props.status != 2) // status 2 == incorrect
+            canMarkAnswerBad, // status 2 == incorrect
+            canPayoutBounty
         })
     }
 
     render() {
-
         return (
             <div>
                 <Row>
@@ -64,6 +77,11 @@ export default class AnswerView extends React.Component<Props, State> {
                         <MarkAnswerBadLink canMarkAnswerBad={this.state.canMarkAnswerBad}
                                            answerId={this.props.answerId}
                                            questionId={this.props.questionId}
+                        />
+                        <PayoutLink canPayoutBounty={this.state.canPayoutBounty}
+                                    questionBounty={this.props.questionBounty}
+                                    answerId={this.props.answerId}
+                                    questionId={this.props.questionId}
                         />
                     </Col>
                 </Row>
@@ -99,10 +117,10 @@ function UpdateBlockchainLink(props) {
 
 function MarkAnswerBadLink(props) {
     let markAnsBadLink = null;
-    
+
     if (props.canMarkAnswerBad) {
         let linkLocation = getEosioActionLocation(createAnsBadAction(props.answerId, props.questionId));
-        
+
         markAnsBadLink = (
             <div className="mt-5">
                 <Link to={linkLocation} className="text-danger">
@@ -117,13 +135,42 @@ function MarkAnswerBadLink(props) {
             </div>
         )
     }
-    
+
     return markAnsBadLink;
+}
+
+function PayoutLink(props) {
+    let payoutLink = null;
+
+    if (props.canPayoutBounty) {
+        let linkLocation = getEosioActionLocation(createPayoutAction(
+            props.questionId,
+            props.answerId,
+            props.questionBounty.bountyId));
+
+        payoutLink = (
+            <div className="mt-3">
+                <hr/>
+                <Link to={linkLocation}>
+                    <Button color="primary">
+                        Payout Bounty
+                    </Button>
+                </Link>
+                <div>
+                    <small className="text-info">
+                        (You approve this answer as the correct one. Award the bounty to this user.)
+                    </small>
+                </div>
+            </div>
+        )
+    }
+
+    return payoutLink;
 }
 
 function AnswerStatus(props) {
     let status = props.status;
-    
+
     if (status == 2) {
         return (
             <small className="text-danger">This answer was marked as bad by the bounty creator.</small>
@@ -134,6 +181,6 @@ function AnswerStatus(props) {
             <small className="text-success">Received bounty.</small>
         )
     }
-    
+
     return null;
 }

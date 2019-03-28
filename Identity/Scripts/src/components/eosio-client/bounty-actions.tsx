@@ -45,7 +45,7 @@ export function createPayoutAction(questionId: number, answerId: number, bountyI
         name: PAYOUT,
         eosTransactionData: {
             question_id: questionId,
-            answerId: answerId
+            answer_id: answerId
         },
         extraData: {
             bountyId
@@ -108,9 +108,10 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
     else if (bountyAction.name == PAYOUT) {
         return async () => {
             let bountyId = (bountyAction.extraData as any).bountyId;
+            let answerId = (bountyAction.eosTransactionData as any).answer_id;
             let questionId = (bountyAction.eosTransactionData as any).question_id;
             
-            await new BountiesClient().markAwarded(bountyId, questionId);
+            await new BountiesClient().markAwarded(bountyId, answerId);
             window.location.href = `/questions/view/${(questionId)}`;
         }
     }

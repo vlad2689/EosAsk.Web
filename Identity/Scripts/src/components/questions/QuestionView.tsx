@@ -184,6 +184,7 @@ export function QuestionFullViewStateless(props: FullViewStateless) {
                 <Col>
                     <Answers answers={question.answers}
                              questionId={question.questionId}
+                             questionBounty={question.bounty}
                     />
                 </Col>
             </Row>

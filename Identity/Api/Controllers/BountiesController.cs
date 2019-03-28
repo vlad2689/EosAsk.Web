@@ -108,10 +108,11 @@ namespace Identity.Api.Controllers
                 return NotFound();
             }
 
+            answer.Status = 1; // awarded
             bounty.Awarded = answer.Owner;
             await DbContext.SaveChangesAsync();
 
-            return Ok(new BountyDTO(bounty, true));
+            return Ok(new BountyDTO(bounty, false));
         }
 
         // PUT: Bounties/5

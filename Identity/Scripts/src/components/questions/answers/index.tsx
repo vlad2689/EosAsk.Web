@@ -1,5 +1,5 @@
 import * as React from "react";
-import {AnswerDTO, IdentityUser} from "../../../api/EosAskApiFetch";
+import {AnswerDTO, BountyDTO, IdentityUser} from "../../../api/EosAskApiFetch";
 import RequireSignInSoft from "../../../components/authentication/RequireSignInSoft";
 import AnswerView from "components/questions/answers/AnswerView";
 import PostAnswer from "components/questions/answers/PostAnswer";
@@ -7,6 +7,7 @@ import PostAnswer from "components/questions/answers/PostAnswer";
 interface Props {
     answers: AnswerDTO[];
     questionId: number;
+    questionBounty: BountyDTO;
 }
 
 interface State {
@@ -28,7 +29,9 @@ export default class Answers extends React.Component<Props, State> {
                {this.props.answers.map((a, i) => {
                    return (
                        <AnswerView {...a} key={i} 
-                                   questionId={this.props.questionId}/>
+                                   questionId={this.props.questionId}
+                                   questionBounty={this.props.questionBounty}
+                       />
                    )
                })}
                <RequireSignInSoft reasonToSignIn="Sign in or register to post your own answer">
