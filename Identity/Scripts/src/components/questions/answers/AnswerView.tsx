@@ -18,6 +18,7 @@ interface Props {
     upvoteCount: number;
     isCreatedOnBlockchain: boolean;
     questionId: number;
+    questionOwner: IdentityUser;
     status: number;
     questionBounty: BountyDTO;
 }
@@ -41,12 +42,14 @@ export default class AnswerView extends React.Component<Props, State> {
 
     async componentDidMount() {
         let isViewerSignedIn = await isSignedIn(this.props.owner);
+        let isAnswerFromQuestionOwner = this.props.questionOwner.userName == this.props.owner.userName;
         let canShowUpdateBlockchainLink = !this.props.isCreatedOnBlockchain && isViewerSignedIn;
-        let canMarkAnswerBad = !canShowUpdateBlockchainLink && (this.props.status == 0);
+        let canMarkAnswerBad = !canShowUpdateBlockchainLink && (this.props.status == 0) && !isAnswerFromQuestionOwner;
 
         let {questionBounty} = this.props;
         let isActiveBounty = questionBounty != null && questionBounty.isCreatedOnBlockchain && questionBounty.awarded == null;
-        let canPayoutBounty = !canShowUpdateBlockchainLink && isActiveBounty && this.props.status != 2;
+        let canPayoutBounty = !canShowUpdateBlockchainLink && isActiveBounty && this.props.status != 2 && 
+            !isAnswerFromQuestionOwner;
 
         this.setState({
             canShowUpdateBlockchainLink,

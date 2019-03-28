@@ -123,7 +123,10 @@ class PostBounty extends React.Component<Props, State> {
 
                 <hr/>
 
-                <QuestionFullViewStateless question={this.state.question} addBountyButton={null}/>
+                <QuestionFullViewStateless question={this.state.question} 
+                                           addBountyButton={null}
+                                           reclaimBountyButton={null}
+                />
             </div>
         )
     }

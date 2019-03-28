@@ -6,6 +6,7 @@ import {Link, Route} from 'react-router-dom';
 import Answers from './answers'
 import {BountyFullView, BountyListView} from "components/questions/bounties/BountyView";
 import {isSignedIn} from "../../api/SignInClient";
+import {createReclaimAction, getEosioActionLocation} from "components/eosio-client/bounty-actions";
 
 interface PropsListView {
     questionId: number;
@@ -26,15 +27,7 @@ export class QuestionListView extends React.Component<PropsListView, any> {
         return (
             <div className="w-100">
                 <Row className="d-flex">
-                    <Col xs="4" className="text-center">
-                        <div className="d-inline-block">
-                            <div className="text-secondary">
-                                {this.props.upVotes}
-                            </div>
-                            <div className="text-primary">
-                                Upvotes
-                            </div>
-                        </div>
+                    <Col xs="2" className="text-center">
                         <div className="d-inline-block pl-4">
                             <div className="text-secondary">
                                 {(this.props.answers && this.props.answers.length) || 0}
@@ -45,7 +38,7 @@ export class QuestionListView extends React.Component<PropsListView, any> {
                         </div>
                     </Col>
 
-                    <Col xs="8" className="">
+                    <Col xs="10">
                         <h5>
                             <Link to={`/questions/view/${this.props.questionId}`}>
                                 {this.props.title}
@@ -77,7 +70,6 @@ interface StateFullView {
     isViewerQuestionOwner: boolean;
     canPostBounty: boolean;
     canReclaimBounty: boolean;
-    canPayoutBounty: boolean;
 }
 
 export class QuestionFullView extends React.Component<PropsFullView, StateFullView> {
@@ -90,7 +82,6 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
             isViewerQuestionOwner: false,
             canPostBounty: false,
             canReclaimBounty: false,
-            canPayoutBounty: false
         }
     }
 
@@ -98,64 +89,119 @@ export class QuestionFullView extends React.Component<PropsFullView, StateFullVi
         let questionsClient = new QuestionsClient();
         questionsClient.getQuestion(this.props.match.params.id).then(async (question) => {
             let isViewerQuestionOwner = await isSignedIn(question.owner);
+            let canReclaimBounty =
+                isViewerQuestionOwner &&
+                (question.bounty && question.bounty.isCreatedOnBlockchain) &&
+                (!question.answers
+                    || question.answers.length == 0
+                    || (question.answers.find((answer) =>
+                        answer.isCreatedOnBlockchain &&
+                        answer.status == 0 &&
+                        answer.owner.userName != question.owner.userName
+                    ) == undefined));
 
             this.setState({
                 question: question,
                 isLoading: false,
-                canPostBounty: isViewerQuestionOwner && !!question && 
+                canPostBounty: isViewerQuestionOwner && !!question &&
                     (!question.bounty || !question.bounty.isCreatedOnBlockchain),
                 isViewerQuestionOwner,
-                
+                canReclaimBounty
             })
         });
     }
 
     render() {
-        let {question} = this.state;
-
         if (this.state.isLoading) {
             return null;
         }
 
-        let addBountyButton = null;
-        if (this.state.canPostBounty) {
-            let locationPostBounty = {
-                pathname: `/questions/post_bounty/${this.props.match.params.id}`,
-                question: question,
-                bountyAmount: 0
-            };
+        let canPostBounty = this.state.canPostBounty,
+            questionId = this.props.match.params.id,
+            question = this.state.question;
 
-            addBountyButton = (
-                <div>
-                    <Link to={locationPostBounty}>
-                        <Button color="primary" className="btn-block mb-5">Add Bounty</Button>
-                    </Link>
-                </div>
-            )
-        }
+        let addBountyButton = (
+            <AddBountyButton canPostBounty={canPostBounty}
+                             questionId={questionId}
+                             question={question}
+            />
+        );
+
+        let reclaimBountyButton = (
+            <ReclaimBountyButton canReclaimBounty={this.state.canReclaimBounty}
+                                 questionId={question.questionId}
+                                 bounty={question.bounty}
+            />
+        );
 
         return (
             <div>
-                <QuestionFullViewStateless addBountyButton={addBountyButton} question={question}/>
+                <QuestionFullViewStateless addBountyButton={addBountyButton}
+                                           reclaimBountyButton={reclaimBountyButton}
+                                           question={question}/>
             </div>
         )
     }
 }
 
+function AddBountyButton(props) {
+    let addBountyButton = null;
+
+    if (props.canPostBounty) {
+        let locationPostBounty = {
+            pathname: `/questions/post_bounty/${props.questionId}`,
+            question: props.question,
+            bountyAmount: 0
+        };
+
+        addBountyButton = (
+            <div>
+                <Link to={locationPostBounty}>
+                    <Button color="primary" className="btn-block mb-5">Add Bounty</Button>
+                </Link>
+            </div>
+        )
+    }
+
+    return addBountyButton;
+}
+
+function ReclaimBountyButton(props) {
+    let addBountyButton = null,
+        bounty = props.bounty;
+
+    if (props.canReclaimBounty) {
+        let linkLocation = getEosioActionLocation(createReclaimAction(props.questionId, bounty.bountyId));
+
+        addBountyButton = (
+            <div>
+                <Link to={linkLocation}>
+                    <Button color="primary" className="btn-block mb-5">Reclaim Bounty</Button>
+                </Link>
+            </div>
+        )
+    }
+
+    return addBountyButton;
+}
+
 interface FullViewStateless {
     question: QuestionDTO;
     addBountyButton: any;
+    reclaimBountyButton: any;
 }
 
 export function QuestionFullViewStateless(props: FullViewStateless) {
-    let {question, addBountyButton} = props;
+    let {question, addBountyButton, reclaimBountyButton} = props;
 
     return (
         <div className="w-100">
+            {addBountyButton}
+            {reclaimBountyButton}
+
             <h3>
                 {question.title}
             </h3>
-            {addBountyButton}
             <hr/>
             <Row>
                 <Col xs={2}>
@@ -184,6 +230,7 @@ export function QuestionFullViewStateless(props: FullViewStateless) {
                 <Col>
                     <Answers answers={question.answers}
                              questionId={question.questionId}
+                             questionOwner={question.owner}
                              questionBounty={question.bounty}
                     />
                 </Col>

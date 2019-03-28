@@ -7,6 +7,7 @@ import PostAnswer from "components/questions/answers/PostAnswer";
 interface Props {
     answers: AnswerDTO[];
     questionId: number;
+    questionOwner: IdentityUser;
     questionBounty: BountyDTO;
 }
 
@@ -31,6 +32,7 @@ export default class Answers extends React.Component<Props, State> {
                        <AnswerView {...a} key={i} 
                                    questionId={this.props.questionId}
                                    questionBounty={this.props.questionBounty}
+                                   questionOwner={this.props.questionOwner}
                        />
                    )
                })}

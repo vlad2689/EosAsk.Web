@@ -157,7 +157,7 @@ namespace Identity.Api.Controllers
                 return NotFound();
             }
 
-            if (await GetCurrentUserAsync() != bounty.Owner)
+            if (await GetCurrentUserAsync() != bounty.Owner || bounty.Awarded != null)
             {
                 return Unauthorized();
             }

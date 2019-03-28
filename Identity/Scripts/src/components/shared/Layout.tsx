@@ -54,9 +54,6 @@ class Layout extends React.Component<any, State> {
                             <NavItem>
                                 <Link to="/questions" className="nav-link">Questions</Link>
                             </NavItem>
-                            <NavItem>
-                                <Link to="/bounties" className="nav-link">Bounties</Link>
-                            </NavItem>
                             <AccountDropdown/>
                         </Nav>
                     </Collapse>

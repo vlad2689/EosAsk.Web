@@ -63,7 +63,7 @@ export function createReclaimAction(questionId: number, bountyId: number): Bount
         extraData: {
             bountyId
         },
-        fromParamName: "from"
+        fromParamName: "claimant"
     }
 }
 
