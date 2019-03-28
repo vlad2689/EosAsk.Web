@@ -94,6 +94,10 @@ export default class AnswerView extends React.Component<Props, State> {
                                     answerId={this.props.answerId}
                                     questionId={this.props.questionId}
                         />
+                        
+                        <div className="text-right text-secondary mt-5">
+                            <small>Answered By: {this.props.owner.userName}</small>
+                        </div>
                     </Col>
                 </Row>
                 <hr/>

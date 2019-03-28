@@ -221,7 +221,7 @@ export function QuestionFullViewStateless(props: FullViewStateless) {
                     <BountyFullView bounty={question.bounty}/>
                     <div className="text-right text-info">
                         <small>
-                            Asked by: {question.owner.userName}
+                            Asked By: {question.owner.userName}
                         </small>
                     </div>
                 </Col>
