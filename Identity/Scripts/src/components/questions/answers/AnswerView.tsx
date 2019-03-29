@@ -50,15 +50,17 @@ export default class AnswerView extends React.Component<Props, State> {
         let isAnswerOwnerSignedIn = await isSignedIn(answer.owner);
         let isAnswerFromQuestionOwner = answer.questionOwner.userName == answer.owner.userName;
         let canShowUpdateBlockchainLink = !answer.isCreatedOnBlockchain && isAnswerOwnerSignedIn;
-        let canMarkAnswerBad = answer.isCreatedOnBlockchain && 
-            isSignedIn(answer.questionOwner) &&
-            (answer.status == 0) &&
-            !isAnswerOwnerSignedIn &&
-            !isAnswerFromQuestionOwner;
 
         let isActiveBounty = answer.questionBounty != null && 
             answer.questionBounty.isCreatedOnBlockchain && 
             answer.questionBounty.awarded == null;
+
+        let canMarkAnswerBad = answer.isCreatedOnBlockchain &&
+            isSignedIn(answer.questionOwner) &&
+            (answer.status == 0) &&
+            !isAnswerOwnerSignedIn &&
+            !isAnswerFromQuestionOwner &&
+            isActiveBounty;
         
         let canPayoutBounty = answer.isCreatedOnBlockchain && 
             isActiveBounty &&
