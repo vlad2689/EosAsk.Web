@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Identity.Api.Controllers.Base;
 using Identity.Api.DTOs.Get;
 using Identity.Data;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
@@ -38,7 +39,7 @@ namespace Identity.Api.Controllers
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            HttpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
             return Ok();
         }
     }

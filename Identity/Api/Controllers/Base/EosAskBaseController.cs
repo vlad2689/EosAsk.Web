@@ -23,16 +23,16 @@ namespace Identity.Api.Controllers.Base
         
         protected async Task<IdentityUser> GetCurrentUserAsync()
         {
-            return await UserManager.FindByEmailAsync("test@test.test");
+            // return await UserManager.FindByEmailAsync("test@test.test");
             
-            // return await UserManager.GetUserAsync(HttpContext.User);
+            return await UserManager.GetUserAsync(HttpContext.User);
         }
         
         protected bool IsSignedInUser()
         {
-            return true;
+            // return true;
             
-            // return SignInManager.IsSignedIn(HttpContext.User);
+            return SignInManager.IsSignedIn(HttpContext.User);
         }
     }
 }
