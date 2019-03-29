@@ -78,15 +78,13 @@ class Layout extends React.Component<any, State> {
                         </Nav>
                     </Collapse>
                 </Navbar>
-                <Container>
-                    <Row>
-                        <Col xs={2}/>
-                        <Col xs={8}>
-                            {this.props.children}
-                        </Col>
-                        <Col xs={2}/>
-                    </Row>
-                </Container>
+                <Row>
+                    <Col xs={2}/>
+                    <Col xs={8}>
+                        {this.props.children}
+                    </Col>
+                    <Col xs={2}/>
+                </Row>
             </div>
         )
     }

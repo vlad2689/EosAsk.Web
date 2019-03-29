@@ -8,7 +8,7 @@ import {
     getEosioActionLocation
 } from "components/eosio-client/bounty-actions";
 import {Link} from "react-router-dom";
-import {isSignedIn} from "../../../api/SignInClient";
+import {getSignedInUser, isSignedIn, isUserSignedIn} from "../../../api/SignInClient";
 import PostTipButton from "components/questions/tips/PostTipButton";
 
 interface Props {
@@ -45,21 +45,33 @@ export default class AnswerView extends React.Component<Props, State> {
     }
 
     async componentDidMount() {
-        let isViewerSignedIn = await isSignedIn(this.props.owner);
-        let isAnswerFromQuestionOwner = this.props.questionOwner.userName == this.props.owner.userName;
-        let canShowUpdateBlockchainLink = !this.props.isCreatedOnBlockchain && isViewerSignedIn;
-        let canMarkAnswerBad = !canShowUpdateBlockchainLink && (this.props.status == 0) && !isAnswerFromQuestionOwner;
-
-        let {questionBounty} = this.props;
-        let isActiveBounty = questionBounty != null && questionBounty.isCreatedOnBlockchain && questionBounty.awarded == null;
-        let canPayoutBounty = !canShowUpdateBlockchainLink && isActiveBounty && this.props.status != 2 && 
-            !isAnswerFromQuestionOwner;
+        let answer = this.props;
         
+        let isAnswerOwnerSignedIn = await isSignedIn(answer.owner);
+        let isAnswerFromQuestionOwner = answer.questionOwner.userName == answer.owner.userName;
+        let canShowUpdateBlockchainLink = !answer.isCreatedOnBlockchain && isAnswerOwnerSignedIn;
+        let canMarkAnswerBad = answer.isCreatedOnBlockchain && 
+            isSignedIn(answer.questionOwner) &&
+            (answer.status == 0) &&
+            !isAnswerOwnerSignedIn &&
+            !isAnswerFromQuestionOwner;
+
+        let isActiveBounty = answer.questionBounty != null && 
+            answer.questionBounty.isCreatedOnBlockchain && 
+            answer.questionBounty.awarded == null;
+        
+        let canPayoutBounty = answer.isCreatedOnBlockchain && 
+            isActiveBounty &&
+            isSignedIn(answer.questionOwner) &&
+            answer.status == 0 && 
+            !isAnswerFromQuestionOwner &&
+            !isAnswerOwnerSignedIn;
+
         this.setState({
             canShowUpdateBlockchainLink,
             canMarkAnswerBad, // status 2 == incorrect
             canPayoutBounty,
-            canTipAnswer: !isAnswerFromQuestionOwner
+            canTipAnswer: answer.isCreatedOnBlockchain && !isAnswerOwnerSignedIn && isUserSignedIn()
         })
     }
 
@@ -94,7 +106,7 @@ export default class AnswerView extends React.Component<Props, State> {
                                     answerId={this.props.answerId}
                                     questionId={this.props.questionId}
                         />
-                        
+
                         <div className="text-right text-secondary mt-5">
                             <small>Answered By: {this.props.owner.userName}</small>
                         </div>

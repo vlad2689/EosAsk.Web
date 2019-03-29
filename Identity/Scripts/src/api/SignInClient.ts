@@ -46,13 +46,13 @@ export function isUserSignedIn() {
     return getSignedInUser() != null;
 }
 
-export async function isSignedIn(user : IdentityUser) {
-    let signedIn = await getSignedInUser();
-    if (!signedIn) {
+export function isSignedIn(user : IdentityUser) {
+    let signedIn = getSignedInUser();
+    if (!signedIn || Object.keys(signedIn).length == 0) {
         return false;
     }
     
-    return signedIn.user.userName == user.userName
+    return user.userName && signedIn.user.userName == user.userName;
 }
 
 export function getPostSignInRedirectUrlAndRemove() {

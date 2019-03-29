@@ -55,8 +55,8 @@ namespace Identity.Api.Controllers
 
             var question = await DbContext.Questions
                 .Where(q => q.QuestionId == id)
-                .Include(q => q.Answers)
                 .Include(q => q.Owner)
+                .Include(q => q.Answers).ThenInclude(answer => answer.Owner)
                 .FirstOrDefaultAsync(q => q.QuestionId == id);
 
             var questionBounty = DbContext.Bounties.FirstOrDefault(b => b.Question.QuestionId == question.QuestionId);
