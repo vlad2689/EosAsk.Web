@@ -7,7 +7,6 @@ export const LOGIN_URL = "https://localhost:5001/Identity/Account/Login";
 
 const userClient = new CheckLoginClient();
 const KEY_SIGN_IN = "signedInUser";
-const COOKIE_LOGIN = ".AspNetCore.Identity.Application";
 const COOKIE_REDIRECT = "loginRedirect";
 
 let sessionStorage = window.sessionStorage || {
@@ -19,32 +18,39 @@ let sessionStorage = window.sessionStorage || {
 
 // retrieves the user if there is a login cookie;
 // returns a null object otherwise
-export async function getSignedInUser() : Promise<UserDTO> {
-    if (!isUserSignedIn()) {
-        return null;
-    }
+export function getSignedInUser() : UserDTO {
     let user = sessionStorage.getItem(KEY_SIGN_IN);
     if (!user) {
-        user = await userClient.getLoginStatus();
-        sessionStorage.setItem(KEY_SIGN_IN, JSON.stringify(user));
-        return user;
+        return null;
     }
     
     return (JSON.parse(user));
 }
 
+export async function setSignedInUser() : Promise<UserDTO> {
+    let user = await userClient.getLoginStatus();
+    if (user && Object.keys(user).length > 0 && user.user.userName) {
+        sessionStorage.setItem(KEY_SIGN_IN, JSON.stringify(user));
+    }
+    
+    return user;
+}
+
 export function logout() {
-    Cookies.remove(COOKIE_LOGIN);
     sessionStorage.removeItem(KEY_SIGN_IN);
 }
 
 export function isUserSignedIn() {
-    let signInCookie = Cookies.get(COOKIE_LOGIN);
-    return  !!signInCookie;
+    return getSignedInUser() != null;
 }
 
 export async function isSignedIn(user : IdentityUser) {
-    return (await getSignedInUser()).user.userName == user.userName
+    let signedIn = await getSignedInUser();
+    if (!signedIn) {
+        return false;
+    }
+    
+    return signedIn.user.userName == user.userName
 }
 
 export function getPostSignInRedirectUrlAndRemove() {

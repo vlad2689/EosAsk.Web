@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { HashRouter as Router, Route, Link } from "react-router-dom";
 import Layout from "components/shared/Layout";
 import QuestionsHome from "components/questions";
 import PostQuestion from "components/questions/PostQuestion";

@@ -8,7 +8,7 @@ import {
     getSignedInUser,
     setPostSignInRedirectUrl,
     LOGIN_URL,
-    logout
+    logout, setSignedInUser
 } from "../../api/SignInClient";
 import {withRouter} from 'react-router-dom';
 
@@ -16,28 +16,47 @@ import {Link} from "react-router-dom";
 import {UserDTO} from "../../api/EosAskApiFetch";
 
 interface State {
-    isAccountDropdownOpen: boolean
+    isAccountDropdownOpen: boolean,
+    signedInUser: UserDTO
 }
 
 class Layout extends React.Component<any, State> {
     constructor(props) {
         super(props);
+        this.onLogoutClick = this.onLogoutClick.bind(this);
 
         this.toggle = this.toggle.bind(this);
         this.state = {
             isAccountDropdownOpen: false,
+            signedInUser: null
         };
+    }
 
+    async componentDidMount() {
         let redirectUrl = getPostSignInRedirectUrlAndRemove();
+        
         if (redirectUrl != null) {
+            await setSignedInUser();
             window.location.href = redirectUrl;
         }
+
+        let signedInUser = getSignedInUser();
+        this.setState({
+            signedInUser: signedInUser
+        });
     }
 
     toggle() {
         this.setState({
             isAccountDropdownOpen: !this.state.isAccountDropdownOpen
         });
+    }
+    
+    onLogoutClick() {
+        logout();
+        this.setState({
+            signedInUser: getSignedInUser()
+        })
     }
 
     render() {
@@ -54,7 +73,7 @@ class Layout extends React.Component<any, State> {
                             <NavItem>
                                 <Link to="/questions" className="nav-link">Questions</Link>
                             </NavItem>
-                            <AccountDropdown/>
+                            <AccountDropdown signedInUser={this.state.signedInUser} onLogoutClick={this.onLogoutClick}/>
                         </Nav>
                     </Collapse>
                 </Navbar>
@@ -73,27 +92,15 @@ class Layout extends React.Component<any, State> {
 }
 
 
-interface AccountDropdownState {
-    userDTO: UserDTO,
+interface Props {
+    signedInUser: UserDTO;
+    onLogoutClick: Function;
 }
 
-class AccountDropdown extends React.Component<any, AccountDropdownState> {
+class AccountDropdown extends React.Component<Props, any> {
     constructor(props) {
         super(props);
         this.onLoginClick = this.onLoginClick.bind(this);
-        this.onLogoutClick = this.onLogoutClick.bind(this);
-
-        this.state = {
-            userDTO: null
-        }
-    }
-
-    async componentDidMount() {
-        let user = await getSignedInUser();
-
-        this.setState({
-            userDTO: user 
-        })
     }
 
     onLoginClick() {
@@ -101,36 +108,29 @@ class AccountDropdown extends React.Component<any, AccountDropdownState> {
         window.location.href = LOGIN_URL;
     }
 
-    onLogoutClick() {
-        logout();
-        this.setState({
-            userDTO: null
-        })
-    }
-
     render() {
-        let dropdownMenu = 
-            this.state.userDTO == null ?
-            (
-                <DropdownMenu right>
-                    <DropdownItem onClick={this.onLoginClick}>
-                        Login
-                    </DropdownItem>
-                </DropdownMenu>
-            )
-            :
-            (
-                <DropdownMenu right>
-                    <DropdownItem onClick={this.onLogoutClick}>
-                        Logout
-                    </DropdownItem>
-                </DropdownMenu>
-            );
+        let dropdownMenu =
+            this.props.signedInUser == null ?
+                (
+                    <DropdownMenu right>
+                        <DropdownItem onClick={this.onLoginClick}>
+                            Login
+                        </DropdownItem>
+                    </DropdownMenu>
+                )
+                :
+                (
+                    <DropdownMenu right>
+                        <DropdownItem onClick={this.props.onLogoutClick}>
+                            Logout
+                        </DropdownItem>
+                    </DropdownMenu>
+                );
 
         return (
             <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                    {this.state.userDTO == null ? 
+                    {this.props.signedInUser == null ?
                         (
                             <span>
                                 Account
@@ -139,7 +139,7 @@ class AccountDropdown extends React.Component<any, AccountDropdownState> {
                         :
                         (
                             <span>
-                                {this.state.userDTO.user.userName}
+                                {this.props.signedInUser.user.userName}
                             </span>
                         )
                     }
