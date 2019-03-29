@@ -2,7 +2,7 @@ import * as React from "react";
 import {Button, Row, Col} from "reactstrap";
 import {isUserSignedIn, LOGIN_URL, setPostSignInRedirectUrl} from "../../api/SignInClient";
 
-class RequireSignIn extends React.Component<any, any> {
+class RequireSignInHard extends React.Component<any, any> {
     constructor(props) {
         super(props);
         
@@ -56,4 +56,4 @@ class RequireSignInScreen extends React.Component {
     }
 }
 
-export default RequireSignIn;
+export default RequireSignInHard;

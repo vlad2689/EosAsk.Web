@@ -196,9 +196,6 @@ export function QuestionFullViewStateless(props: FullViewStateless) {
 
     return (
         <div className="w-100">
-            {addBountyButton}
-            {reclaimBountyButton}
-
             <h3>
                 {question.title}
             </h3>
@@ -228,6 +225,13 @@ export function QuestionFullViewStateless(props: FullViewStateless) {
             </Row>
             <Row className="mt-5">
                 <Col>
+                    {(addBountyButton || reclaimBountyButton) &&
+                    (
+                        <div>
+                            {addBountyButton}
+                            {reclaimBountyButton}
+                        </div>
+                    )}
                     <Answers answers={question.answers}
                              questionId={question.questionId}
                              questionOwner={question.owner}

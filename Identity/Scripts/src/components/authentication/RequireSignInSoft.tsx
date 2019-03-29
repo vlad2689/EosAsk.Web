@@ -6,7 +6,7 @@ interface Props {
     reasonToSignIn: string
 }
 
-class RequireSignIn extends React.Component<Props, any> {
+class RequireSignInSoft extends React.Component<Props, any> {
     constructor(props) {
         super(props);
 
@@ -60,4 +60,4 @@ class PromptSignIn extends React.Component<Props, any> {
     }
 }
 
-export default RequireSignIn;
+export default RequireSignInSoft;
