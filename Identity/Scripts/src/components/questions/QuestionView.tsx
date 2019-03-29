@@ -201,17 +201,7 @@ export function QuestionFullViewStateless(props: FullViewStateless) {
             </h3>
             <hr/>
             <Row>
-                <Col xs={2}>
-                    <div className="d-inline-block text-center">
-                        <div className="text-secondary">
-                            {question.upVotes}
-                        </div>
-                        <div className="text-secondary">
-                            Upvotes
-                        </div>
-                    </div>
-                </Col>
-                <Col xs={10}>
+                <Col>
                     <h5>
                         {question.text}
                     </h5>

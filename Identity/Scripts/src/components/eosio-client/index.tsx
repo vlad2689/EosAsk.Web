@@ -77,7 +77,7 @@ class EosioClient extends React.Component<Props, State> {
 
         this.tryConnect(() => {});
     }
-    
+
     tryConnect(cb) {
         if (Object.keys(this.state.scatter).length > 0) {
             cb();
@@ -126,7 +126,7 @@ class EosioClient extends React.Component<Props, State> {
             }
         })
     };
-    
+
     logout = () => {
         if (Object.keys(this.state.scatter).length > 0) {
             this.state.scatter.logout();
@@ -174,17 +174,17 @@ class EosioClient extends React.Component<Props, State> {
 
     render() {
         // TODO: Make this look pretty and ask users to refresh the page after they open scatter.
-        
+
         let isNoIdentity = this.state.status == ScatterStatus.NO_IDENTITY;
         let isNoScatter = this.state.status == ScatterStatus.NO_SCATTER;
-        
+
         let buttons = !isNoIdentity && !isNoScatter ?
             (
                 <div>
                     <Row>
                         <Col>
                             <Button color="secondary" className="btn-block" type="button" onClick={this.logout}>
-                                Forget Identity
+                                Logout from Scatter
                             </Button>
                         </Col>
                         <Col>
@@ -198,33 +198,33 @@ class EosioClient extends React.Component<Props, State> {
             :
             (
                 <div>
-                    <Button color="primary" className="btn-block" type="button" onClick={this.login}>
-                        Login With Eos and Scatter
+                    <Button disabled={this.state.isLoading} color="primary" className="btn-block" type="button"
+                            onClick={this.login}>
+                        Login with Scatter
                     </Button>
                 </div>
 
             );
-        
+
         return (
             <div className="text-center">
-                <h3 className="mb-3">
-                    You have one action to push to the <em>eos blockchain</em>.
-                </h3>
-                
-                <div>
+                <h5>
                     You are logged in as: <strong>{this.state.status}</strong>
-                </div>
-                <div>
-                    Action to execute: <strong>{this.state.bountyAction.name}</strong>.
-                </div>
-                
-                <br/>
-                {buttons}
-                
-                <small className="text-secondary mt-2">
-                    You'll be able to confirm the details of this transaction in Scatter before pushing it.
-                </small>
+                </h5>
+                <h5>
+                    Push action to EOS blockchain: <strong>{this.state.bountyAction.name}</strong>.
+                </h5>
 
+                <br/>
+                <div>
+                    {buttons}
+                </div>
+
+                <div className="mt-2">
+                    <small>
+                        You'll be able to view and confirm the details of this transaction in Scatter before pushing it.
+                    </small>
+                </div>
             </div>
         )
     }
