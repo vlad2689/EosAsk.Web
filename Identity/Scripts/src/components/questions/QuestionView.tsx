@@ -176,7 +176,7 @@ function ReclaimBountyButton(props) {
         addBountyButton = (
             <div>
                 <Link to={linkLocation}>
-                    <Button color="primary" className="btn-block mb-5">Reclaim Bounty</Button>
+                    <Button color="secondary" className="btn-block mb-5">Reclaim Bounty</Button>
                 </Link>
             </div>
         )
