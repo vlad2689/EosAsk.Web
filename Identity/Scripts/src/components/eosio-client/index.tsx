@@ -1,6 +1,7 @@
 import ScatterJS from 'scatterjs-core';
 import ScatterEOS from 'scatterjs-plugin-eosjs2';
 import {JsonRpc, Api} from 'eosjs';
+import {Button, Row, Col} from 'reactstrap';
 
 import * as React from 'react';
 import {BountyAction, createOnFailureCb, createOnSuccessCb} from "components/eosio-client/bounty-actions";
@@ -37,6 +38,11 @@ interface State {
 class EosioClient extends React.Component<Props, State> {
     constructor(props) {
         super(props);
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
+        this.runAction = this.runAction.bind(this);
+        this.tryRunAction = this.tryRunAction.bind(this);
+        this.tryConnect = this.tryConnect.bind(this);
 
         // store bountyAction in localStorage for page refreshes
         let bountyAction = null;
@@ -61,11 +67,6 @@ class EosioClient extends React.Component<Props, State> {
             status: ScatterStatus.NO_SCATTER,
             isLoading: true
         };
-
-        this.login = this.login.bind(this);
-        this.logout = this.logout.bind(this);
-        this.runAction = this.runAction.bind(this);
-        this.tryRunAction = this.tryRunAction.bind(this);
     }
 
     componentDidMount() {
@@ -74,16 +75,30 @@ class EosioClient extends React.Component<Props, State> {
             this.setStatus();
         }, 50);
 
-        ScatterJS.scatter.connect('eosjs2-test', {
-            network
-        }).then(connected => {
-            if (!connected) return false;
+        this.tryConnect(() => {});
+    }
+    
+    tryConnect(cb) {
+        if (Object.keys(this.state.scatter).length > 0) {
+            cb();
+        }
+        else {
+            ScatterJS.scatter.connect('eosjs2-test', {
+                network
+            }).then(connected => {
+                let scatter = connected ? ScatterJS.scatter : {};
+                let isLoading = false;
 
-            this.setState({
-                scatter: ScatterJS.scatter,
-                isLoading: false
+                this.setState({
+                    scatter,
+                    isLoading
+                }, () => {
+                    cb()
+                });
+
+                if (!connected) return false;
             });
-        });
+        }
     }
 
     setStatus = () => {
@@ -103,11 +118,13 @@ class EosioClient extends React.Component<Props, State> {
     };
 
     login = () => {
-        if (!this.state.isLoading && Object.keys(this.state.scatter).length > 0) {
-            this.state.scatter.login();
-        } else if (!this.state.isLoading) {
-            alert("Please login into your Scatter first");
-        }
+        this.tryConnect(() => {
+            if (!this.state.isLoading && Object.keys(this.state.scatter).length > 0) {
+                this.state.scatter.login();
+            } else if (!this.state.isLoading) {
+                alert("Make sure to login into your Scatter Desktop or Scatter Web first.");
+            }
+        })
     };
     
     logout = () => {
@@ -158,30 +175,56 @@ class EosioClient extends React.Component<Props, State> {
     render() {
         // TODO: Make this look pretty and ask users to refresh the page after they open scatter.
         
-        let buttons = this.state.status !== ScatterStatus.NO_SCATTER && 
-                      this.state.status !== ScatterStatus.NO_IDENTITY ?
+        let isNoIdentity = this.state.status == ScatterStatus.NO_IDENTITY;
+        let isNoScatter = this.state.status == ScatterStatus.NO_SCATTER;
+        
+        let buttons = !isNoIdentity && !isNoScatter ?
             (
                 <div>
-                    <button type="button" onClick={this.logout}>Forget Identity</button>
-                    <button type="button" onClick={this.runAction}>Run Bounty {this.state.bountyAction.name}</button>
+                    <Row>
+                        <Col>
+                            <Button color="secondary" className="btn-block" type="button" onClick={this.logout}>
+                                Forget Identity
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button color="primary" className="btn-block" type="button" onClick={this.runAction}>
+                                Run {this.state.bountyAction.name}
+                            </Button>
+                        </Col>
+                    </Row>
                 </div>
             )
             :
             (
                 <div>
-                    <button type="button" onClick={this.login}>Get Identity</button>
+                    <Button color="primary" className="btn-block" type="button" onClick={this.login}>
+                        Login With Eos and Scatter
+                    </Button>
                 </div>
 
             );
         
         return (
-            <div>
+            <div className="text-center">
+                <h3 className="mb-3">
+                    You have one action to push to the <em>eos blockchain</em>.
+                </h3>
+                
                 <div>
-                    {this.state.status}
+                    You are logged in as: <strong>{this.state.status}</strong>
                 </div>
-
+                <div>
+                    Action to execute: <strong>{this.state.bountyAction.name}</strong>.
+                </div>
+                
                 <br/>
                 {buttons}
+                
+                <small className="text-secondary mt-2">
+                    You'll be able to confirm the details of this transaction in Scatter before pushing it.
+                </small>
+
             </div>
         )
     }
