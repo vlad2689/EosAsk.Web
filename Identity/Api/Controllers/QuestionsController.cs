@@ -34,6 +34,7 @@ namespace Identity.Api.Controllers
                 .ToDictionary(q => q.QuestionId);
 
             var bounties = DbContext.Bounties
+                .Include(b => b.Owner)
                 .ToDictionary(q => q.Question.QuestionId);
 
             foreach (var bountyDto in bounties)
@@ -60,7 +61,7 @@ namespace Identity.Api.Controllers
                 .FirstOrDefaultAsync(q => q.QuestionId == id);
 
             var questionBounty = DbContext.Bounties.FirstOrDefault(b => b.Question.QuestionId == question.QuestionId);
-            return new QuestionDTO(question,questionBounty != null ? new BountyDTO(questionBounty, false) : null);
+            return new QuestionDTO(question, questionBounty != null ? new BountyDTO(questionBounty, false) : null);
         }
 
         // POST: Questions
