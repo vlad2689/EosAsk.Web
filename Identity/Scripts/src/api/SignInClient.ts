@@ -36,7 +36,9 @@ export async function setSignedInUser() : Promise<UserDTO> {
     return user;
 }
 
-export function logout() {
+export async function logout() {
+    let client = new CheckLoginClient();
+    await client.logout();
     sessionStorage.removeItem(KEY_SIGN_IN);
 }
 

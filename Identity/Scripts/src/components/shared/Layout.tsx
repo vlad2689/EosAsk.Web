@@ -52,8 +52,8 @@ class Layout extends React.Component<any, State> {
         });
     }
     
-    onLogoutClick() {
-        logout();
+    async onLogoutClick() {
+        await logout();
         this.setState({
             signedInUser: getSignedInUser()
         })

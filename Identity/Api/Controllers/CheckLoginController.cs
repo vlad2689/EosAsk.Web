@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Identity.Api.Controllers.Base;
 using Identity.Api.DTOs.Get;
 using Identity.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace Identity.Api.Controllers
         }
 
         // GET
+        [HttpGet("getLoginStatus")]
         public async Task<ActionResult<UserDTO>> GetLoginStatus()
         {
             UserDTO model = null;
@@ -31,6 +33,13 @@ namespace Identity.Api.Controllers
             }
 
             return model;
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return Ok();
         }
     }
 }
