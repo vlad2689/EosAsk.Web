@@ -4,6 +4,7 @@ import {Row, Col, Button, Form, FormGroup, Label, Input, FormText} from 'reactst
 import {QuestionFullViewStateless} from "components/questions/QuestionView";
 import {createAddBountyAction, getEosioActionLocation} from "components/eosio-client/bounty-actions";
 import {Redirect} from "react-router-dom";
+import {prependHash} from "components/utils/hashUrlAdjuster";
 
 interface Props {
     location: any;
@@ -25,7 +26,7 @@ class PostBounty extends React.Component<Props, State> {
         this.handleAmountChange = this.handleAmountChange.bind(this);
 
         if (this.props.location.question == null || !Object.keys(this.props.location.question).length) {
-            window.location.href = `/questions/view/${this.props.match.params.id}`;
+            window.location.href = prependHash(`/questions/view/${this.props.match.params.id}`);
         }
 
         this.state = {

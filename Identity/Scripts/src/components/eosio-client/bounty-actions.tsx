@@ -1,4 +1,5 @@
 import {AnswersClient, BountiesClient} from "../../api/EosAskApiFetch";
+import {prependHash} from "components/utils/hashUrlAdjuster";
 
 const ANS_ADD = "ansadd";
 const BOUNTY_ADD = "bountyadd";
@@ -109,7 +110,7 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
             console.log('result', result);
 
             await new AnswersClient().markCreatedOnBlockchain((bountyAction.eosTransactionData as any).answer_id);
-            window.location.href = `/questions/view/${(bountyAction.eosTransactionData as any).question_id}`;
+            window.location.href = prependHash(`/questions/view/${(bountyAction.eosTransactionData as any).question_id}`);
         }
     } else if (bountyAction.name == BOUNTY_ADD) {
         return async (result) => {
@@ -117,7 +118,7 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
 
             let bountyId = (bountyAction.extraData as any).bountyId;
             await new BountiesClient().markCreatedOnBlockchain(bountyId);
-            window.location.href = `/questions/view/${(bountyAction.eosTransactionData as any).question_id}`;
+            window.location.href = prependHash(`/questions/view/${(bountyAction.eosTransactionData as any).question_id}`);
         }
     }
     else if (bountyAction.name == PAYOUT) {
@@ -127,7 +128,7 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
             let questionId = (bountyAction.eosTransactionData as any).question_id;
 
             await new BountiesClient().markAwarded(bountyId, answerId);
-            window.location.href = `/questions/view/${(questionId)}`;
+            window.location.href = prependHash(`/questions/view/${(questionId)}`);
         }
     }
     else if (bountyAction.name == RECLAIM) {
@@ -136,7 +137,7 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
             await new BountiesClient().deleteBounty(bountyId);
 
             let questionId = (bountyAction.eosTransactionData as any).question_id;
-            window.location.href = `/questions/view/${(questionId)}`;
+            window.location.href = prependHash(`/questions/view/${(questionId)}`);
         }
     }
     else if (bountyAction.name == ANS_BAD) {
@@ -145,7 +146,7 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
             await new AnswersClient().markBadAnswer(answerId);
 
             let questionId = (bountyAction.extraData as any).questionId;
-            window.location.href = `/questions/view/${(questionId)}`;
+            window.location.href = prependHash(`/questions/view/${(questionId)}`);
         }
     }
     else if (bountyAction.name == ANS_TIP) {
@@ -156,7 +157,7 @@ export function createOnSuccessCb(bountyAction: BountyAction): Function {
             await new AnswersClient().incrementTip(answerId, tipAmount);
 
             let questionId = (bountyAction.extraData as any).questionId;
-            window.location.href = `/questions/view/${(questionId)}`;
+            window.location.href = prependHash(`/questions/view/${(questionId)}`);
         }
     }
 
