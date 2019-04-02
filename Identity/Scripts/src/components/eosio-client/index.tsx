@@ -87,6 +87,7 @@ class EosioClient extends React.Component<Props, State> {
                 network
             }).then(connected => {
                 let scatter = connected ? ScatterJS.scatter : {};
+                (window as any).ScatterJS = null;
                 let isLoading = false;
 
                 this.setState({

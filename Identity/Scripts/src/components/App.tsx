@@ -37,7 +37,14 @@ class App extends React.Component {
 function Home() {
     return (
         <div>
-            Home
+            <div>
+                <h5>
+                    Welcome to <em>EosAsk</em>, a questions and answers forum powered by the EOS blockchain.
+                </h5>
+            </div>
+            <div>
+                <h4>Get started by navigating to the <Link to="/questions">Questions</Link> section</h4>
+            </div>
         </div>
     )
 }
