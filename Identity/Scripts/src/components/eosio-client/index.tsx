@@ -15,10 +15,10 @@ ScatterJS.plugins(new ScatterEOS());
 
 const network = ScatterJS.Network.fromJson({
     blockchain: 'eos',
-    chainId: 'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f',
-    host: 'localhost',
-    port: 8888,
-    protocol: 'http',
+    chainId: process.env.CHAIN_ID,
+    host: process.env.HOST,
+    port: process.env.PORT,
+    protocol: process.env.PROTOCOL,
 });
 
 const rpc = new JsonRpc(network.fullhost());
@@ -83,7 +83,7 @@ class EosioClient extends React.Component<Props, State> {
             cb();
         }
         else {
-            ScatterJS.scatter.connect('eosjs2-test', {
+            ScatterJS.scatter.connect('EosAsk', {
                 network
             }).then(connected => {
                 let scatter = connected ? ScatterJS.scatter : {};
