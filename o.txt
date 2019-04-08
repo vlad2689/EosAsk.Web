@@ -1,0 +1,103 @@
+Feature: Posting a Question, Unauthenticated
+Scenario:
+  As an unauthenticated user
+  When on the Questions Index page
+  I should see an "Ask a Question" button
+  Upon pressing it I should be redirected to the login or register screen
+  Upon logging in or registering an account, I should be redirected to the Create Question page
+  I should be able to fill in the question title and body and submit it
+  Upon submitting the question, I should be redirected to that Question's Details page
+
+Feature: Posting a Question, Authenticated
+Scenario:
+  As an authenticated user
+  I should see the Ask a Question button on the Questions Index page
+  Upon pressing it I should be able to see a form asking for the question title and body
+  Upon submitting the form, the question should be created and I should be redirected to my Question's Details page
+
+Feature: Attaching a Bounty to a Question, Authenticated
+Scenario:
+  As an authenticated user
+  When on the Details page of a Question that I asked
+  Unless I've already added a bounty to the Question
+  I should see an Add Bounty button
+  Upon pressing the button, I should be able to specify an EOS amount for the bounty
+  Upon submitting the EOS amount, I should be redirected to the Confirm Blockchain Action page
+  After going through the confirm blockchain action flow, the EOS amount I placed on the bounty should have been subtracted from my account
+  and a bounty created on the EOS blockchain.
+
+Feature: Posting an Answer, Authenticated
+Scenario:
+  As an authenticated user
+  When on a Question's Details page
+  I should be able to see a text field for adding an Answer
+  Upon filling in and submitting the Answer I should be redirected back to the question details page and see my answer
+
+Feature: Creating an Answer on the Blockchain, Authenticated
+Scenario:
+  As an authenticated user
+  When on a Question's Details page
+  If I have created answers to the questions that I haven't pushed to the blockchain yet
+  As part of my answer, I should see a link prompting me to also create my answer on the blockchain, along with an explanation of why
+  Upon pressing the link I should be redirected to the Confirm Blockchain Action page
+  After going through the confirm blockchain action flow, the answer should be created on the EOS blockchain
+
+Feature: Reclaiming a Bounty, Authenticated
+Scenario:
+  As an authenticated user
+  When on the Details page of a Question that I asked
+  I should be able to see a Reclaim Bounty button when:
+    There have been no answers to my question
+    There have been answers to my question, but none have been synced to the blockchain
+    There have veen answers to my question, they have been synced to the blockchain, but I've marked them all as bad
+  Upon pressing the Reclaim Bounty button, I should be redirected to the Confirm Blockchain Action page
+  After going through the confirm blockchain action flow, the EOS amount on the bounty should be restituted to my account and the bounty 
+  deleted from the blockchain
+
+Feature: Marking an Answer as Bad, Authenticated
+Scenario:
+  As an authenticated user
+  When on the Details page of a Question that I asked, if I have an active Bounty on my Question
+  On the answers that have been synced to the blockchain, I should see a "Mark Answer Bad" link
+  Upon pressing the Mark Answer Bad link, I should be redirected to the Confirm Blockchain Action page
+  After going through the confirm blockchain action flow, the answer's state should be marked as bad and this state should be visible on the Answer
+    
+Feature: Paying out a Bounty, Authenticated
+Scenario:
+  As an authenticated user
+  When on the Details page of a Question that I asked, if I have an active Bounty on my Question
+  On the answers that have been synced to the blockchain, I should see a "Payout" button
+  Upon pressing the Payout button, I should be redirected to the Confirm Blockchain Action page
+  After going through the confirm blockchain action flow, the bounty EOS amount should be transferred from the bounty account to the user giving the answer, and the bounty marked as awarded on the blockchain. 
+  
+Feature: Posting an Answer, Unauthenticated
+Scenario:
+  As an unauthenticated user
+  When on a Question's Details page
+  I should see a button asking me to Login or Register, in order to post an answer
+  Upon pressing the button, I should be redirected to the Login or Register page
+  Upon logging in or registering, I should be redirected back to the Question's Details page
+
+Feature: Giving a Tip, Regardless of Authentication
+Scenario:
+  Whether I'm authenticated or not
+  When on a Question's Details page
+  On the answers that have been synced to the blockchain
+  I should see how much EOS the answers have been tipped
+  I should see a "Tip" button
+  Upon pressing the Tip button, I should be able to specify an amount in EOS and be redirected to the confirm blockchain action page upon submission
+  After going through the confirm blockchain action flow, the Tip amount should have been transferred from my account to the answer owner's account. 
+
+Feature: Confirming a Blockchain Action, Regardless of Authentication
+Scenario:
+  Regardless of being authenticated or not
+  After being redirected to the Confirm Blockchain Action page
+  I should see the name of the eos contract and action I am about to execute
+  I should to see a Login with Scatter button
+  Upon pressing the Login with Scatter button, if my Scatter Desktop app is not running, I should be asked to open it and retry
+  Upon pressing the Login with Scatter button, if my Scatter Desktop app is running, it should open and prompt me for login
+  After logging in via Scatter, I should see a button for running the action, as well as a Logout button
+  Upon pressing the Run Action button, my Scatter Desktop should open, showing me a screen in which I can view, sign and push the action
+  After pushing the transaction to the blockchain
+  If it was successful I should be redirected back to the page I was on before coming to the Confirm Blockchain Action page
+  If it was not successful I should be shown the error message

@@ -155,7 +155,7 @@ class EosioClient extends React.Component<Props, State> {
 
             const result = await api.transact({
                 actions: [{
-                    account: 'bounty',
+                    account: process.env.SMART_CONTRACT_NAME,
                     name: this.state.bountyAction.name,
                     authorization: [{
                         actor: from.name,

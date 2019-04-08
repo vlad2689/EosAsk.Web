@@ -39,10 +39,11 @@ export default class PostAnswer extends React.Component<Props, State> {
 
         this.state.answersClient.postAnswer(model).then((answer) => {
             this.setState({
-                redirectLocation: getEosioActionLocation(createAddAnsAction(
-                    this.props.questionId,
-                    answer.answerId)
-                ),
+                // redirectLocation: getEosioActionLocation(createAddAnsAction(
+                //     this.props.questionId,
+                //     answer.answerId)
+                // ),
+                redirectLocation: `/questions/view/${this.props.questionId}`,
                 answer: answer
             })
         });

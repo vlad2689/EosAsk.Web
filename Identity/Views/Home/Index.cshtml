@@ -7,15 +7,8 @@
 @inject UserManager<IdentityUser> UserManager
 
 @section Scripts {
-    <script>
-        window.userSignedIn = @SignInManager.IsSignedIn(User).ToString().ToLower();
-        
-        @if (SignInManager.IsSignedIn(User)) {
-            @: window.userId = @UserManager.GetUserId(User).ToString().ToLower();
-        }
+    <script src="js/react/build/js/app.js">
     </script>
-        <script src="js/react/build/js/app.js">
-    </script> 
 }
 
 <div id="app"></div>

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --open",
-    "build-dev": "cross-env NODE_ENV=production webpack --env.CHAIN_ID=cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f --env.HOST=localhost --env.PORT=8888 --env.PROTOCOL=http",
-    "build-prod": "cross-env NODE_ENV=production webpack --env.CHAIN_ID=e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473 --env.HOST=jungle2.cryptolions.io --env.PORT=80 --env.PROTOCOL=http",
+    "build-dev": "cross-env NODE_ENV=production CHAIN_ID=cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f HOST=localhost PORT=8888 PROTOCOL=http SMART_CONTRACT_NAME=bounty webpack",
+    "build-prod": "cross-env NODE_ENV=production CHAIN_ID=e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473 HOST=jungle2.cryptolions.io PORT=443 PROTOCOL=https SMART_CONTRACT_NAME=eosaskbounty webpack",
     "format": "prettier --write 'packages/**/*.js'",
     "test": "jest --watchAll --coverage",
     "precommit": "lint-staged"
